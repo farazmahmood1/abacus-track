@@ -1,0 +1,73 @@
+/user/report:
+  post:
+    summary: Report an issue or bug
+    description: |
+      Submit a bug report or issue description. 
+      This creates a support ticket for the development team.
+
+      **Authentication**: Session-based. Ensure you are logged in (session cookie will be automatically sent).
+    tags:
+      - User
+    security:
+      - sessionAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - subject
+              - description
+            properties:
+              subject:
+                type: string
+                description: Issue title or subject
+                example: Dashboard not loading correctly
+              description:
+                type: string
+                description: Detailed description of the issue
+                example: The dashboard throws an error when trying to load leave statistics
+              category:
+                type: string
+                description: Issue category
+                enum: [bug, feature, performance, security, other]
+                example: bug
+              severity:
+                type: string
+                description: Severity level
+                enum: [low, medium, high, critical]
+                example: high
+              attachments:
+                type: array
+                items:
+                  type: string
+                  format: uri
+                description: URLs of screenshots or attachments
+                example:
+                  - 'https://example.com/screenshot.png'
+    responses:
+      '200':
+        description: Issue reported successfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                success:
+                  type: boolean
+                  example: true
+                ticketId:
+                  type: string
+                  description: Support ticket ID
+                  example: TICKET-2024-001
+                message:
+                  type: string
+                  example: Your issue has been reported successfully
+      '400':
+        description: Validation error - missing required fields
+        $ref: '#/components/responses/BadRequest'
+      '401':
+        $ref: '#/components/responses/Unauthorized'
+      '500':
+        $ref: '#/components/responses/InternalServerError'

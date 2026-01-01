@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verify Your Email - Forrof</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #f8fafc;
+        font-family: 'Inter', 'Segoe UI', sans-serif;
+        color: #1e293b;
+      }
+      .container {
+        max-width: 580px;
+        margin: 40px auto;
+        background: white;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+      }
+      .header {
+        background: linear-gradient(135deg, #0156ff, #01339a);
+        padding: 48px 32px;
+        text-align: center;
+        color: white;
+        position: relative;
+      }
+
+      .header h1 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+      }
+      .header p {
+        margin: 8px 0 0;
+        font-size: 16px;
+        opacity: 0.9;
+      }
+      .body {
+        padding: 60px 40px 40px;
+        text-align: center;
+        background: #f1f5f9;
+        position: relative;
+        z-index: 1;
+      }
+      .icon-container {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 24px;
+        background: #01339a;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+      }
+      .icon-container svg {
+        width: 44px;
+        height: 44px;
+        color: white;
+      }
+      .body h2 {
+        font-size: 24px;
+        margin: 0 0 12px;
+        font-weight: 700;
+        color: #0f172a;
+      }
+      .body p {
+        font-size: 16px;
+        color: #64748b;
+        margin-bottom: 32px;
+        line-height: 1.6;
+      }
+      .btn {
+        display: inline-block;
+        background: #01339a;
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 16px;
+        padding: 16px 40px;
+        border-radius: 12px;
+        text-decoration: none;
+        transition: all 0.2s;
+      }
+      .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 24px rgba(59, 130, 246, 0.4);
+      }
+      .footer {
+        padding: 32px;
+        text-align: center;
+        font-size: 14px;
+        color: #94a3b8;
+        background: white;
+      }
+      @media (max-width: 480px) {
+        .container {
+          margin: 20px;
+          border-radius: 20px;
+        }
+        .header,
+        .body {
+          padding: 32px 24px;
+        }
+        .header h1 {
+          font-size: 24px;
+        }
+      }
+    </style>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <div class="header">
+        <h1>Verify Your Email</h1>
+        <p>Welcome to the Forrof</p>
+      </div>
+
+      <!-- Body -->
+      <div class="body">
+        <h2>One Step Away!</h2>
+        <p>Click the button below to verify your email address.</p>
+        <a href="{{VERIFICATION_LINK}}" class="btn"> Verify Email Address </a>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer">
+        <p>© 2025 Forrof. All rights reserved.</p>
+      </div>
+    </div>
+  </body>
+</html>

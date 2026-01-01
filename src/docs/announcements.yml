@@ -1,0 +1,187 @@
+/announcements:
+  get:
+    summary: List all announcements
+    description: |
+      Retrieve a paginated list of all announcements.
+      Supports filtering by category and department.
+
+      **Authentication**: Session-based. Ensure you are logged in (session cookie will be automatically sent).
+    tags:
+      - Announcements
+    security:
+      - sessionAuth: []
+    parameters:
+      - name: page
+        in: query
+        description: Page number (default 1)
+        schema:
+          type: integer
+          minimum: 1
+      - name: limit
+        in: query
+        description: Number of results per page (default 10, max 100)
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+      - name: category
+        in: query
+        description: Filter by announcement category
+        schema:
+          type: string
+          example: Holiday
+      - name: department
+        in: query
+        description: Filter by target department
+        schema:
+          type: string
+          example: Engineering
+    responses:
+      '200':
+        description: List of announcements retrieved successfully
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaginatedAnnouncements'
+      '401':
+        $ref: '#/components/responses/Unauthorized'
+      '500':
+        $ref: '#/components/responses/InternalServerError'
+
+  post:
+    summary: Create a new announcement
+    description: |
+      Create a new announcement. Only users with 'announcement:create' permission can create.
+      If department is null, announcement is visible to all departments.
+
+      **Authentication**: Session-based. Ensure you are logged in (session cookie will be automatically sent).
+    tags:
+      - Announcements
+    security:
+      - sessionAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateAnnouncementRequest'
+          example:
+            title: Company Holiday Schedule
+            description: Please refer to the updated holiday schedule for 2024
+            category: Holiday
+            department: null
+            image: null
+    responses:
+      '201':
+        description: Announcement created successfully
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Announcement'
+      '400':
+        $ref: '#/components/responses/BadRequest'
+      '401':
+        $ref: '#/components/responses/Unauthorized'
+      '403':
+        $ref: '#/components/responses/Forbidden'
+      '500':
+        $ref: '#/components/responses/InternalServerError'
+
+/announcements/{id}:
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: Announcement ID
+      schema:
+        type: string
+        format: uuid
+
+  get:
+    summary: Get announcement details
+    description: |
+      Retrieve detailed information about a specific announcement.
+
+      **Authentication**: Session-based. Ensure you are logged in (session cookie will be automatically sent).
+    tags:
+      - Announcements
+    security:
+      - sessionAuth: []
+    responses:
+      '200':
+        description: Announcement retrieved successfully
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Announcement'
+      '401':
+        $ref: '#/components/responses/Unauthorized'
+      '404':
+        $ref: '#/components/responses/NotFound'
+      '500':
+        $ref: '#/components/responses/InternalServerError'
+
+  put:
+    summary: Update announcement
+    description: |
+      Update an existing announcement. 
+      Only the creator or admins can update announcements.
+
+      **Authentication**: Session-based. Ensure you are logged in (session cookie will be automatically sent).
+    tags:
+      - Announcements
+    security:
+      - sessionAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UpdateAnnouncementRequest'
+          example:
+            title: Updated Holiday Schedule
+            description: The holiday schedule has been updated
+            category: Holiday
+            department: null
+    responses:
+      '200':
+        description: Announcement updated successfully
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Announcement'
+      '400':
+        $ref: '#/components/responses/BadRequest'
+      '401':
+        $ref: '#/components/responses/Unauthorized'
+      '403':
+        description: Only creator or admin can update announcement
+        $ref: '#/components/responses/Forbidden'
+      '404':
+        $ref: '#/components/responses/NotFound'
+      '500':
+        $ref: '#/components/responses/InternalServerError'
+
+  delete:
+    summary: Delete announcement
+    description: |
+      Delete an announcement. 
+      Only the creator or admins can delete announcements.
+
+      **Authentication**: Session-based. Ensure you are logged in (session cookie will be automatically sent).
+    tags:
+      - Announcements
+    security:
+      - sessionAuth: []
+    responses:
+      '204':
+        description: Announcement deleted successfully
+      '401':
+        $ref: '#/components/responses/Unauthorized'
+      '403':
+        description: Only creator or admin can delete announcement
+        $ref: '#/components/responses/Forbidden'
+      '404':
+        $ref: '#/components/responses/NotFound'
+      '500':
+        $ref: '#/components/responses/InternalServerError'

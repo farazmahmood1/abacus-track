@@ -1,0 +1,324 @@
+/leaves:
+  get:
+    summary: List all leave requests
+    description: |
+      Retrieve a paginated list of all leave requests. Supports filtering by employee status and date range.
+      Requires admin or HR permissions.
+
+      **Authentication**: Session-based. Ensure you are logged in (session cookie will be automatically sent).
+    tags:
+      - Leaves
+    security:
+      - sessionAuth: []
+    parameters:
+      - name: page
+        in: query
+        description: Page number (default 1)
+        schema:
+          type: integer
+          minimum: 1
+      - name: limit
+        in: query
+        description: Number of results per page (default 10, max 100)
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+      - name: status
+        in: query
+        description: Filter by leave status
+        schema:
+          type: string
+          enum: [PENDING, APPROVED, REJECTED, CANCELLED]
+      - name: employeeId
+        in: query
+        description: Filter by employee ID
+        schema:
+          type: string
+          format: uuid
+      - name: startDate
+        in: query
+        description: Filter by start date (ISO 8601 format)
+        schema:
+          type: string
+          format: date-time
+      - name: endDate
+        in: query
+        description: Filter by end date (ISO 8601 format)
+        schema:
+          type: string
+          format: date-time
+    responses:
+      '200':
+        description: List of leave requests retrieved successfully
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaginatedLeaves'
+      '401':
+        $ref: '#/components/responses/Unauthorized'
+      '403':
+        $ref: '#/components/responses/Forbidden'
+      '500':
+        $ref: '#/components/responses/InternalServerError'
+
+  post:
+    summary: Create a new leave request
+    description: |
+      Create a new leave request for the authenticated user.
+      The system automatically calculates the duration based on start and end dates.
+
+      **Authentication**: Session-based. Ensure you are logged in (session cookie will be automatically sent).
+    tags:
+      - Leaves
+    security:
+      - sessionAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateLeaveRequest'
+          example:
+            leaveType: ANNUAL_LEAVE
+            startDate: '2024-02-01T00:00:00Z'
+            endDate: '2024-02-05T00:00:00Z'
+            reason: Vacation planning
+    responses:
+      '201':
+        description: Leave request created successfully
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Leave'
+      '400':
+        description: Validation error - invalid dates or leave type
+        $ref: '#/components/responses/BadRequest'
+      '401':
+        $ref: '#/components/responses/Unauthorized'
+      '500':
+        $ref: '#/components/responses/InternalServerError'
+
+/leaves/{id}:
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: Leave request ID
+      schema:
+        type: string
+        format: uuid
+
+  get:
+    summary: Get leave request details
+    description: |
+      Retrieve detailed information about a specific leave request.
+
+      **Authentication**: Session-based. Ensure you are logged in (session cookie will be automatically sent).
+    tags:
+      - Leaves
+    security:
+      - sessionAuth: []
+    responses:
+      '200':
+        description: Leave request retrieved successfully
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Leave'
+      '401':
+        $ref: '#/components/responses/Unauthorized'
+      '403':
+        $ref: '#/components/responses/Forbidden'
+      '404':
+        $ref: '#/components/responses/NotFound'
+      '500':
+        $ref: '#/components/responses/InternalServerError'
+
+  put:
+    summary: Update leave request
+    description: |
+      Update an existing leave request. 
+      Employees can only update PENDING requests. 
+      Admins can update any request.
+
+      **Authentication**: Session-based. Ensure you are logged in (session cookie will be automatically sent).
+    tags:
+      - Leaves
+    security:
+      - sessionAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UpdateLeaveRequest'
+          example:
+            leaveType: ANNUAL_LEAVE
+            startDate: '2024-02-01T00:00:00Z'
+            endDate: '2024-02-06T00:00:00Z'
+            reason: Extended vacation
+    responses:
+      '200':
+        description: Leave request updated successfully
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Leave'
+      '400':
+        description: Validation error or cannot update approved/rejected leave
+        $ref: '#/components/responses/BadRequest'
+      '401':
+        $ref: '#/components/responses/Unauthorized'
+      '403':
+        $ref: '#/components/responses/Forbidden'
+      '404':
+        $ref: '#/components/responses/NotFound'
+      '500':
+        $ref: '#/components/responses/InternalServerError'
+
+  delete:
+    summary: Delete leave request
+    description: |
+      Delete a leave request. 
+      Employees can only delete their own requests. 
+      Admins can delete any request.
+
+      **Authentication**: Session-based. Ensure you are logged in (session cookie will be automatically sent).
+    tags:
+      - Leaves
+    security:
+      - sessionAuth: []
+    responses:
+      '204':
+        description: Leave request deleted successfully
+      '401':
+        $ref: '#/components/responses/Unauthorized'
+      '403':
+        $ref: '#/components/responses/Forbidden'
+      '404':
+        $ref: '#/components/responses/NotFound'
+      '500':
+        $ref: '#/components/responses/InternalServerError'
+
+/leaves/{id}/approve:
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: Leave request ID
+      schema:
+        type: string
+        format: uuid
+
+  patch:
+    summary: Approve or reject leave request
+    description: |
+      Approve or reject a pending leave request. 
+      Only admins can perform this action.
+
+      **Authentication**: Session-based. Ensure you are logged in (session cookie will be automatically sent).
+    tags:
+      - Leaves
+    security:
+      - sessionAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApproveLeaveRequest'
+          examples:
+            approve:
+              value:
+                status: APPROVED
+                approvalNotes: Approved for the requested dates
+            reject:
+              value:
+                status: REJECTED
+                approvalNotes: Insufficient leave balance for this period
+    responses:
+      '200':
+        description: Leave request status updated successfully
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Leave'
+      '400':
+        $ref: '#/components/responses/BadRequest'
+      '401':
+        $ref: '#/components/responses/Unauthorized'
+      '403':
+        description: Only admins can approve leaves
+        $ref: '#/components/responses/Forbidden'
+      '404':
+        $ref: '#/components/responses/NotFound'
+      '500':
+        $ref: '#/components/responses/InternalServerError'
+
+/leaves/my-leaves:
+  get:
+    summary: Get my leave requests
+    description: |
+      Retrieve all leave requests for the authenticated user.
+      Supports pagination and status filtering.
+
+      **Authentication**: Session-based. Ensure you are logged in (session cookie will be automatically sent).
+    tags:
+      - Leaves
+    security:
+      - sessionAuth: []
+    parameters:
+      - name: page
+        in: query
+        description: Page number (default 1)
+        schema:
+          type: integer
+          minimum: 1
+      - name: limit
+        in: query
+        description: Number of results per page (default 10)
+        schema:
+          type: integer
+          minimum: 1
+      - name: status
+        in: query
+        description: Filter by status
+        schema:
+          type: string
+          enum: [PENDING, APPROVED, REJECTED, CANCELLED]
+    responses:
+      '200':
+        description: User's leave requests retrieved successfully
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaginatedLeaves'
+      '401':
+        $ref: '#/components/responses/Unauthorized'
+      '500':
+        $ref: '#/components/responses/InternalServerError'
+
+/leaves/stats:
+  get:
+    summary: Get leave statistics
+    description: |
+      Retrieve leave balance and statistics for the authenticated user.
+      Includes available leaves, used leaves, and pending requests.
+
+      **Authentication**: Session-based. Ensure you are logged in (session cookie will be automatically sent).
+    tags:
+      - Leaves
+    security:
+      - sessionAuth: []
+    responses:
+      '200':
+        description: Leave statistics retrieved successfully
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LeaveStats'
+      '401':
+        $ref: '#/components/responses/Unauthorized'
+      '500':
+        $ref: '#/components/responses/InternalServerError'

@@ -1,0 +1,456 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+  // binaryTargets = ["native", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String   @id
+  uniqueId      String?  @unique
+  name          String
+  email         String
+  emailVerified Boolean  @default(false)
+  image         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now()) @updatedAt
+
+  sessions                  Session[]
+  accounts                  Account[]
+  announcements             Announcement[]
+  leaves                    Leave[]
+  timerSessions             TimerSession[]
+  timesheets                Timesheet[]
+  announcementNotifications AnnouncementNotification[] @relation("announcementNotifications")
+  checkInOutNotifications   CheckInOutNotification[]   @relation("CheckInOutNotifications")
+  leaveNotifications        LeaveNotification[]        @relation("LeaveNotifications")
+  projects                  Project[]                  @relation("ProjectMembers")
+
+  phone              String?
+  role               String?
+  salary             Int?
+  address            String?
+  departmentId       String?
+  department         Department? @relation("DepartmentEmployees", fields: [departmentId], references: [id], onDelete: SetNull)
+  isPasswordChanged  Boolean     @default(true)
+  isProfileCompleted Boolean     @default(false)
+  githubUrl          String?
+  linkedinUrl        String?
+
+  // Onboarding relations
+  profile     Profile?
+  experiences UserExperience[]
+  educations  UserEducation[]
+  skills      UserSkill[]
+
+  banned     Boolean?  @default(false)
+  banReason  String?
+  banExpires DateTime?
+
+  @@unique([email])
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  impersonatedBy String?
+
+  @@unique([token])
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
+}
+
+model Announcement {
+  id           String               @id @default(uuid())
+  title        String
+  description  String
+  category     AnnouncementCategory
+  departmentId String?
+  department   Department?          @relation("DepartmentAnnouncements", fields: [departmentId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  expiresAt DateTime?
+
+  createdById String
+  createdBy   User   @relation(fields: [createdById], references: [id])
+
+  // Track which employees have seen this announcement
+  notifications AnnouncementNotification[]
+
+  @@map("announcements")
+}
+
+model AnnouncementNotification {
+  id             String       @id @default(uuid())
+  announcementId String
+  announcement   Announcement @relation(fields: [announcementId], references: [id], onDelete: Cascade)
+
+  employeeId String
+  employee   User   @relation("announcementNotifications", fields: [employeeId], references: [id], onDelete: Cascade)
+
+  isRead Boolean   @default(false)
+  readAt DateTime?
+
+  createdAt DateTime @default(now())
+
+  @@unique([announcementId, employeeId])
+  @@index([employeeId])
+  @@index([announcementId])
+  @@map("announcement_notifications")
+}
+
+model LeaveNotification {
+  id      String @id @default(uuid())
+  leaveId String
+  leave   Leave  @relation(fields: [leaveId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation("LeaveNotifications", fields: [userId], references: [id], onDelete: Cascade)
+
+  type      LeaveNotificationType
+  message   String
+  isRead    Boolean               @default(false)
+  readAt    DateTime?
+  createdAt DateTime              @default(now())
+
+  @@index([userId])
+  @@index([leaveId])
+  @@map("leave_notifications")
+}
+
+enum LeaveNotificationType {
+  LEAVE_APPLIED
+  LEAVE_APPROVED
+  LEAVE_REJECTED
+}
+
+model Leave {
+  id         String @id @default(uuid())
+  employeeId String
+  employee   User   @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+
+  leaveType LeaveType
+  startDate DateTime
+  endDate   DateTime
+  duration  Int
+  reason    String?
+
+  prescriptionUrl String?
+
+  status        LeaveStatus @default(PENDING)
+  approvalNotes String?
+  approvalDate  DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Track which users have been notified about this leave
+  notifications LeaveNotification[]
+
+  @@map("leaves")
+}
+
+enum Role {
+  ADMIN
+  EMPLOYEE
+}
+
+enum AnnouncementCategory {
+  holiday
+  update
+  urgent
+  birthday
+  policy
+}
+
+enum LeaveType {
+  ANNUAL_LEAVE
+  MATERNITY_LEAVE
+  CASUAL_LEAVE
+  SICK_LEAVE
+  PERSONAL_LEAVE
+  UNPAID_LEAVE
+}
+
+enum LeaveStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum ProjectStatus {
+  ACTIVE
+  INACTIVE
+  COMPLETED
+}
+
+model Department {
+  id          String  @id @default(cuid())
+  name        String  @unique
+  description String?
+
+  // Relationships
+  employees     User[]         @relation("DepartmentEmployees")
+  announcements Announcement[] @relation("DepartmentAnnouncements")
+  projects      Project[]      @relation("ProjectDepartment")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("departments")
+}
+
+model Project {
+  id          String        @id @default(cuid())
+  name        String
+  description String?       @db.Text
+  status      ProjectStatus @default(ACTIVE)
+
+  // Department association
+  departmentId String?
+  department   Department? @relation("ProjectDepartment", fields: [departmentId], references: [id], onDelete: SetNull)
+
+  // Team members
+  members User[] @relation("ProjectMembers")
+
+  // Track hours - total hours worked across all users
+  totalHoursWorked Float @default(0)
+
+  // Track timer sessions for reference
+  timerSessions TimerSession[] @relation("ProjectTimerSessions")
+  timesheets    Timesheet[]    @relation("ProjectTimesheets")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([departmentId])
+  @@index([status])
+  @@map("projects")
+}
+
+model TimerSession {
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  projectId String?
+  project   Project? @relation("ProjectTimerSessions", fields: [projectId], references: [id], onDelete: SetNull)
+
+  startTime             DateTime
+  lastProjectSwitchTime DateTime? // Track when last project switch occurred
+  endTime               DateTime?
+  totalDuration         Int? // Total seconds worked
+  isActive              Boolean   @default(true)
+
+  status   String    @default("checked_in") // checked_in, paused, checked_out
+  isPaused Boolean   @default(false)
+  pausedAt DateTime?
+
+  pauseLogs PauseLog[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([projectId])
+  @@index([isActive])
+}
+
+model PauseLog {
+  id             String       @id @default(uuid())
+  timerSessionId String
+  timerSession   TimerSession @relation(fields: [timerSessionId], references: [id], onDelete: Cascade)
+
+  pausedAt  DateTime
+  resumedAt DateTime?
+  duration  Int? // Duration in seconds
+
+  createdAt DateTime @default(now())
+
+  @@index([timerSessionId])
+}
+
+model Timesheet {
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  projectId String?
+  project   Project? @relation("ProjectTimesheets", fields: [projectId], references: [id], onDelete: SetNull)
+
+  workDate       DateTime  @db.Date
+  checkInTime    DateTime
+  checkOutTime   DateTime?
+  totalHours     Float? // Total hours worked (excluding pauses)
+  totalPauseTime Int? // Total pause duration in seconds
+
+  notes String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, workDate])
+  @@index([userId])
+  @@index([projectId])
+  @@index([workDate])
+}
+
+model ImportantLink {
+  id        String   @id @default(uuid())
+  title     String
+  url       String
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isActive])
+  @@map("important_links")
+}
+
+model TermsCondition {
+  id        String   @id @default(uuid())
+  title     String
+  content   String   @db.Text
+  version   Int      @default(1)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isActive])
+  @@map("terms_conditions")
+}
+
+// Onboarding related models
+model Profile {
+  id     String @id @default(uuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  about     String?  @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@map("profiles")
+}
+
+model UserExperience {
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  position    String
+  company     String
+  startDate   DateTime
+  endDate     DateTime?
+  description String?   @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@map("user_experiences")
+}
+
+model UserEducation {
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  educationName String
+  institute     String
+  startDate     DateTime
+  endDate       DateTime?
+  description   String?   @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@map("user_educations")
+}
+
+model UserSkill {
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  skillName String
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@map("user_skills")
+}
+
+model CheckInOutNotification {
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation("CheckInOutNotifications", fields: [userId], references: [id], onDelete: Cascade)
+
+  type String // "check_in" or "check_out"
+  time DateTime // Time when user checked in/out
+
+  isRead Boolean   @default(false)
+  readAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([type])
+  @@index([isRead])
+  @@map("check_in_out_notifications")
+}

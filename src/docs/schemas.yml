@@ -1,0 +1,479 @@
+components:
+  schemas:
+    # Auth Schemas
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: User unique identifier
+        email:
+          type: string
+          format: email
+          description: User email address
+        name:
+          type: string
+          description: User full name
+        role:
+          type: string
+          enum: [admin, employee]
+          description: User role in the system
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      example:
+        id: 550e8400-e29b-41d4-a716-446655440000
+        email: john@example.com
+        name: John Doe
+        role: admin
+        createdAt: '2024-01-15T10:30:00Z'
+        updatedAt: '2024-01-15T10:30:00Z'
+
+    Token:
+      type: object
+      properties:
+        token:
+          type: string
+          description: JWT token
+        expires:
+          type: string
+          format: date-time
+          description: Token expiration time
+      example:
+        token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        expires: '2024-01-16T10:30:00Z'
+
+    # Leave Schemas
+    Leave:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        employeeId:
+          type: string
+          format: uuid
+          description: ID of the employee requesting the leave
+        leaveType:
+          type: string
+          enum:
+            [
+              ANNUAL_LEAVE,
+              MATERNITY_LEAVE,
+              CASUAL_LEAVE,
+              SICK_LEAVE,
+              PERSONAL_LEAVE,
+              UNPAID_LEAVE,
+            ]
+        startDate:
+          type: string
+          format: date-time
+          description: Leave start date
+        endDate:
+          type: string
+          format: date-time
+          description: Leave end date
+        duration:
+          type: integer
+          description: Number of days
+        reason:
+          type: string
+          nullable: true
+          description: Reason for leave
+        status:
+          type: string
+          enum: [PENDING, APPROVED, REJECTED, CANCELLED]
+          description: Current status of the leave request
+        approvalNotes:
+          type: string
+          nullable: true
+          description: Admin notes on approval/rejection
+        approvedBy:
+          type: string
+          format: uuid
+          nullable: true
+          description: ID of admin who approved/rejected
+        employee:
+          $ref: '#/components/schemas/User'
+          description: Employee details (populated on GET)
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      example:
+        id: 550e8400-e29b-41d4-a716-446655440001
+        employeeId: 550e8400-e29b-41d4-a716-446655440000
+        leaveType: ANNUAL_LEAVE
+        startDate: '2024-02-01T00:00:00Z'
+        endDate: '2024-02-05T00:00:00Z'
+        duration: 5
+        reason: Vacation planning
+        status: PENDING
+        approvalNotes: null
+        approvedBy: null
+        createdAt: '2024-01-15T10:30:00Z'
+        updatedAt: '2024-01-15T10:30:00Z'
+
+    LeaveStats:
+      type: object
+      properties:
+        availableLeaves:
+          type: object
+          properties:
+            ANNUAL_LEAVE:
+              type: number
+            MATERNITY_LEAVE:
+              type: number
+            CASUAL_LEAVE:
+              type: number
+            SICK_LEAVE:
+              type: number
+            PERSONAL_LEAVE:
+              type: number
+          description: Remaining leaves by type
+        usedLeaves:
+          type: object
+          properties:
+            ANNUAL_LEAVE:
+              type: number
+            MATERNITY_LEAVE:
+              type: number
+            CASUAL_LEAVE:
+              type: number
+            SICK_LEAVE:
+              type: number
+            PERSONAL_LEAVE:
+              type: number
+          description: Used leaves by type
+        pendingRequests:
+          type: integer
+          description: Number of pending leave requests
+      example:
+        availableLeaves:
+          ANNUAL_LEAVE: 15
+          CASUAL_LEAVE: 8
+        usedLeaves:
+          ANNUAL_LEAVE: 5
+          CASUAL_LEAVE: 2
+        pendingRequests: 2
+
+    CreateLeaveRequest:
+      type: object
+      required:
+        - leaveType
+        - startDate
+        - endDate
+      properties:
+        leaveType:
+          type: string
+          enum:
+            [
+              ANNUAL_LEAVE,
+              MATERNITY_LEAVE,
+              CASUAL_LEAVE,
+              SICK_LEAVE,
+              PERSONAL_LEAVE,
+              UNPAID_LEAVE,
+            ]
+        startDate:
+          type: string
+          format: date-time
+          description: Leave start date (ISO 8601 format)
+        endDate:
+          type: string
+          format: date-time
+          description: Leave end date (ISO 8601 format)
+        reason:
+          type: string
+          nullable: true
+          description: Optional reason for leave
+
+    UpdateLeaveRequest:
+      type: object
+      properties:
+        leaveType:
+          type: string
+          enum:
+            [
+              ANNUAL_LEAVE,
+              MATERNITY_LEAVE,
+              CASUAL_LEAVE,
+              SICK_LEAVE,
+              PERSONAL_LEAVE,
+              UNPAID_LEAVE,
+            ]
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        reason:
+          type: string
+          nullable: true
+
+    ApproveLeaveRequest:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          enum: [APPROVED, REJECTED]
+          description: Approval decision
+        approvalNotes:
+          type: string
+          nullable: true
+          description: Optional notes for the decision
+
+    PaginatedLeaves:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Leave'
+        page:
+          type: integer
+        limit:
+          type: integer
+        totalPages:
+          type: integer
+        totalResults:
+          type: integer
+
+    # Announcement Schemas
+    Announcement:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+          description: Announcement title
+        description:
+          type: string
+          description: Announcement content
+        category:
+          type: string
+          description: Announcement category
+        department:
+          type: string
+          nullable: true
+          description: Target department (null = all departments)
+        image:
+          type: string
+          nullable: true
+          format: uri
+          description: Announcement image URL
+        createdById:
+          type: string
+          format: uuid
+          description: ID of the user who created
+        createdBy:
+          $ref: '#/components/schemas/User'
+          description: Creator details
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      example:
+        id: 550e8400-e29b-41d4-a716-446655440002
+        title: Company Holiday Notice
+        description: Please note that the office will be closed on December 25th
+        category: Holiday
+        department: null
+        image: null
+        createdById: 550e8400-e29b-41d4-a716-446655440000
+        createdAt: '2024-01-15T10:30:00Z'
+        updatedAt: '2024-01-15T10:30:00Z'
+
+    CreateAnnouncementRequest:
+      type: object
+      required:
+        - title
+        - description
+        - category
+      properties:
+        title:
+          type: string
+          description: Announcement title
+        description:
+          type: string
+          description: Announcement content
+        category:
+          type: string
+          description: Announcement category
+        department:
+          type: string
+          nullable: true
+          description: Target department
+        image:
+          type: string
+          nullable: true
+          format: uri
+
+    UpdateAnnouncementRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        category:
+          type: string
+        department:
+          type: string
+          nullable: true
+        image:
+          type: string
+          nullable: true
+          format: uri
+
+    PaginatedAnnouncements:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Announcement'
+        page:
+          type: integer
+        limit:
+          type: integer
+        totalPages:
+          type: integer
+        totalResults:
+          type: integer
+
+    # Error Schemas
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: HTTP status code
+        message:
+          type: string
+          description: Error message
+      required:
+        - code
+        - message
+
+    ValidationError:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 400
+        message:
+          type: string
+          example: Validation failed
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              message:
+                type: string
+
+  responses:
+    # Success Responses
+    SuccessResponse:
+      description: Operation successful
+      content:
+        application/json:
+          schema:
+            type: object
+
+    CreatedResponse:
+      description: Resource created successfully
+      content:
+        application/json:
+          schema:
+            type: object
+
+    NoContentResponse:
+      description: Request successful, no content to return
+
+    # Error Responses
+    BadRequest:
+      description: Bad request - validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ValidationError'
+          example:
+            code: 400
+            message: Validation failed
+            errors:
+              - field: email
+                message: Invalid email format
+
+    Unauthorized:
+      description: Unauthorized - authentication required or invalid token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 401
+            message: Please authenticate
+
+    Forbidden:
+      description: Forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 403
+            message: Forbidden
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 404
+            message: Not found
+
+    Conflict:
+      description: Conflict - resource already exists
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 409
+            message: Email already taken
+
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 500
+            message: Internal server error
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token for API authentication
