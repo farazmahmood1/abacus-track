@@ -45,6 +45,10 @@ app.use(compression())
 //   app.use('/api/auth', authLimiter)
 // }
 
+app.get('/', (req, res) => {
+  res.send('Welcome to Forrof Tracker API')
+})
+
 app.use('/api', routes)
 
 app.use((req, res, next) => {
