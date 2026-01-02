@@ -11,7 +11,7 @@ export const leaveTypeSchema = z.enum([
 
 export const leaveStatusSchema = z.enum(['PENDING', 'APPROVED', 'REJECTED'])
 
-export const createLeaveSchema = z
+const createLeaveObject = z
   .object({
     leaveType: leaveTypeSchema,
     reason: z.string().optional().nullable(),
@@ -27,12 +27,16 @@ export const createLeaveSchema = z
     ),
   })
   .strict()
-  .refine(data => data.endDate >= data.startDate, {
+
+export const createLeaveSchema = createLeaveObject.refine(
+  data => data.endDate >= data.startDate,
+  {
     message: 'End date must be after or equal to start date',
     path: ['endDate'],
-  })
+  }
+)
 
-export const updateLeaveSchema = createLeaveSchema.partial()
+export const updateLeaveSchema = createLeaveObject.partial()
 
 export const approveLeaveSchema = z.object({
   status: z.enum(['PENDING', 'APPROVED', 'REJECTED', 'CANCELLED']),

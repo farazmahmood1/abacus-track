@@ -288,10 +288,11 @@ model TimerSession {
   projectId String?
   project   Project? @relation("ProjectTimerSessions", fields: [projectId], references: [id], onDelete: SetNull)
 
-  startTime     DateTime
-  endTime       DateTime?
-  totalDuration Int? // Total seconds worked
-  isActive      Boolean   @default(true)
+  startTime             DateTime
+  lastProjectSwitchTime DateTime? // Track when last project switch occurred
+  endTime               DateTime?
+  totalDuration         Int? // Total seconds worked
+  isActive              Boolean   @default(true)
 
   status   String    @default("checked_in") // checked_in, paused, checked_out
   isPaused Boolean   @default(false)
