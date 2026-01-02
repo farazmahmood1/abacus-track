@@ -24,6 +24,7 @@ app.use(
       'http://localhost:5173',
       'http://localhost:5174',
       'https://forrof-tracker.vercel.app',
+      'https://tracker.forrof.io'
     ],
     credentials: true,
   })
