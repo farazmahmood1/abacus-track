@@ -16,6 +16,7 @@ import { auth } from './lib/auth.js'
 
 const app = express()
 
+
 app.use(
   cors({
     origin: [
