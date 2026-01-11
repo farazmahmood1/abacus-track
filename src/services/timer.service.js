@@ -896,11 +896,13 @@ export const getSessionsByEmployeeAndDate = async (employeeId, dateStr) => {
     let totalClicks = 0
     let totalMouseDistance = 0
 
+    const ACTIVITY_LOG_DURATION_SECONDS = 600 // Each log represents 10 minutes
+
     session.activityLogs.forEach(log => {
       if (log.isIdle) {
-        idleTime += 600 // 10 minutes per log entry
+        idleTime += ACTIVITY_LOG_DURATION_SECONDS
       } else {
-        activeTime += 600
+        activeTime += ACTIVITY_LOG_DURATION_SECONDS
       }
       totalKeyboard += log.keyboardCount
       totalClicks += log.clickCount

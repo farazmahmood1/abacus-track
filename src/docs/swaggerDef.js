@@ -21,7 +21,7 @@ const swaggerDef = {
       description: 'Development server',
     },
     {
-      url: 'https://forrof-tracker-backend.vercel.app/',
+      url: 'https://tracker-api.forrof.io/api',
       description: 'Production server',
     },
   ],

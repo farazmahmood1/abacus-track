@@ -10,7 +10,7 @@ Forrof Tracker is a comprehensive HR management system API built with Node.js an
 
 ```
 Development: http://localhost:5000/api
-Production: https://forrof-tracker-backend.vercel.app
+Production: https://tracker-api.forrof.io/api
 ```
 
 ### Interactive Documentation

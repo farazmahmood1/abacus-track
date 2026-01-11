@@ -32,6 +32,17 @@ export const auth = betterAuth({
               },
             })
 
+            // Try to extract the password from the request body if it's a create user request
+            let password = 'forrof1234'
+            try {
+              const body = await ctx.request.json()
+              if (body && body.password) {
+                password = body.password
+              }
+            } catch (e) {
+              // Not a JSON request or password not in body
+            }
+
             if (isAdminCreated) {
               await sendEmail({
                 to: userData.email,
@@ -44,13 +55,13 @@ export const auth = betterAuth({
                     
                     <div style="background-color: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0;">
                       <p><strong>Email:</strong> ${userData.email}</p>
-                      <p><strong>Temporary Password:</strong> forrof1234</p>
+                      <p><strong>Temporary Password:</strong> ${password}</p>
                     </div>
                     
                     <p><strong>Please change your password after your first login.</strong></p>
                     
                     <p>
-                      <a href="https://forrof-tracker.vercel.app" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                      <a href="https://tracker.forrof.io" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
                         Go to Forrof
                       </a>
                     </p>
@@ -59,7 +70,7 @@ export const auth = betterAuth({
                     <p>Best regards,<br>Forrof Team</p>
                   </div>
                 `,
-                text: `Welcome to Forrof!\n\nHi ${userData.name},\n\nYour account has been created.\n\nEmail: ${userData.email}\nTemporary Password: forrof1234\n\nPlease change your password after your first login.\n\nGo to: https://forrof-tracker.vercel.app`,
+                text: `Welcome to Forrof!\n\nHi ${userData.name},\n\nYour account has been created.\n\nEmail: ${userData.email}\nTemporary Password: ${password}\n\nPlease change your password after your first login.\n\nGo to: https://tracker.forrof.io`,
               })
               console.log('Welcome email sent to:', userData.email)
             }
