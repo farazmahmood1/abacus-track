@@ -104,7 +104,7 @@ export const auth = betterAuth({
         url.searchParams.get('callbackURL') ||
         (ENV.NODE_ENV === 'development'
           ? 'http://localhost:5173/verify-success'
-          : 'https://forrof-tracker.vercel.app/verify-success')
+          : 'https://tracker.forrof.io/verify-success')
 
       const verificationLink = `${process.env.BETTER_AUTH_URL}/api/auth/verify-email?token=${token}&callbackURL=${encodeURIComponent(
         callbackURL
