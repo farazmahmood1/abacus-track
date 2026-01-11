@@ -151,6 +151,8 @@ export const auth = betterAuth({
     'http://localhost:5174',
     'https://forrof-tracker.vercel.app',
     'https://forrof-tracker-backend.vercel.app',
+    'https://tracker.forrof.io',
+    'https://www.tracker.forrof.io',
   ],
 
   secret: process.env.BETTER_AUTH_SECRET,
