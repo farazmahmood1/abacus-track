@@ -55,4 +55,7 @@ router.get('/timesheets', timerController.getUserTimesheets)
 // Get timesheet range with stats
 router.get('/timesheets/range', timerController.getTimesheetRange)
 
+// Get sessions for specific employee on a date (Admin)
+router.get('/sessions/employee/:employeeId', timerController.getEmployeeSessions)
+
 export default router

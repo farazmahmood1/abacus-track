@@ -360,6 +360,7 @@ export const getSessionDetails = async sessionId => {
   const session = await prisma.timerSession.findUnique({
     where: { id: sessionId },
     include: {
+      activityLogs: true,
       pauseLogs: true,
       user: {
         select: {
@@ -545,7 +546,7 @@ export const getTimesheetRange = async (userId, startDate, endDate) => {
     averageHoursPerDay:
       timesheets.length > 0
         ? timesheets.reduce((sum, ts) => sum + (ts.totalHours || 0), 0) /
-          timesheets.length
+        timesheets.length
         : 0,
   }
 
@@ -839,4 +840,93 @@ export const deleteTimerSession = async sessionId => {
   })
 
   return session
+}
+
+/**
+ * Get sessions for a specific employee on a specific date
+ */
+export const getSessionsByEmployeeAndDate = async (employeeId, dateStr) => {
+  const date = new Date(dateStr)
+  const startOfDay = new Date(date)
+  startOfDay.setHours(0, 0, 0, 0)
+
+  const endOfDay = new Date(date)
+  endOfDay.setHours(23, 59, 59, 999)
+
+  const sessions = await prisma.timerSession.findMany({
+    where: {
+      userId: employeeId,
+      startTime: {
+        gte: startOfDay,
+        lte: endOfDay
+      }
+    },
+    include: {
+      activityLogs: {
+        orderBy: {
+          timestamp: 'asc'
+        }
+      },
+      pauseLogs: true,
+      project: {
+        select: {
+          id: true,
+          name: true
+        }
+      },
+      user: {
+        select: {
+          id: true,
+          name: true,
+          email: true
+        }
+      }
+    },
+    orderBy: {
+      startTime: 'asc'
+    }
+  })
+
+  // Transform sessions to include aggregated statistics
+  const transformedSessions = sessions.map(session => {
+    // Calculate active and idle time from activity logs
+    let activeTime = 0
+    let idleTime = 0
+    let totalKeyboard = 0
+    let totalClicks = 0
+    let totalMouseDistance = 0
+
+    session.activityLogs.forEach(log => {
+      if (log.isIdle) {
+        idleTime += 600 // 10 minutes per log entry
+      } else {
+        activeTime += 600
+      }
+      totalKeyboard += log.keyboardCount
+      totalClicks += log.clickCount
+      totalMouseDistance += log.mouseDistance
+    })
+
+    // Calculate idle percentage
+    const totalTime = activeTime + idleTime
+    const idlePercentage = totalTime > 0 ? (idleTime / totalTime) * 100 : 0
+
+    return {
+      id: session.id,
+      employeeId: session.userId,
+      employeeName: session.user.name,
+      startTime: session.startTime.toISOString(),
+      endTime: session.endTime ? session.endTime.toISOString() : null,
+      duration: session.totalDuration || 0,
+      activityLogs: session.activityLogs,
+      totalKeyboard,
+      totalClicks,
+      totalMouseDistance,
+      idlePercentage: Math.round(idlePercentage),
+      activeTime,
+      idleTime
+    }
+  })
+
+  return transformedSessions
 }

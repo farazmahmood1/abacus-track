@@ -53,6 +53,9 @@ model User {
   educations  UserEducation[]
   skills      UserSkill[]
 
+  // Activity Tracking
+  activityLogs ActivityLog[]
+
   banned     Boolean?  @default(false)
   banReason  String?
   banExpires DateTime?
@@ -298,7 +301,8 @@ model TimerSession {
   isPaused Boolean   @default(false)
   pausedAt DateTime?
 
-  pauseLogs PauseLog[]
+  pauseLogs    PauseLog[]
+  activityLogs ActivityLog[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -306,6 +310,35 @@ model TimerSession {
   @@index([userId])
   @@index([projectId])
   @@index([isActive])
+}
+
+model ActivityLog {
+  id String @id @default(uuid())
+
+  timerSessionId String
+  timerSession   TimerSession @relation(fields: [timerSessionId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  timestamp DateTime
+
+  // Activity Metrics
+  keyboardCount Int     @default(0)
+  mouseDistance Int     @default(0)
+  clickCount    Int     @default(0)
+  isIdle        Boolean @default(false)
+
+  // Context
+  windowTitle String?
+  appName     String?
+  url         String?
+
+  createdAt DateTime @default(now())
+
+  @@index([timerSessionId])
+  @@index([userId])
+  @@map("activity_logs")
 }
 
 model PauseLog {

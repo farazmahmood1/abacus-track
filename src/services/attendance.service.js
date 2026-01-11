@@ -224,6 +224,7 @@ export const getAttendanceRecords = async (userId, filters = {}) => {
 
     return {
       id: user.id,
+      employeeId: user.id, // Add employeeId for frontend compatibility
       uniqueId: user.uniqueId,
       employeeName: user.name,
       department: user.department?.name || null,

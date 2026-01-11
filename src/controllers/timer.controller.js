@@ -284,3 +284,26 @@ export const updateProjectInSession = catchAsync(async (req, res) => {
     message: 'Project updated successfully',
   })
 })
+
+/**
+ * Get sessions for a specific employee on a specific date (Admin only)
+ */
+export const getEmployeeSessions = catchAsync(async (req, res) => {
+  const { employeeId } = req.params
+  const { date } = req.query
+
+  if (!employeeId) {
+    throw new ApiError(400, 'Employee ID is required')
+  }
+
+  if (!date) {
+    throw new ApiError(400, 'Date is required')
+  }
+
+  const sessions = await timerService.getSessionsByEmployeeAndDate(employeeId, date)
+
+  res.json({
+    data: sessions,
+    message: 'Employee sessions retrieved successfully',
+  })
+})

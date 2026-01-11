@@ -14,6 +14,7 @@ import departmentsRoute from './departments.route.js'
 import projectsRoute from './projects.route.js'
 import dashboardRoute from './dashboard.route.js'
 import onboardingRoute from './onboarding.route.js'
+import activityRoute from './activity.route.js'
 
 const router = express.Router()
 
@@ -65,6 +66,10 @@ const defaultRoutes = [
   {
     path: '/onboarding',
     route: onboardingRoute,
+  },
+  {
+    path: '/activity',
+    route: activityRoute,
   },
 ]
 

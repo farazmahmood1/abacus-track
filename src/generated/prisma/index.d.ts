@@ -69,6 +69,11 @@ export type Project = $Result.DefaultSelection<Prisma.$ProjectPayload>
  */
 export type TimerSession = $Result.DefaultSelection<Prisma.$TimerSessionPayload>
 /**
+ * Model ActivityLog
+ * 
+ */
+export type ActivityLog = $Result.DefaultSelection<Prisma.$ActivityLogPayload>
+/**
  * Model PauseLog
  * 
  */
@@ -428,6 +433,16 @@ export class PrismaClient<
     * ```
     */
   get timerSession(): Prisma.TimerSessionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.activityLog`: Exposes CRUD operations for the **ActivityLog** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ActivityLogs
+    * const activityLogs = await prisma.activityLog.findMany()
+    * ```
+    */
+  get activityLog(): Prisma.ActivityLogDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.pauseLog`: Exposes CRUD operations for the **PauseLog** model.
@@ -970,6 +985,7 @@ export namespace Prisma {
     Department: 'Department',
     Project: 'Project',
     TimerSession: 'TimerSession',
+    ActivityLog: 'ActivityLog',
     PauseLog: 'PauseLog',
     Timesheet: 'Timesheet',
     ImportantLink: 'ImportantLink',
@@ -997,7 +1013,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "session" | "account" | "verification" | "announcement" | "announcementNotification" | "leaveNotification" | "leave" | "department" | "project" | "timerSession" | "pauseLog" | "timesheet" | "importantLink" | "termsCondition" | "profile" | "userExperience" | "userEducation" | "userSkill" | "checkInOutNotification"
+      modelProps: "user" | "session" | "account" | "verification" | "announcement" | "announcementNotification" | "leaveNotification" | "leave" | "department" | "project" | "timerSession" | "activityLog" | "pauseLog" | "timesheet" | "importantLink" | "termsCondition" | "profile" | "userExperience" | "userEducation" | "userSkill" | "checkInOutNotification"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1815,6 +1831,80 @@ export namespace Prisma {
           }
         }
       }
+      ActivityLog: {
+        payload: Prisma.$ActivityLogPayload<ExtArgs>
+        fields: Prisma.ActivityLogFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ActivityLogFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityLogPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ActivityLogFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityLogPayload>
+          }
+          findFirst: {
+            args: Prisma.ActivityLogFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityLogPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ActivityLogFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityLogPayload>
+          }
+          findMany: {
+            args: Prisma.ActivityLogFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityLogPayload>[]
+          }
+          create: {
+            args: Prisma.ActivityLogCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityLogPayload>
+          }
+          createMany: {
+            args: Prisma.ActivityLogCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ActivityLogCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityLogPayload>[]
+          }
+          delete: {
+            args: Prisma.ActivityLogDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityLogPayload>
+          }
+          update: {
+            args: Prisma.ActivityLogUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityLogPayload>
+          }
+          deleteMany: {
+            args: Prisma.ActivityLogDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ActivityLogUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ActivityLogUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityLogPayload>[]
+          }
+          upsert: {
+            args: Prisma.ActivityLogUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityLogPayload>
+          }
+          aggregate: {
+            args: Prisma.ActivityLogAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateActivityLog>
+          }
+          groupBy: {
+            args: Prisma.ActivityLogGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ActivityLogGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ActivityLogCountArgs<ExtArgs>
+            result: $Utils.Optional<ActivityLogCountAggregateOutputType> | number
+          }
+        }
+      }
       PauseLog: {
         payload: Prisma.$PauseLogPayload<ExtArgs>
         fields: Prisma.PauseLogFieldRefs
@@ -2588,6 +2678,7 @@ export namespace Prisma {
     department?: DepartmentOmit
     project?: ProjectOmit
     timerSession?: TimerSessionOmit
+    activityLog?: ActivityLogOmit
     pauseLog?: PauseLogOmit
     timesheet?: TimesheetOmit
     importantLink?: ImportantLinkOmit
@@ -2690,6 +2781,7 @@ export namespace Prisma {
     experiences: number
     educations: number
     skills: number
+    activityLogs: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2706,6 +2798,7 @@ export namespace Prisma {
     experiences?: boolean | UserCountOutputTypeCountExperiencesArgs
     educations?: boolean | UserCountOutputTypeCountEducationsArgs
     skills?: boolean | UserCountOutputTypeCountSkillsArgs
+    activityLogs?: boolean | UserCountOutputTypeCountActivityLogsArgs
   }
 
   // Custom InputTypes
@@ -2808,6 +2901,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountSkillsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UserSkillWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountActivityLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ActivityLogWhereInput
   }
 
 
@@ -2977,10 +3077,12 @@ export namespace Prisma {
 
   export type TimerSessionCountOutputType = {
     pauseLogs: number
+    activityLogs: number
   }
 
   export type TimerSessionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     pauseLogs?: boolean | TimerSessionCountOutputTypeCountPauseLogsArgs
+    activityLogs?: boolean | TimerSessionCountOutputTypeCountActivityLogsArgs
   }
 
   // Custom InputTypes
@@ -2999,6 +3101,13 @@ export namespace Prisma {
    */
   export type TimerSessionCountOutputTypeCountPauseLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PauseLogWhereInput
+  }
+
+  /**
+   * TimerSessionCountOutputType without action
+   */
+  export type TimerSessionCountOutputTypeCountActivityLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ActivityLogWhereInput
   }
 
 
@@ -3339,6 +3448,7 @@ export namespace Prisma {
     experiences?: boolean | User$experiencesArgs<ExtArgs>
     educations?: boolean | User$educationsArgs<ExtArgs>
     skills?: boolean | User$skillsArgs<ExtArgs>
+    activityLogs?: boolean | User$activityLogsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -3430,6 +3540,7 @@ export namespace Prisma {
     experiences?: boolean | User$experiencesArgs<ExtArgs>
     educations?: boolean | User$educationsArgs<ExtArgs>
     skills?: boolean | User$skillsArgs<ExtArgs>
+    activityLogs?: boolean | User$activityLogsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3457,6 +3568,7 @@ export namespace Prisma {
       experiences: Prisma.$UserExperiencePayload<ExtArgs>[]
       educations: Prisma.$UserEducationPayload<ExtArgs>[]
       skills: Prisma.$UserSkillPayload<ExtArgs>[]
+      activityLogs: Prisma.$ActivityLogPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3888,6 +4000,7 @@ export namespace Prisma {
     experiences<T extends User$experiencesArgs<ExtArgs> = {}>(args?: Subset<T, User$experiencesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserExperiencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     educations<T extends User$educationsArgs<ExtArgs> = {}>(args?: Subset<T, User$educationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserEducationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     skills<T extends User$skillsArgs<ExtArgs> = {}>(args?: Subset<T, User$skillsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserSkillPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    activityLogs<T extends User$activityLogsArgs<ExtArgs> = {}>(args?: Subset<T, User$activityLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4680,6 +4793,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: UserSkillScalarFieldEnum | UserSkillScalarFieldEnum[]
+  }
+
+  /**
+   * User.activityLogs
+   */
+  export type User$activityLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityLog
+     */
+    select?: ActivityLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityLog
+     */
+    omit?: ActivityLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityLogInclude<ExtArgs> | null
+    where?: ActivityLogWhereInput
+    orderBy?: ActivityLogOrderByWithRelationInput | ActivityLogOrderByWithRelationInput[]
+    cursor?: ActivityLogWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ActivityLogScalarFieldEnum | ActivityLogScalarFieldEnum[]
   }
 
   /**
@@ -15185,6 +15322,7 @@ export namespace Prisma {
     user?: boolean | UserDefaultArgs<ExtArgs>
     project?: boolean | TimerSession$projectArgs<ExtArgs>
     pauseLogs?: boolean | TimerSession$pauseLogsArgs<ExtArgs>
+    activityLogs?: boolean | TimerSession$activityLogsArgs<ExtArgs>
     _count?: boolean | TimerSessionCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["timerSession"]>
 
@@ -15245,6 +15383,7 @@ export namespace Prisma {
     user?: boolean | UserDefaultArgs<ExtArgs>
     project?: boolean | TimerSession$projectArgs<ExtArgs>
     pauseLogs?: boolean | TimerSession$pauseLogsArgs<ExtArgs>
+    activityLogs?: boolean | TimerSession$activityLogsArgs<ExtArgs>
     _count?: boolean | TimerSessionCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TimerSessionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -15262,6 +15401,7 @@ export namespace Prisma {
       user: Prisma.$UserPayload<ExtArgs>
       project: Prisma.$ProjectPayload<ExtArgs> | null
       pauseLogs: Prisma.$PauseLogPayload<ExtArgs>[]
+      activityLogs: Prisma.$ActivityLogPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -15674,6 +15814,7 @@ export namespace Prisma {
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     project<T extends TimerSession$projectArgs<ExtArgs> = {}>(args?: Subset<T, TimerSession$projectArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     pauseLogs<T extends TimerSession$pauseLogsArgs<ExtArgs> = {}>(args?: Subset<T, TimerSession$pauseLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PauseLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    activityLogs<T extends TimerSession$activityLogsArgs<ExtArgs> = {}>(args?: Subset<T, TimerSession$activityLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -16155,6 +16296,30 @@ export namespace Prisma {
   }
 
   /**
+   * TimerSession.activityLogs
+   */
+  export type TimerSession$activityLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityLog
+     */
+    select?: ActivityLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityLog
+     */
+    omit?: ActivityLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityLogInclude<ExtArgs> | null
+    where?: ActivityLogWhereInput
+    orderBy?: ActivityLogOrderByWithRelationInput | ActivityLogOrderByWithRelationInput[]
+    cursor?: ActivityLogWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ActivityLogScalarFieldEnum | ActivityLogScalarFieldEnum[]
+  }
+
+  /**
    * TimerSession without action
    */
   export type TimerSessionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -16170,6 +16335,1205 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: TimerSessionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ActivityLog
+   */
+
+  export type AggregateActivityLog = {
+    _count: ActivityLogCountAggregateOutputType | null
+    _avg: ActivityLogAvgAggregateOutputType | null
+    _sum: ActivityLogSumAggregateOutputType | null
+    _min: ActivityLogMinAggregateOutputType | null
+    _max: ActivityLogMaxAggregateOutputType | null
+  }
+
+  export type ActivityLogAvgAggregateOutputType = {
+    keyboardCount: number | null
+    mouseDistance: number | null
+    clickCount: number | null
+  }
+
+  export type ActivityLogSumAggregateOutputType = {
+    keyboardCount: number | null
+    mouseDistance: number | null
+    clickCount: number | null
+  }
+
+  export type ActivityLogMinAggregateOutputType = {
+    id: string | null
+    timerSessionId: string | null
+    userId: string | null
+    timestamp: Date | null
+    keyboardCount: number | null
+    mouseDistance: number | null
+    clickCount: number | null
+    isIdle: boolean | null
+    windowTitle: string | null
+    appName: string | null
+    url: string | null
+    createdAt: Date | null
+  }
+
+  export type ActivityLogMaxAggregateOutputType = {
+    id: string | null
+    timerSessionId: string | null
+    userId: string | null
+    timestamp: Date | null
+    keyboardCount: number | null
+    mouseDistance: number | null
+    clickCount: number | null
+    isIdle: boolean | null
+    windowTitle: string | null
+    appName: string | null
+    url: string | null
+    createdAt: Date | null
+  }
+
+  export type ActivityLogCountAggregateOutputType = {
+    id: number
+    timerSessionId: number
+    userId: number
+    timestamp: number
+    keyboardCount: number
+    mouseDistance: number
+    clickCount: number
+    isIdle: number
+    windowTitle: number
+    appName: number
+    url: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ActivityLogAvgAggregateInputType = {
+    keyboardCount?: true
+    mouseDistance?: true
+    clickCount?: true
+  }
+
+  export type ActivityLogSumAggregateInputType = {
+    keyboardCount?: true
+    mouseDistance?: true
+    clickCount?: true
+  }
+
+  export type ActivityLogMinAggregateInputType = {
+    id?: true
+    timerSessionId?: true
+    userId?: true
+    timestamp?: true
+    keyboardCount?: true
+    mouseDistance?: true
+    clickCount?: true
+    isIdle?: true
+    windowTitle?: true
+    appName?: true
+    url?: true
+    createdAt?: true
+  }
+
+  export type ActivityLogMaxAggregateInputType = {
+    id?: true
+    timerSessionId?: true
+    userId?: true
+    timestamp?: true
+    keyboardCount?: true
+    mouseDistance?: true
+    clickCount?: true
+    isIdle?: true
+    windowTitle?: true
+    appName?: true
+    url?: true
+    createdAt?: true
+  }
+
+  export type ActivityLogCountAggregateInputType = {
+    id?: true
+    timerSessionId?: true
+    userId?: true
+    timestamp?: true
+    keyboardCount?: true
+    mouseDistance?: true
+    clickCount?: true
+    isIdle?: true
+    windowTitle?: true
+    appName?: true
+    url?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ActivityLogAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ActivityLog to aggregate.
+     */
+    where?: ActivityLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ActivityLogs to fetch.
+     */
+    orderBy?: ActivityLogOrderByWithRelationInput | ActivityLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ActivityLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ActivityLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ActivityLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ActivityLogs
+    **/
+    _count?: true | ActivityLogCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ActivityLogAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ActivityLogSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ActivityLogMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ActivityLogMaxAggregateInputType
+  }
+
+  export type GetActivityLogAggregateType<T extends ActivityLogAggregateArgs> = {
+        [P in keyof T & keyof AggregateActivityLog]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateActivityLog[P]>
+      : GetScalarType<T[P], AggregateActivityLog[P]>
+  }
+
+
+
+
+  export type ActivityLogGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ActivityLogWhereInput
+    orderBy?: ActivityLogOrderByWithAggregationInput | ActivityLogOrderByWithAggregationInput[]
+    by: ActivityLogScalarFieldEnum[] | ActivityLogScalarFieldEnum
+    having?: ActivityLogScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ActivityLogCountAggregateInputType | true
+    _avg?: ActivityLogAvgAggregateInputType
+    _sum?: ActivityLogSumAggregateInputType
+    _min?: ActivityLogMinAggregateInputType
+    _max?: ActivityLogMaxAggregateInputType
+  }
+
+  export type ActivityLogGroupByOutputType = {
+    id: string
+    timerSessionId: string
+    userId: string
+    timestamp: Date
+    keyboardCount: number
+    mouseDistance: number
+    clickCount: number
+    isIdle: boolean
+    windowTitle: string | null
+    appName: string | null
+    url: string | null
+    createdAt: Date
+    _count: ActivityLogCountAggregateOutputType | null
+    _avg: ActivityLogAvgAggregateOutputType | null
+    _sum: ActivityLogSumAggregateOutputType | null
+    _min: ActivityLogMinAggregateOutputType | null
+    _max: ActivityLogMaxAggregateOutputType | null
+  }
+
+  type GetActivityLogGroupByPayload<T extends ActivityLogGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ActivityLogGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ActivityLogGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ActivityLogGroupByOutputType[P]>
+            : GetScalarType<T[P], ActivityLogGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ActivityLogSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    timerSessionId?: boolean
+    userId?: boolean
+    timestamp?: boolean
+    keyboardCount?: boolean
+    mouseDistance?: boolean
+    clickCount?: boolean
+    isIdle?: boolean
+    windowTitle?: boolean
+    appName?: boolean
+    url?: boolean
+    createdAt?: boolean
+    timerSession?: boolean | TimerSessionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["activityLog"]>
+
+  export type ActivityLogSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    timerSessionId?: boolean
+    userId?: boolean
+    timestamp?: boolean
+    keyboardCount?: boolean
+    mouseDistance?: boolean
+    clickCount?: boolean
+    isIdle?: boolean
+    windowTitle?: boolean
+    appName?: boolean
+    url?: boolean
+    createdAt?: boolean
+    timerSession?: boolean | TimerSessionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["activityLog"]>
+
+  export type ActivityLogSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    timerSessionId?: boolean
+    userId?: boolean
+    timestamp?: boolean
+    keyboardCount?: boolean
+    mouseDistance?: boolean
+    clickCount?: boolean
+    isIdle?: boolean
+    windowTitle?: boolean
+    appName?: boolean
+    url?: boolean
+    createdAt?: boolean
+    timerSession?: boolean | TimerSessionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["activityLog"]>
+
+  export type ActivityLogSelectScalar = {
+    id?: boolean
+    timerSessionId?: boolean
+    userId?: boolean
+    timestamp?: boolean
+    keyboardCount?: boolean
+    mouseDistance?: boolean
+    clickCount?: boolean
+    isIdle?: boolean
+    windowTitle?: boolean
+    appName?: boolean
+    url?: boolean
+    createdAt?: boolean
+  }
+
+  export type ActivityLogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "timerSessionId" | "userId" | "timestamp" | "keyboardCount" | "mouseDistance" | "clickCount" | "isIdle" | "windowTitle" | "appName" | "url" | "createdAt", ExtArgs["result"]["activityLog"]>
+  export type ActivityLogInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    timerSession?: boolean | TimerSessionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ActivityLogIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    timerSession?: boolean | TimerSessionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ActivityLogIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    timerSession?: boolean | TimerSessionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $ActivityLogPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ActivityLog"
+    objects: {
+      timerSession: Prisma.$TimerSessionPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      timerSessionId: string
+      userId: string
+      timestamp: Date
+      keyboardCount: number
+      mouseDistance: number
+      clickCount: number
+      isIdle: boolean
+      windowTitle: string | null
+      appName: string | null
+      url: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["activityLog"]>
+    composites: {}
+  }
+
+  type ActivityLogGetPayload<S extends boolean | null | undefined | ActivityLogDefaultArgs> = $Result.GetResult<Prisma.$ActivityLogPayload, S>
+
+  type ActivityLogCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ActivityLogFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ActivityLogCountAggregateInputType | true
+    }
+
+  export interface ActivityLogDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ActivityLog'], meta: { name: 'ActivityLog' } }
+    /**
+     * Find zero or one ActivityLog that matches the filter.
+     * @param {ActivityLogFindUniqueArgs} args - Arguments to find a ActivityLog
+     * @example
+     * // Get one ActivityLog
+     * const activityLog = await prisma.activityLog.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ActivityLogFindUniqueArgs>(args: SelectSubset<T, ActivityLogFindUniqueArgs<ExtArgs>>): Prisma__ActivityLogClient<$Result.GetResult<Prisma.$ActivityLogPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ActivityLog that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ActivityLogFindUniqueOrThrowArgs} args - Arguments to find a ActivityLog
+     * @example
+     * // Get one ActivityLog
+     * const activityLog = await prisma.activityLog.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ActivityLogFindUniqueOrThrowArgs>(args: SelectSubset<T, ActivityLogFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ActivityLogClient<$Result.GetResult<Prisma.$ActivityLogPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ActivityLog that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivityLogFindFirstArgs} args - Arguments to find a ActivityLog
+     * @example
+     * // Get one ActivityLog
+     * const activityLog = await prisma.activityLog.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ActivityLogFindFirstArgs>(args?: SelectSubset<T, ActivityLogFindFirstArgs<ExtArgs>>): Prisma__ActivityLogClient<$Result.GetResult<Prisma.$ActivityLogPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ActivityLog that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivityLogFindFirstOrThrowArgs} args - Arguments to find a ActivityLog
+     * @example
+     * // Get one ActivityLog
+     * const activityLog = await prisma.activityLog.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ActivityLogFindFirstOrThrowArgs>(args?: SelectSubset<T, ActivityLogFindFirstOrThrowArgs<ExtArgs>>): Prisma__ActivityLogClient<$Result.GetResult<Prisma.$ActivityLogPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ActivityLogs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivityLogFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ActivityLogs
+     * const activityLogs = await prisma.activityLog.findMany()
+     * 
+     * // Get first 10 ActivityLogs
+     * const activityLogs = await prisma.activityLog.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const activityLogWithIdOnly = await prisma.activityLog.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ActivityLogFindManyArgs>(args?: SelectSubset<T, ActivityLogFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ActivityLog.
+     * @param {ActivityLogCreateArgs} args - Arguments to create a ActivityLog.
+     * @example
+     * // Create one ActivityLog
+     * const ActivityLog = await prisma.activityLog.create({
+     *   data: {
+     *     // ... data to create a ActivityLog
+     *   }
+     * })
+     * 
+     */
+    create<T extends ActivityLogCreateArgs>(args: SelectSubset<T, ActivityLogCreateArgs<ExtArgs>>): Prisma__ActivityLogClient<$Result.GetResult<Prisma.$ActivityLogPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ActivityLogs.
+     * @param {ActivityLogCreateManyArgs} args - Arguments to create many ActivityLogs.
+     * @example
+     * // Create many ActivityLogs
+     * const activityLog = await prisma.activityLog.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ActivityLogCreateManyArgs>(args?: SelectSubset<T, ActivityLogCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ActivityLogs and returns the data saved in the database.
+     * @param {ActivityLogCreateManyAndReturnArgs} args - Arguments to create many ActivityLogs.
+     * @example
+     * // Create many ActivityLogs
+     * const activityLog = await prisma.activityLog.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ActivityLogs and only return the `id`
+     * const activityLogWithIdOnly = await prisma.activityLog.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ActivityLogCreateManyAndReturnArgs>(args?: SelectSubset<T, ActivityLogCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityLogPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ActivityLog.
+     * @param {ActivityLogDeleteArgs} args - Arguments to delete one ActivityLog.
+     * @example
+     * // Delete one ActivityLog
+     * const ActivityLog = await prisma.activityLog.delete({
+     *   where: {
+     *     // ... filter to delete one ActivityLog
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ActivityLogDeleteArgs>(args: SelectSubset<T, ActivityLogDeleteArgs<ExtArgs>>): Prisma__ActivityLogClient<$Result.GetResult<Prisma.$ActivityLogPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ActivityLog.
+     * @param {ActivityLogUpdateArgs} args - Arguments to update one ActivityLog.
+     * @example
+     * // Update one ActivityLog
+     * const activityLog = await prisma.activityLog.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ActivityLogUpdateArgs>(args: SelectSubset<T, ActivityLogUpdateArgs<ExtArgs>>): Prisma__ActivityLogClient<$Result.GetResult<Prisma.$ActivityLogPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ActivityLogs.
+     * @param {ActivityLogDeleteManyArgs} args - Arguments to filter ActivityLogs to delete.
+     * @example
+     * // Delete a few ActivityLogs
+     * const { count } = await prisma.activityLog.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ActivityLogDeleteManyArgs>(args?: SelectSubset<T, ActivityLogDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ActivityLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivityLogUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ActivityLogs
+     * const activityLog = await prisma.activityLog.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ActivityLogUpdateManyArgs>(args: SelectSubset<T, ActivityLogUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ActivityLogs and returns the data updated in the database.
+     * @param {ActivityLogUpdateManyAndReturnArgs} args - Arguments to update many ActivityLogs.
+     * @example
+     * // Update many ActivityLogs
+     * const activityLog = await prisma.activityLog.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ActivityLogs and only return the `id`
+     * const activityLogWithIdOnly = await prisma.activityLog.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ActivityLogUpdateManyAndReturnArgs>(args: SelectSubset<T, ActivityLogUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityLogPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ActivityLog.
+     * @param {ActivityLogUpsertArgs} args - Arguments to update or create a ActivityLog.
+     * @example
+     * // Update or create a ActivityLog
+     * const activityLog = await prisma.activityLog.upsert({
+     *   create: {
+     *     // ... data to create a ActivityLog
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ActivityLog we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ActivityLogUpsertArgs>(args: SelectSubset<T, ActivityLogUpsertArgs<ExtArgs>>): Prisma__ActivityLogClient<$Result.GetResult<Prisma.$ActivityLogPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ActivityLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivityLogCountArgs} args - Arguments to filter ActivityLogs to count.
+     * @example
+     * // Count the number of ActivityLogs
+     * const count = await prisma.activityLog.count({
+     *   where: {
+     *     // ... the filter for the ActivityLogs we want to count
+     *   }
+     * })
+    **/
+    count<T extends ActivityLogCountArgs>(
+      args?: Subset<T, ActivityLogCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ActivityLogCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ActivityLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivityLogAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ActivityLogAggregateArgs>(args: Subset<T, ActivityLogAggregateArgs>): Prisma.PrismaPromise<GetActivityLogAggregateType<T>>
+
+    /**
+     * Group by ActivityLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivityLogGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ActivityLogGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ActivityLogGroupByArgs['orderBy'] }
+        : { orderBy?: ActivityLogGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ActivityLogGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetActivityLogGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ActivityLog model
+   */
+  readonly fields: ActivityLogFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ActivityLog.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ActivityLogClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    timerSession<T extends TimerSessionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TimerSessionDefaultArgs<ExtArgs>>): Prisma__TimerSessionClient<$Result.GetResult<Prisma.$TimerSessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ActivityLog model
+   */
+  interface ActivityLogFieldRefs {
+    readonly id: FieldRef<"ActivityLog", 'String'>
+    readonly timerSessionId: FieldRef<"ActivityLog", 'String'>
+    readonly userId: FieldRef<"ActivityLog", 'String'>
+    readonly timestamp: FieldRef<"ActivityLog", 'DateTime'>
+    readonly keyboardCount: FieldRef<"ActivityLog", 'Int'>
+    readonly mouseDistance: FieldRef<"ActivityLog", 'Int'>
+    readonly clickCount: FieldRef<"ActivityLog", 'Int'>
+    readonly isIdle: FieldRef<"ActivityLog", 'Boolean'>
+    readonly windowTitle: FieldRef<"ActivityLog", 'String'>
+    readonly appName: FieldRef<"ActivityLog", 'String'>
+    readonly url: FieldRef<"ActivityLog", 'String'>
+    readonly createdAt: FieldRef<"ActivityLog", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ActivityLog findUnique
+   */
+  export type ActivityLogFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityLog
+     */
+    select?: ActivityLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityLog
+     */
+    omit?: ActivityLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityLogInclude<ExtArgs> | null
+    /**
+     * Filter, which ActivityLog to fetch.
+     */
+    where: ActivityLogWhereUniqueInput
+  }
+
+  /**
+   * ActivityLog findUniqueOrThrow
+   */
+  export type ActivityLogFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityLog
+     */
+    select?: ActivityLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityLog
+     */
+    omit?: ActivityLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityLogInclude<ExtArgs> | null
+    /**
+     * Filter, which ActivityLog to fetch.
+     */
+    where: ActivityLogWhereUniqueInput
+  }
+
+  /**
+   * ActivityLog findFirst
+   */
+  export type ActivityLogFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityLog
+     */
+    select?: ActivityLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityLog
+     */
+    omit?: ActivityLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityLogInclude<ExtArgs> | null
+    /**
+     * Filter, which ActivityLog to fetch.
+     */
+    where?: ActivityLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ActivityLogs to fetch.
+     */
+    orderBy?: ActivityLogOrderByWithRelationInput | ActivityLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ActivityLogs.
+     */
+    cursor?: ActivityLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ActivityLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ActivityLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ActivityLogs.
+     */
+    distinct?: ActivityLogScalarFieldEnum | ActivityLogScalarFieldEnum[]
+  }
+
+  /**
+   * ActivityLog findFirstOrThrow
+   */
+  export type ActivityLogFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityLog
+     */
+    select?: ActivityLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityLog
+     */
+    omit?: ActivityLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityLogInclude<ExtArgs> | null
+    /**
+     * Filter, which ActivityLog to fetch.
+     */
+    where?: ActivityLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ActivityLogs to fetch.
+     */
+    orderBy?: ActivityLogOrderByWithRelationInput | ActivityLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ActivityLogs.
+     */
+    cursor?: ActivityLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ActivityLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ActivityLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ActivityLogs.
+     */
+    distinct?: ActivityLogScalarFieldEnum | ActivityLogScalarFieldEnum[]
+  }
+
+  /**
+   * ActivityLog findMany
+   */
+  export type ActivityLogFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityLog
+     */
+    select?: ActivityLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityLog
+     */
+    omit?: ActivityLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityLogInclude<ExtArgs> | null
+    /**
+     * Filter, which ActivityLogs to fetch.
+     */
+    where?: ActivityLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ActivityLogs to fetch.
+     */
+    orderBy?: ActivityLogOrderByWithRelationInput | ActivityLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ActivityLogs.
+     */
+    cursor?: ActivityLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ActivityLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ActivityLogs.
+     */
+    skip?: number
+    distinct?: ActivityLogScalarFieldEnum | ActivityLogScalarFieldEnum[]
+  }
+
+  /**
+   * ActivityLog create
+   */
+  export type ActivityLogCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityLog
+     */
+    select?: ActivityLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityLog
+     */
+    omit?: ActivityLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityLogInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ActivityLog.
+     */
+    data: XOR<ActivityLogCreateInput, ActivityLogUncheckedCreateInput>
+  }
+
+  /**
+   * ActivityLog createMany
+   */
+  export type ActivityLogCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ActivityLogs.
+     */
+    data: ActivityLogCreateManyInput | ActivityLogCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ActivityLog createManyAndReturn
+   */
+  export type ActivityLogCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityLog
+     */
+    select?: ActivityLogSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityLog
+     */
+    omit?: ActivityLogOmit<ExtArgs> | null
+    /**
+     * The data used to create many ActivityLogs.
+     */
+    data: ActivityLogCreateManyInput | ActivityLogCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityLogIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ActivityLog update
+   */
+  export type ActivityLogUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityLog
+     */
+    select?: ActivityLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityLog
+     */
+    omit?: ActivityLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityLogInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ActivityLog.
+     */
+    data: XOR<ActivityLogUpdateInput, ActivityLogUncheckedUpdateInput>
+    /**
+     * Choose, which ActivityLog to update.
+     */
+    where: ActivityLogWhereUniqueInput
+  }
+
+  /**
+   * ActivityLog updateMany
+   */
+  export type ActivityLogUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ActivityLogs.
+     */
+    data: XOR<ActivityLogUpdateManyMutationInput, ActivityLogUncheckedUpdateManyInput>
+    /**
+     * Filter which ActivityLogs to update
+     */
+    where?: ActivityLogWhereInput
+    /**
+     * Limit how many ActivityLogs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ActivityLog updateManyAndReturn
+   */
+  export type ActivityLogUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityLog
+     */
+    select?: ActivityLogSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityLog
+     */
+    omit?: ActivityLogOmit<ExtArgs> | null
+    /**
+     * The data used to update ActivityLogs.
+     */
+    data: XOR<ActivityLogUpdateManyMutationInput, ActivityLogUncheckedUpdateManyInput>
+    /**
+     * Filter which ActivityLogs to update
+     */
+    where?: ActivityLogWhereInput
+    /**
+     * Limit how many ActivityLogs to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityLogIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ActivityLog upsert
+   */
+  export type ActivityLogUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityLog
+     */
+    select?: ActivityLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityLog
+     */
+    omit?: ActivityLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityLogInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ActivityLog to update in case it exists.
+     */
+    where: ActivityLogWhereUniqueInput
+    /**
+     * In case the ActivityLog found by the `where` argument doesn't exist, create a new ActivityLog with this data.
+     */
+    create: XOR<ActivityLogCreateInput, ActivityLogUncheckedCreateInput>
+    /**
+     * In case the ActivityLog was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ActivityLogUpdateInput, ActivityLogUncheckedUpdateInput>
+  }
+
+  /**
+   * ActivityLog delete
+   */
+  export type ActivityLogDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityLog
+     */
+    select?: ActivityLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityLog
+     */
+    omit?: ActivityLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityLogInclude<ExtArgs> | null
+    /**
+     * Filter which ActivityLog to delete.
+     */
+    where: ActivityLogWhereUniqueInput
+  }
+
+  /**
+   * ActivityLog deleteMany
+   */
+  export type ActivityLogDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ActivityLogs to delete
+     */
+    where?: ActivityLogWhereInput
+    /**
+     * Limit how many ActivityLogs to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ActivityLog without action
+   */
+  export type ActivityLogDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityLog
+     */
+    select?: ActivityLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityLog
+     */
+    omit?: ActivityLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityLogInclude<ExtArgs> | null
   }
 
 
@@ -26199,6 +27563,24 @@ export namespace Prisma {
   export type TimerSessionScalarFieldEnum = (typeof TimerSessionScalarFieldEnum)[keyof typeof TimerSessionScalarFieldEnum]
 
 
+  export const ActivityLogScalarFieldEnum: {
+    id: 'id',
+    timerSessionId: 'timerSessionId',
+    userId: 'userId',
+    timestamp: 'timestamp',
+    keyboardCount: 'keyboardCount',
+    mouseDistance: 'mouseDistance',
+    clickCount: 'clickCount',
+    isIdle: 'isIdle',
+    windowTitle: 'windowTitle',
+    appName: 'appName',
+    url: 'url',
+    createdAt: 'createdAt'
+  };
+
+  export type ActivityLogScalarFieldEnum = (typeof ActivityLogScalarFieldEnum)[keyof typeof ActivityLogScalarFieldEnum]
+
+
   export const PauseLogScalarFieldEnum: {
     id: 'id',
     timerSessionId: 'timerSessionId',
@@ -26523,6 +27905,7 @@ export namespace Prisma {
     experiences?: UserExperienceListRelationFilter
     educations?: UserEducationListRelationFilter
     skills?: UserSkillListRelationFilter
+    activityLogs?: ActivityLogListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -26561,6 +27944,7 @@ export namespace Prisma {
     experiences?: UserExperienceOrderByRelationAggregateInput
     educations?: UserEducationOrderByRelationAggregateInput
     skills?: UserSkillOrderByRelationAggregateInput
+    activityLogs?: ActivityLogOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -26602,6 +27986,7 @@ export namespace Prisma {
     experiences?: UserExperienceListRelationFilter
     educations?: UserEducationListRelationFilter
     skills?: UserSkillListRelationFilter
+    activityLogs?: ActivityLogListRelationFilter
   }, "id" | "uniqueId" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -27365,6 +28750,7 @@ export namespace Prisma {
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     project?: XOR<ProjectNullableScalarRelationFilter, ProjectWhereInput> | null
     pauseLogs?: PauseLogListRelationFilter
+    activityLogs?: ActivityLogListRelationFilter
   }
 
   export type TimerSessionOrderByWithRelationInput = {
@@ -27384,6 +28770,7 @@ export namespace Prisma {
     user?: UserOrderByWithRelationInput
     project?: ProjectOrderByWithRelationInput
     pauseLogs?: PauseLogOrderByRelationAggregateInput
+    activityLogs?: ActivityLogOrderByRelationAggregateInput
   }
 
   export type TimerSessionWhereUniqueInput = Prisma.AtLeast<{
@@ -27406,6 +28793,7 @@ export namespace Prisma {
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     project?: XOR<ProjectNullableScalarRelationFilter, ProjectWhereInput> | null
     pauseLogs?: PauseLogListRelationFilter
+    activityLogs?: ActivityLogListRelationFilter
   }, "id">
 
   export type TimerSessionOrderByWithAggregationInput = {
@@ -27446,6 +28834,101 @@ export namespace Prisma {
     pausedAt?: DateTimeNullableWithAggregatesFilter<"TimerSession"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"TimerSession"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"TimerSession"> | Date | string
+  }
+
+  export type ActivityLogWhereInput = {
+    AND?: ActivityLogWhereInput | ActivityLogWhereInput[]
+    OR?: ActivityLogWhereInput[]
+    NOT?: ActivityLogWhereInput | ActivityLogWhereInput[]
+    id?: StringFilter<"ActivityLog"> | string
+    timerSessionId?: StringFilter<"ActivityLog"> | string
+    userId?: StringFilter<"ActivityLog"> | string
+    timestamp?: DateTimeFilter<"ActivityLog"> | Date | string
+    keyboardCount?: IntFilter<"ActivityLog"> | number
+    mouseDistance?: IntFilter<"ActivityLog"> | number
+    clickCount?: IntFilter<"ActivityLog"> | number
+    isIdle?: BoolFilter<"ActivityLog"> | boolean
+    windowTitle?: StringNullableFilter<"ActivityLog"> | string | null
+    appName?: StringNullableFilter<"ActivityLog"> | string | null
+    url?: StringNullableFilter<"ActivityLog"> | string | null
+    createdAt?: DateTimeFilter<"ActivityLog"> | Date | string
+    timerSession?: XOR<TimerSessionScalarRelationFilter, TimerSessionWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type ActivityLogOrderByWithRelationInput = {
+    id?: SortOrder
+    timerSessionId?: SortOrder
+    userId?: SortOrder
+    timestamp?: SortOrder
+    keyboardCount?: SortOrder
+    mouseDistance?: SortOrder
+    clickCount?: SortOrder
+    isIdle?: SortOrder
+    windowTitle?: SortOrderInput | SortOrder
+    appName?: SortOrderInput | SortOrder
+    url?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    timerSession?: TimerSessionOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type ActivityLogWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ActivityLogWhereInput | ActivityLogWhereInput[]
+    OR?: ActivityLogWhereInput[]
+    NOT?: ActivityLogWhereInput | ActivityLogWhereInput[]
+    timerSessionId?: StringFilter<"ActivityLog"> | string
+    userId?: StringFilter<"ActivityLog"> | string
+    timestamp?: DateTimeFilter<"ActivityLog"> | Date | string
+    keyboardCount?: IntFilter<"ActivityLog"> | number
+    mouseDistance?: IntFilter<"ActivityLog"> | number
+    clickCount?: IntFilter<"ActivityLog"> | number
+    isIdle?: BoolFilter<"ActivityLog"> | boolean
+    windowTitle?: StringNullableFilter<"ActivityLog"> | string | null
+    appName?: StringNullableFilter<"ActivityLog"> | string | null
+    url?: StringNullableFilter<"ActivityLog"> | string | null
+    createdAt?: DateTimeFilter<"ActivityLog"> | Date | string
+    timerSession?: XOR<TimerSessionScalarRelationFilter, TimerSessionWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type ActivityLogOrderByWithAggregationInput = {
+    id?: SortOrder
+    timerSessionId?: SortOrder
+    userId?: SortOrder
+    timestamp?: SortOrder
+    keyboardCount?: SortOrder
+    mouseDistance?: SortOrder
+    clickCount?: SortOrder
+    isIdle?: SortOrder
+    windowTitle?: SortOrderInput | SortOrder
+    appName?: SortOrderInput | SortOrder
+    url?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: ActivityLogCountOrderByAggregateInput
+    _avg?: ActivityLogAvgOrderByAggregateInput
+    _max?: ActivityLogMaxOrderByAggregateInput
+    _min?: ActivityLogMinOrderByAggregateInput
+    _sum?: ActivityLogSumOrderByAggregateInput
+  }
+
+  export type ActivityLogScalarWhereWithAggregatesInput = {
+    AND?: ActivityLogScalarWhereWithAggregatesInput | ActivityLogScalarWhereWithAggregatesInput[]
+    OR?: ActivityLogScalarWhereWithAggregatesInput[]
+    NOT?: ActivityLogScalarWhereWithAggregatesInput | ActivityLogScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ActivityLog"> | string
+    timerSessionId?: StringWithAggregatesFilter<"ActivityLog"> | string
+    userId?: StringWithAggregatesFilter<"ActivityLog"> | string
+    timestamp?: DateTimeWithAggregatesFilter<"ActivityLog"> | Date | string
+    keyboardCount?: IntWithAggregatesFilter<"ActivityLog"> | number
+    mouseDistance?: IntWithAggregatesFilter<"ActivityLog"> | number
+    clickCount?: IntWithAggregatesFilter<"ActivityLog"> | number
+    isIdle?: BoolWithAggregatesFilter<"ActivityLog"> | boolean
+    windowTitle?: StringNullableWithAggregatesFilter<"ActivityLog"> | string | null
+    appName?: StringNullableWithAggregatesFilter<"ActivityLog"> | string | null
+    url?: StringNullableWithAggregatesFilter<"ActivityLog"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ActivityLog"> | Date | string
   }
 
   export type PauseLogWhereInput = {
@@ -28089,6 +29572,7 @@ export namespace Prisma {
     experiences?: UserExperienceCreateNestedManyWithoutUserInput
     educations?: UserEducationCreateNestedManyWithoutUserInput
     skills?: UserSkillCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -28126,6 +29610,7 @@ export namespace Prisma {
     experiences?: UserExperienceUncheckedCreateNestedManyWithoutUserInput
     educations?: UserEducationUncheckedCreateNestedManyWithoutUserInput
     skills?: UserSkillUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -28163,6 +29648,7 @@ export namespace Prisma {
     experiences?: UserExperienceUpdateManyWithoutUserNestedInput
     educations?: UserEducationUpdateManyWithoutUserNestedInput
     skills?: UserSkillUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -28200,6 +29686,7 @@ export namespace Prisma {
     experiences?: UserExperienceUncheckedUpdateManyWithoutUserNestedInput
     educations?: UserEducationUncheckedUpdateManyWithoutUserNestedInput
     skills?: UserSkillUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -29035,6 +30522,7 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutTimerSessionsInput
     project?: ProjectCreateNestedOneWithoutTimerSessionsInput
     pauseLogs?: PauseLogCreateNestedManyWithoutTimerSessionInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutTimerSessionInput
   }
 
   export type TimerSessionUncheckedCreateInput = {
@@ -29052,6 +30540,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     pauseLogs?: PauseLogUncheckedCreateNestedManyWithoutTimerSessionInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutTimerSessionInput
   }
 
   export type TimerSessionUpdateInput = {
@@ -29069,6 +30558,7 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutTimerSessionsNestedInput
     project?: ProjectUpdateOneWithoutTimerSessionsNestedInput
     pauseLogs?: PauseLogUpdateManyWithoutTimerSessionNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutTimerSessionNestedInput
   }
 
   export type TimerSessionUncheckedUpdateInput = {
@@ -29086,6 +30576,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pauseLogs?: PauseLogUncheckedUpdateManyWithoutTimerSessionNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutTimerSessionNestedInput
   }
 
   export type TimerSessionCreateManyInput = {
@@ -29132,6 +30623,109 @@ export namespace Prisma {
     pausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ActivityLogCreateInput = {
+    id?: string
+    timestamp: Date | string
+    keyboardCount?: number
+    mouseDistance?: number
+    clickCount?: number
+    isIdle?: boolean
+    windowTitle?: string | null
+    appName?: string | null
+    url?: string | null
+    createdAt?: Date | string
+    timerSession: TimerSessionCreateNestedOneWithoutActivityLogsInput
+    user: UserCreateNestedOneWithoutActivityLogsInput
+  }
+
+  export type ActivityLogUncheckedCreateInput = {
+    id?: string
+    timerSessionId: string
+    userId: string
+    timestamp: Date | string
+    keyboardCount?: number
+    mouseDistance?: number
+    clickCount?: number
+    isIdle?: boolean
+    windowTitle?: string | null
+    appName?: string | null
+    url?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ActivityLogUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    keyboardCount?: IntFieldUpdateOperationsInput | number
+    mouseDistance?: IntFieldUpdateOperationsInput | number
+    clickCount?: IntFieldUpdateOperationsInput | number
+    isIdle?: BoolFieldUpdateOperationsInput | boolean
+    windowTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    appName?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timerSession?: TimerSessionUpdateOneRequiredWithoutActivityLogsNestedInput
+    user?: UserUpdateOneRequiredWithoutActivityLogsNestedInput
+  }
+
+  export type ActivityLogUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timerSessionId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    keyboardCount?: IntFieldUpdateOperationsInput | number
+    mouseDistance?: IntFieldUpdateOperationsInput | number
+    clickCount?: IntFieldUpdateOperationsInput | number
+    isIdle?: BoolFieldUpdateOperationsInput | boolean
+    windowTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    appName?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ActivityLogCreateManyInput = {
+    id?: string
+    timerSessionId: string
+    userId: string
+    timestamp: Date | string
+    keyboardCount?: number
+    mouseDistance?: number
+    clickCount?: number
+    isIdle?: boolean
+    windowTitle?: string | null
+    appName?: string | null
+    url?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ActivityLogUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    keyboardCount?: IntFieldUpdateOperationsInput | number
+    mouseDistance?: IntFieldUpdateOperationsInput | number
+    clickCount?: IntFieldUpdateOperationsInput | number
+    isIdle?: BoolFieldUpdateOperationsInput | boolean
+    windowTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    appName?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ActivityLogUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timerSessionId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    keyboardCount?: IntFieldUpdateOperationsInput | number
+    mouseDistance?: IntFieldUpdateOperationsInput | number
+    clickCount?: IntFieldUpdateOperationsInput | number
+    isIdle?: BoolFieldUpdateOperationsInput | boolean
+    windowTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    appName?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PauseLogCreateInput = {
@@ -29938,6 +31532,12 @@ export namespace Prisma {
     none?: UserSkillWhereInput
   }
 
+  export type ActivityLogListRelationFilter = {
+    every?: ActivityLogWhereInput
+    some?: ActivityLogWhereInput
+    none?: ActivityLogWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -29992,6 +31592,10 @@ export namespace Prisma {
   }
 
   export type UserSkillOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ActivityLogOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -30741,6 +32345,63 @@ export namespace Prisma {
     isNot?: TimerSessionWhereInput
   }
 
+  export type ActivityLogCountOrderByAggregateInput = {
+    id?: SortOrder
+    timerSessionId?: SortOrder
+    userId?: SortOrder
+    timestamp?: SortOrder
+    keyboardCount?: SortOrder
+    mouseDistance?: SortOrder
+    clickCount?: SortOrder
+    isIdle?: SortOrder
+    windowTitle?: SortOrder
+    appName?: SortOrder
+    url?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ActivityLogAvgOrderByAggregateInput = {
+    keyboardCount?: SortOrder
+    mouseDistance?: SortOrder
+    clickCount?: SortOrder
+  }
+
+  export type ActivityLogMaxOrderByAggregateInput = {
+    id?: SortOrder
+    timerSessionId?: SortOrder
+    userId?: SortOrder
+    timestamp?: SortOrder
+    keyboardCount?: SortOrder
+    mouseDistance?: SortOrder
+    clickCount?: SortOrder
+    isIdle?: SortOrder
+    windowTitle?: SortOrder
+    appName?: SortOrder
+    url?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ActivityLogMinOrderByAggregateInput = {
+    id?: SortOrder
+    timerSessionId?: SortOrder
+    userId?: SortOrder
+    timestamp?: SortOrder
+    keyboardCount?: SortOrder
+    mouseDistance?: SortOrder
+    clickCount?: SortOrder
+    isIdle?: SortOrder
+    windowTitle?: SortOrder
+    appName?: SortOrder
+    url?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ActivityLogSumOrderByAggregateInput = {
+    keyboardCount?: SortOrder
+    mouseDistance?: SortOrder
+    clickCount?: SortOrder
+  }
+
   export type PauseLogCountOrderByAggregateInput = {
     id?: SortOrder
     timerSessionId?: SortOrder
@@ -31188,6 +32849,13 @@ export namespace Prisma {
     connect?: UserSkillWhereUniqueInput | UserSkillWhereUniqueInput[]
   }
 
+  export type ActivityLogCreateNestedManyWithoutUserInput = {
+    create?: XOR<ActivityLogCreateWithoutUserInput, ActivityLogUncheckedCreateWithoutUserInput> | ActivityLogCreateWithoutUserInput[] | ActivityLogUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ActivityLogCreateOrConnectWithoutUserInput | ActivityLogCreateOrConnectWithoutUserInput[]
+    createMany?: ActivityLogCreateManyUserInputEnvelope
+    connect?: ActivityLogWhereUniqueInput | ActivityLogWhereUniqueInput[]
+  }
+
   export type SessionUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -31282,6 +32950,13 @@ export namespace Prisma {
     connectOrCreate?: UserSkillCreateOrConnectWithoutUserInput | UserSkillCreateOrConnectWithoutUserInput[]
     createMany?: UserSkillCreateManyUserInputEnvelope
     connect?: UserSkillWhereUniqueInput | UserSkillWhereUniqueInput[]
+  }
+
+  export type ActivityLogUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<ActivityLogCreateWithoutUserInput, ActivityLogUncheckedCreateWithoutUserInput> | ActivityLogCreateWithoutUserInput[] | ActivityLogUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ActivityLogCreateOrConnectWithoutUserInput | ActivityLogCreateOrConnectWithoutUserInput[]
+    createMany?: ActivityLogCreateManyUserInputEnvelope
+    connect?: ActivityLogWhereUniqueInput | ActivityLogWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -31517,6 +33192,20 @@ export namespace Prisma {
     deleteMany?: UserSkillScalarWhereInput | UserSkillScalarWhereInput[]
   }
 
+  export type ActivityLogUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ActivityLogCreateWithoutUserInput, ActivityLogUncheckedCreateWithoutUserInput> | ActivityLogCreateWithoutUserInput[] | ActivityLogUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ActivityLogCreateOrConnectWithoutUserInput | ActivityLogCreateOrConnectWithoutUserInput[]
+    upsert?: ActivityLogUpsertWithWhereUniqueWithoutUserInput | ActivityLogUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ActivityLogCreateManyUserInputEnvelope
+    set?: ActivityLogWhereUniqueInput | ActivityLogWhereUniqueInput[]
+    disconnect?: ActivityLogWhereUniqueInput | ActivityLogWhereUniqueInput[]
+    delete?: ActivityLogWhereUniqueInput | ActivityLogWhereUniqueInput[]
+    connect?: ActivityLogWhereUniqueInput | ActivityLogWhereUniqueInput[]
+    update?: ActivityLogUpdateWithWhereUniqueWithoutUserInput | ActivityLogUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ActivityLogUpdateManyWithWhereWithoutUserInput | ActivityLogUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ActivityLogScalarWhereInput | ActivityLogScalarWhereInput[]
+  }
+
   export type SessionUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -31706,6 +33395,20 @@ export namespace Prisma {
     update?: UserSkillUpdateWithWhereUniqueWithoutUserInput | UserSkillUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: UserSkillUpdateManyWithWhereWithoutUserInput | UserSkillUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: UserSkillScalarWhereInput | UserSkillScalarWhereInput[]
+  }
+
+  export type ActivityLogUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ActivityLogCreateWithoutUserInput, ActivityLogUncheckedCreateWithoutUserInput> | ActivityLogCreateWithoutUserInput[] | ActivityLogUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ActivityLogCreateOrConnectWithoutUserInput | ActivityLogCreateOrConnectWithoutUserInput[]
+    upsert?: ActivityLogUpsertWithWhereUniqueWithoutUserInput | ActivityLogUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ActivityLogCreateManyUserInputEnvelope
+    set?: ActivityLogWhereUniqueInput | ActivityLogWhereUniqueInput[]
+    disconnect?: ActivityLogWhereUniqueInput | ActivityLogWhereUniqueInput[]
+    delete?: ActivityLogWhereUniqueInput | ActivityLogWhereUniqueInput[]
+    connect?: ActivityLogWhereUniqueInput | ActivityLogWhereUniqueInput[]
+    update?: ActivityLogUpdateWithWhereUniqueWithoutUserInput | ActivityLogUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ActivityLogUpdateManyWithWhereWithoutUserInput | ActivityLogUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ActivityLogScalarWhereInput | ActivityLogScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutSessionsInput = {
@@ -32239,11 +33942,25 @@ export namespace Prisma {
     connect?: PauseLogWhereUniqueInput | PauseLogWhereUniqueInput[]
   }
 
+  export type ActivityLogCreateNestedManyWithoutTimerSessionInput = {
+    create?: XOR<ActivityLogCreateWithoutTimerSessionInput, ActivityLogUncheckedCreateWithoutTimerSessionInput> | ActivityLogCreateWithoutTimerSessionInput[] | ActivityLogUncheckedCreateWithoutTimerSessionInput[]
+    connectOrCreate?: ActivityLogCreateOrConnectWithoutTimerSessionInput | ActivityLogCreateOrConnectWithoutTimerSessionInput[]
+    createMany?: ActivityLogCreateManyTimerSessionInputEnvelope
+    connect?: ActivityLogWhereUniqueInput | ActivityLogWhereUniqueInput[]
+  }
+
   export type PauseLogUncheckedCreateNestedManyWithoutTimerSessionInput = {
     create?: XOR<PauseLogCreateWithoutTimerSessionInput, PauseLogUncheckedCreateWithoutTimerSessionInput> | PauseLogCreateWithoutTimerSessionInput[] | PauseLogUncheckedCreateWithoutTimerSessionInput[]
     connectOrCreate?: PauseLogCreateOrConnectWithoutTimerSessionInput | PauseLogCreateOrConnectWithoutTimerSessionInput[]
     createMany?: PauseLogCreateManyTimerSessionInputEnvelope
     connect?: PauseLogWhereUniqueInput | PauseLogWhereUniqueInput[]
+  }
+
+  export type ActivityLogUncheckedCreateNestedManyWithoutTimerSessionInput = {
+    create?: XOR<ActivityLogCreateWithoutTimerSessionInput, ActivityLogUncheckedCreateWithoutTimerSessionInput> | ActivityLogCreateWithoutTimerSessionInput[] | ActivityLogUncheckedCreateWithoutTimerSessionInput[]
+    connectOrCreate?: ActivityLogCreateOrConnectWithoutTimerSessionInput | ActivityLogCreateOrConnectWithoutTimerSessionInput[]
+    createMany?: ActivityLogCreateManyTimerSessionInputEnvelope
+    connect?: ActivityLogWhereUniqueInput | ActivityLogWhereUniqueInput[]
   }
 
   export type UserUpdateOneRequiredWithoutTimerSessionsNestedInput = {
@@ -32278,6 +33995,20 @@ export namespace Prisma {
     deleteMany?: PauseLogScalarWhereInput | PauseLogScalarWhereInput[]
   }
 
+  export type ActivityLogUpdateManyWithoutTimerSessionNestedInput = {
+    create?: XOR<ActivityLogCreateWithoutTimerSessionInput, ActivityLogUncheckedCreateWithoutTimerSessionInput> | ActivityLogCreateWithoutTimerSessionInput[] | ActivityLogUncheckedCreateWithoutTimerSessionInput[]
+    connectOrCreate?: ActivityLogCreateOrConnectWithoutTimerSessionInput | ActivityLogCreateOrConnectWithoutTimerSessionInput[]
+    upsert?: ActivityLogUpsertWithWhereUniqueWithoutTimerSessionInput | ActivityLogUpsertWithWhereUniqueWithoutTimerSessionInput[]
+    createMany?: ActivityLogCreateManyTimerSessionInputEnvelope
+    set?: ActivityLogWhereUniqueInput | ActivityLogWhereUniqueInput[]
+    disconnect?: ActivityLogWhereUniqueInput | ActivityLogWhereUniqueInput[]
+    delete?: ActivityLogWhereUniqueInput | ActivityLogWhereUniqueInput[]
+    connect?: ActivityLogWhereUniqueInput | ActivityLogWhereUniqueInput[]
+    update?: ActivityLogUpdateWithWhereUniqueWithoutTimerSessionInput | ActivityLogUpdateWithWhereUniqueWithoutTimerSessionInput[]
+    updateMany?: ActivityLogUpdateManyWithWhereWithoutTimerSessionInput | ActivityLogUpdateManyWithWhereWithoutTimerSessionInput[]
+    deleteMany?: ActivityLogScalarWhereInput | ActivityLogScalarWhereInput[]
+  }
+
   export type PauseLogUncheckedUpdateManyWithoutTimerSessionNestedInput = {
     create?: XOR<PauseLogCreateWithoutTimerSessionInput, PauseLogUncheckedCreateWithoutTimerSessionInput> | PauseLogCreateWithoutTimerSessionInput[] | PauseLogUncheckedCreateWithoutTimerSessionInput[]
     connectOrCreate?: PauseLogCreateOrConnectWithoutTimerSessionInput | PauseLogCreateOrConnectWithoutTimerSessionInput[]
@@ -32290,6 +34021,48 @@ export namespace Prisma {
     update?: PauseLogUpdateWithWhereUniqueWithoutTimerSessionInput | PauseLogUpdateWithWhereUniqueWithoutTimerSessionInput[]
     updateMany?: PauseLogUpdateManyWithWhereWithoutTimerSessionInput | PauseLogUpdateManyWithWhereWithoutTimerSessionInput[]
     deleteMany?: PauseLogScalarWhereInput | PauseLogScalarWhereInput[]
+  }
+
+  export type ActivityLogUncheckedUpdateManyWithoutTimerSessionNestedInput = {
+    create?: XOR<ActivityLogCreateWithoutTimerSessionInput, ActivityLogUncheckedCreateWithoutTimerSessionInput> | ActivityLogCreateWithoutTimerSessionInput[] | ActivityLogUncheckedCreateWithoutTimerSessionInput[]
+    connectOrCreate?: ActivityLogCreateOrConnectWithoutTimerSessionInput | ActivityLogCreateOrConnectWithoutTimerSessionInput[]
+    upsert?: ActivityLogUpsertWithWhereUniqueWithoutTimerSessionInput | ActivityLogUpsertWithWhereUniqueWithoutTimerSessionInput[]
+    createMany?: ActivityLogCreateManyTimerSessionInputEnvelope
+    set?: ActivityLogWhereUniqueInput | ActivityLogWhereUniqueInput[]
+    disconnect?: ActivityLogWhereUniqueInput | ActivityLogWhereUniqueInput[]
+    delete?: ActivityLogWhereUniqueInput | ActivityLogWhereUniqueInput[]
+    connect?: ActivityLogWhereUniqueInput | ActivityLogWhereUniqueInput[]
+    update?: ActivityLogUpdateWithWhereUniqueWithoutTimerSessionInput | ActivityLogUpdateWithWhereUniqueWithoutTimerSessionInput[]
+    updateMany?: ActivityLogUpdateManyWithWhereWithoutTimerSessionInput | ActivityLogUpdateManyWithWhereWithoutTimerSessionInput[]
+    deleteMany?: ActivityLogScalarWhereInput | ActivityLogScalarWhereInput[]
+  }
+
+  export type TimerSessionCreateNestedOneWithoutActivityLogsInput = {
+    create?: XOR<TimerSessionCreateWithoutActivityLogsInput, TimerSessionUncheckedCreateWithoutActivityLogsInput>
+    connectOrCreate?: TimerSessionCreateOrConnectWithoutActivityLogsInput
+    connect?: TimerSessionWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutActivityLogsInput = {
+    create?: XOR<UserCreateWithoutActivityLogsInput, UserUncheckedCreateWithoutActivityLogsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutActivityLogsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type TimerSessionUpdateOneRequiredWithoutActivityLogsNestedInput = {
+    create?: XOR<TimerSessionCreateWithoutActivityLogsInput, TimerSessionUncheckedCreateWithoutActivityLogsInput>
+    connectOrCreate?: TimerSessionCreateOrConnectWithoutActivityLogsInput
+    upsert?: TimerSessionUpsertWithoutActivityLogsInput
+    connect?: TimerSessionWhereUniqueInput
+    update?: XOR<XOR<TimerSessionUpdateToOneWithWhereWithoutActivityLogsInput, TimerSessionUpdateWithoutActivityLogsInput>, TimerSessionUncheckedUpdateWithoutActivityLogsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutActivityLogsNestedInput = {
+    create?: XOR<UserCreateWithoutActivityLogsInput, UserUncheckedCreateWithoutActivityLogsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutActivityLogsInput
+    upsert?: UserUpsertWithoutActivityLogsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutActivityLogsInput, UserUpdateWithoutActivityLogsInput>, UserUncheckedUpdateWithoutActivityLogsInput>
   }
 
   export type TimerSessionCreateNestedOneWithoutPauseLogsInput = {
@@ -32907,6 +34680,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     project?: ProjectCreateNestedOneWithoutTimerSessionsInput
     pauseLogs?: PauseLogCreateNestedManyWithoutTimerSessionInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutTimerSessionInput
   }
 
   export type TimerSessionUncheckedCreateWithoutUserInput = {
@@ -32923,6 +34697,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     pauseLogs?: PauseLogUncheckedCreateNestedManyWithoutTimerSessionInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutTimerSessionInput
   }
 
   export type TimerSessionCreateOrConnectWithoutUserInput = {
@@ -33215,6 +34990,44 @@ export namespace Prisma {
 
   export type UserSkillCreateManyUserInputEnvelope = {
     data: UserSkillCreateManyUserInput | UserSkillCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ActivityLogCreateWithoutUserInput = {
+    id?: string
+    timestamp: Date | string
+    keyboardCount?: number
+    mouseDistance?: number
+    clickCount?: number
+    isIdle?: boolean
+    windowTitle?: string | null
+    appName?: string | null
+    url?: string | null
+    createdAt?: Date | string
+    timerSession: TimerSessionCreateNestedOneWithoutActivityLogsInput
+  }
+
+  export type ActivityLogUncheckedCreateWithoutUserInput = {
+    id?: string
+    timerSessionId: string
+    timestamp: Date | string
+    keyboardCount?: number
+    mouseDistance?: number
+    clickCount?: number
+    isIdle?: boolean
+    windowTitle?: string | null
+    appName?: string | null
+    url?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ActivityLogCreateOrConnectWithoutUserInput = {
+    where: ActivityLogWhereUniqueInput
+    create: XOR<ActivityLogCreateWithoutUserInput, ActivityLogUncheckedCreateWithoutUserInput>
+  }
+
+  export type ActivityLogCreateManyUserInputEnvelope = {
+    data: ActivityLogCreateManyUserInput | ActivityLogCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -33680,6 +35493,40 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"UserSkill"> | Date | string
   }
 
+  export type ActivityLogUpsertWithWhereUniqueWithoutUserInput = {
+    where: ActivityLogWhereUniqueInput
+    update: XOR<ActivityLogUpdateWithoutUserInput, ActivityLogUncheckedUpdateWithoutUserInput>
+    create: XOR<ActivityLogCreateWithoutUserInput, ActivityLogUncheckedCreateWithoutUserInput>
+  }
+
+  export type ActivityLogUpdateWithWhereUniqueWithoutUserInput = {
+    where: ActivityLogWhereUniqueInput
+    data: XOR<ActivityLogUpdateWithoutUserInput, ActivityLogUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ActivityLogUpdateManyWithWhereWithoutUserInput = {
+    where: ActivityLogScalarWhereInput
+    data: XOR<ActivityLogUpdateManyMutationInput, ActivityLogUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ActivityLogScalarWhereInput = {
+    AND?: ActivityLogScalarWhereInput | ActivityLogScalarWhereInput[]
+    OR?: ActivityLogScalarWhereInput[]
+    NOT?: ActivityLogScalarWhereInput | ActivityLogScalarWhereInput[]
+    id?: StringFilter<"ActivityLog"> | string
+    timerSessionId?: StringFilter<"ActivityLog"> | string
+    userId?: StringFilter<"ActivityLog"> | string
+    timestamp?: DateTimeFilter<"ActivityLog"> | Date | string
+    keyboardCount?: IntFilter<"ActivityLog"> | number
+    mouseDistance?: IntFilter<"ActivityLog"> | number
+    clickCount?: IntFilter<"ActivityLog"> | number
+    isIdle?: BoolFilter<"ActivityLog"> | boolean
+    windowTitle?: StringNullableFilter<"ActivityLog"> | string | null
+    appName?: StringNullableFilter<"ActivityLog"> | string | null
+    url?: StringNullableFilter<"ActivityLog"> | string | null
+    createdAt?: DateTimeFilter<"ActivityLog"> | Date | string
+  }
+
   export type UserCreateWithoutSessionsInput = {
     id: string
     uniqueId?: string | null
@@ -33714,6 +35561,7 @@ export namespace Prisma {
     experiences?: UserExperienceCreateNestedManyWithoutUserInput
     educations?: UserEducationCreateNestedManyWithoutUserInput
     skills?: UserSkillCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -33750,6 +35598,7 @@ export namespace Prisma {
     experiences?: UserExperienceUncheckedCreateNestedManyWithoutUserInput
     educations?: UserEducationUncheckedCreateNestedManyWithoutUserInput
     skills?: UserSkillUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -33802,6 +35651,7 @@ export namespace Prisma {
     experiences?: UserExperienceUpdateManyWithoutUserNestedInput
     educations?: UserEducationUpdateManyWithoutUserNestedInput
     skills?: UserSkillUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -33838,6 +35688,7 @@ export namespace Prisma {
     experiences?: UserExperienceUncheckedUpdateManyWithoutUserNestedInput
     educations?: UserEducationUncheckedUpdateManyWithoutUserNestedInput
     skills?: UserSkillUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -33874,6 +35725,7 @@ export namespace Prisma {
     experiences?: UserExperienceCreateNestedManyWithoutUserInput
     educations?: UserEducationCreateNestedManyWithoutUserInput
     skills?: UserSkillCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -33910,6 +35762,7 @@ export namespace Prisma {
     experiences?: UserExperienceUncheckedCreateNestedManyWithoutUserInput
     educations?: UserEducationUncheckedCreateNestedManyWithoutUserInput
     skills?: UserSkillUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -33962,6 +35815,7 @@ export namespace Prisma {
     experiences?: UserExperienceUpdateManyWithoutUserNestedInput
     educations?: UserEducationUpdateManyWithoutUserNestedInput
     skills?: UserSkillUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -33998,6 +35852,7 @@ export namespace Prisma {
     experiences?: UserExperienceUncheckedUpdateManyWithoutUserNestedInput
     educations?: UserEducationUncheckedUpdateManyWithoutUserNestedInput
     skills?: UserSkillUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type DepartmentCreateWithoutAnnouncementsInput = {
@@ -34059,6 +35914,7 @@ export namespace Prisma {
     experiences?: UserExperienceCreateNestedManyWithoutUserInput
     educations?: UserEducationCreateNestedManyWithoutUserInput
     skills?: UserSkillCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAnnouncementsInput = {
@@ -34095,6 +35951,7 @@ export namespace Prisma {
     experiences?: UserExperienceUncheckedCreateNestedManyWithoutUserInput
     educations?: UserEducationUncheckedCreateNestedManyWithoutUserInput
     skills?: UserSkillUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAnnouncementsInput = {
@@ -34204,6 +36061,7 @@ export namespace Prisma {
     experiences?: UserExperienceUpdateManyWithoutUserNestedInput
     educations?: UserEducationUpdateManyWithoutUserNestedInput
     skills?: UserSkillUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAnnouncementsInput = {
@@ -34240,6 +36098,7 @@ export namespace Prisma {
     experiences?: UserExperienceUncheckedUpdateManyWithoutUserNestedInput
     educations?: UserEducationUncheckedUpdateManyWithoutUserNestedInput
     skills?: UserSkillUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AnnouncementNotificationUpsertWithWhereUniqueWithoutAnnouncementInput = {
@@ -34321,6 +36180,7 @@ export namespace Prisma {
     experiences?: UserExperienceCreateNestedManyWithoutUserInput
     educations?: UserEducationCreateNestedManyWithoutUserInput
     skills?: UserSkillCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAnnouncementNotificationsInput = {
@@ -34357,6 +36217,7 @@ export namespace Prisma {
     experiences?: UserExperienceUncheckedCreateNestedManyWithoutUserInput
     educations?: UserEducationUncheckedCreateNestedManyWithoutUserInput
     skills?: UserSkillUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAnnouncementNotificationsInput = {
@@ -34444,6 +36305,7 @@ export namespace Prisma {
     experiences?: UserExperienceUpdateManyWithoutUserNestedInput
     educations?: UserEducationUpdateManyWithoutUserNestedInput
     skills?: UserSkillUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAnnouncementNotificationsInput = {
@@ -34480,6 +36342,7 @@ export namespace Prisma {
     experiences?: UserExperienceUncheckedUpdateManyWithoutUserNestedInput
     educations?: UserEducationUncheckedUpdateManyWithoutUserNestedInput
     skills?: UserSkillUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type LeaveCreateWithoutNotificationsInput = {
@@ -34553,6 +36416,7 @@ export namespace Prisma {
     experiences?: UserExperienceCreateNestedManyWithoutUserInput
     educations?: UserEducationCreateNestedManyWithoutUserInput
     skills?: UserSkillCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutLeaveNotificationsInput = {
@@ -34589,6 +36453,7 @@ export namespace Prisma {
     experiences?: UserExperienceUncheckedCreateNestedManyWithoutUserInput
     educations?: UserEducationUncheckedCreateNestedManyWithoutUserInput
     skills?: UserSkillUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutLeaveNotificationsInput = {
@@ -34684,6 +36549,7 @@ export namespace Prisma {
     experiences?: UserExperienceUpdateManyWithoutUserNestedInput
     educations?: UserEducationUpdateManyWithoutUserNestedInput
     skills?: UserSkillUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLeaveNotificationsInput = {
@@ -34720,6 +36586,7 @@ export namespace Prisma {
     experiences?: UserExperienceUncheckedUpdateManyWithoutUserNestedInput
     educations?: UserEducationUncheckedUpdateManyWithoutUserNestedInput
     skills?: UserSkillUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutLeavesInput = {
@@ -34756,6 +36623,7 @@ export namespace Prisma {
     experiences?: UserExperienceCreateNestedManyWithoutUserInput
     educations?: UserEducationCreateNestedManyWithoutUserInput
     skills?: UserSkillCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutLeavesInput = {
@@ -34792,6 +36660,7 @@ export namespace Prisma {
     experiences?: UserExperienceUncheckedCreateNestedManyWithoutUserInput
     educations?: UserEducationUncheckedCreateNestedManyWithoutUserInput
     skills?: UserSkillUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutLeavesInput = {
@@ -34874,6 +36743,7 @@ export namespace Prisma {
     experiences?: UserExperienceUpdateManyWithoutUserNestedInput
     educations?: UserEducationUpdateManyWithoutUserNestedInput
     skills?: UserSkillUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLeavesInput = {
@@ -34910,6 +36780,7 @@ export namespace Prisma {
     experiences?: UserExperienceUncheckedUpdateManyWithoutUserNestedInput
     educations?: UserEducationUncheckedUpdateManyWithoutUserNestedInput
     skills?: UserSkillUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type LeaveNotificationUpsertWithWhereUniqueWithoutLeaveInput = {
@@ -34962,6 +36833,7 @@ export namespace Prisma {
     experiences?: UserExperienceCreateNestedManyWithoutUserInput
     educations?: UserEducationCreateNestedManyWithoutUserInput
     skills?: UserSkillCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutDepartmentInput = {
@@ -34998,6 +36870,7 @@ export namespace Prisma {
     experiences?: UserExperienceUncheckedCreateNestedManyWithoutUserInput
     educations?: UserEducationUncheckedCreateNestedManyWithoutUserInput
     skills?: UserSkillUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutDepartmentInput = {
@@ -35213,6 +37086,7 @@ export namespace Prisma {
     experiences?: UserExperienceCreateNestedManyWithoutUserInput
     educations?: UserEducationCreateNestedManyWithoutUserInput
     skills?: UserSkillCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProjectsInput = {
@@ -35249,6 +37123,7 @@ export namespace Prisma {
     experiences?: UserExperienceUncheckedCreateNestedManyWithoutUserInput
     educations?: UserEducationUncheckedCreateNestedManyWithoutUserInput
     skills?: UserSkillUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProjectsInput = {
@@ -35270,6 +37145,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutTimerSessionsInput
     pauseLogs?: PauseLogCreateNestedManyWithoutTimerSessionInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutTimerSessionInput
   }
 
   export type TimerSessionUncheckedCreateWithoutProjectInput = {
@@ -35286,6 +37162,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     pauseLogs?: PauseLogUncheckedCreateNestedManyWithoutTimerSessionInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutTimerSessionInput
   }
 
   export type TimerSessionCreateOrConnectWithoutProjectInput = {
@@ -35447,6 +37324,7 @@ export namespace Prisma {
     experiences?: UserExperienceCreateNestedManyWithoutUserInput
     educations?: UserEducationCreateNestedManyWithoutUserInput
     skills?: UserSkillCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTimerSessionsInput = {
@@ -35483,6 +37361,7 @@ export namespace Prisma {
     experiences?: UserExperienceUncheckedCreateNestedManyWithoutUserInput
     educations?: UserEducationUncheckedCreateNestedManyWithoutUserInput
     skills?: UserSkillUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTimerSessionsInput = {
@@ -35547,6 +37426,44 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ActivityLogCreateWithoutTimerSessionInput = {
+    id?: string
+    timestamp: Date | string
+    keyboardCount?: number
+    mouseDistance?: number
+    clickCount?: number
+    isIdle?: boolean
+    windowTitle?: string | null
+    appName?: string | null
+    url?: string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutActivityLogsInput
+  }
+
+  export type ActivityLogUncheckedCreateWithoutTimerSessionInput = {
+    id?: string
+    userId: string
+    timestamp: Date | string
+    keyboardCount?: number
+    mouseDistance?: number
+    clickCount?: number
+    isIdle?: boolean
+    windowTitle?: string | null
+    appName?: string | null
+    url?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ActivityLogCreateOrConnectWithoutTimerSessionInput = {
+    where: ActivityLogWhereUniqueInput
+    create: XOR<ActivityLogCreateWithoutTimerSessionInput, ActivityLogUncheckedCreateWithoutTimerSessionInput>
+  }
+
+  export type ActivityLogCreateManyTimerSessionInputEnvelope = {
+    data: ActivityLogCreateManyTimerSessionInput | ActivityLogCreateManyTimerSessionInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutTimerSessionsInput = {
     update: XOR<UserUpdateWithoutTimerSessionsInput, UserUncheckedUpdateWithoutTimerSessionsInput>
     create: XOR<UserCreateWithoutTimerSessionsInput, UserUncheckedCreateWithoutTimerSessionsInput>
@@ -35592,6 +37509,7 @@ export namespace Prisma {
     experiences?: UserExperienceUpdateManyWithoutUserNestedInput
     educations?: UserEducationUpdateManyWithoutUserNestedInput
     skills?: UserSkillUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTimerSessionsInput = {
@@ -35628,6 +37546,7 @@ export namespace Prisma {
     experiences?: UserExperienceUncheckedUpdateManyWithoutUserNestedInput
     educations?: UserEducationUncheckedUpdateManyWithoutUserNestedInput
     skills?: UserSkillUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ProjectUpsertWithoutTimerSessionsInput = {
@@ -35695,6 +37614,270 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"PauseLog"> | Date | string
   }
 
+  export type ActivityLogUpsertWithWhereUniqueWithoutTimerSessionInput = {
+    where: ActivityLogWhereUniqueInput
+    update: XOR<ActivityLogUpdateWithoutTimerSessionInput, ActivityLogUncheckedUpdateWithoutTimerSessionInput>
+    create: XOR<ActivityLogCreateWithoutTimerSessionInput, ActivityLogUncheckedCreateWithoutTimerSessionInput>
+  }
+
+  export type ActivityLogUpdateWithWhereUniqueWithoutTimerSessionInput = {
+    where: ActivityLogWhereUniqueInput
+    data: XOR<ActivityLogUpdateWithoutTimerSessionInput, ActivityLogUncheckedUpdateWithoutTimerSessionInput>
+  }
+
+  export type ActivityLogUpdateManyWithWhereWithoutTimerSessionInput = {
+    where: ActivityLogScalarWhereInput
+    data: XOR<ActivityLogUpdateManyMutationInput, ActivityLogUncheckedUpdateManyWithoutTimerSessionInput>
+  }
+
+  export type TimerSessionCreateWithoutActivityLogsInput = {
+    id?: string
+    startTime: Date | string
+    lastProjectSwitchTime?: Date | string | null
+    endTime?: Date | string | null
+    totalDuration?: number | null
+    isActive?: boolean
+    status?: string
+    isPaused?: boolean
+    pausedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutTimerSessionsInput
+    project?: ProjectCreateNestedOneWithoutTimerSessionsInput
+    pauseLogs?: PauseLogCreateNestedManyWithoutTimerSessionInput
+  }
+
+  export type TimerSessionUncheckedCreateWithoutActivityLogsInput = {
+    id?: string
+    userId: string
+    projectId?: string | null
+    startTime: Date | string
+    lastProjectSwitchTime?: Date | string | null
+    endTime?: Date | string | null
+    totalDuration?: number | null
+    isActive?: boolean
+    status?: string
+    isPaused?: boolean
+    pausedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    pauseLogs?: PauseLogUncheckedCreateNestedManyWithoutTimerSessionInput
+  }
+
+  export type TimerSessionCreateOrConnectWithoutActivityLogsInput = {
+    where: TimerSessionWhereUniqueInput
+    create: XOR<TimerSessionCreateWithoutActivityLogsInput, TimerSessionUncheckedCreateWithoutActivityLogsInput>
+  }
+
+  export type UserCreateWithoutActivityLogsInput = {
+    id: string
+    uniqueId?: string | null
+    name: string
+    email: string
+    emailVerified?: boolean
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    phone?: string | null
+    role?: string | null
+    salary?: number | null
+    address?: string | null
+    isPasswordChanged?: boolean
+    isProfileCompleted?: boolean
+    githubUrl?: string | null
+    linkedinUrl?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    announcements?: AnnouncementCreateNestedManyWithoutCreatedByInput
+    leaves?: LeaveCreateNestedManyWithoutEmployeeInput
+    timerSessions?: TimerSessionCreateNestedManyWithoutUserInput
+    timesheets?: TimesheetCreateNestedManyWithoutUserInput
+    announcementNotifications?: AnnouncementNotificationCreateNestedManyWithoutEmployeeInput
+    checkInOutNotifications?: CheckInOutNotificationCreateNestedManyWithoutUserInput
+    leaveNotifications?: LeaveNotificationCreateNestedManyWithoutUserInput
+    projects?: ProjectCreateNestedManyWithoutMembersInput
+    department?: DepartmentCreateNestedOneWithoutEmployeesInput
+    profile?: ProfileCreateNestedOneWithoutUserInput
+    experiences?: UserExperienceCreateNestedManyWithoutUserInput
+    educations?: UserEducationCreateNestedManyWithoutUserInput
+    skills?: UserSkillCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutActivityLogsInput = {
+    id: string
+    uniqueId?: string | null
+    name: string
+    email: string
+    emailVerified?: boolean
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    phone?: string | null
+    role?: string | null
+    salary?: number | null
+    address?: string | null
+    departmentId?: string | null
+    isPasswordChanged?: boolean
+    isProfileCompleted?: boolean
+    githubUrl?: string | null
+    linkedinUrl?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    announcements?: AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
+    leaves?: LeaveUncheckedCreateNestedManyWithoutEmployeeInput
+    timerSessions?: TimerSessionUncheckedCreateNestedManyWithoutUserInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
+    announcementNotifications?: AnnouncementNotificationUncheckedCreateNestedManyWithoutEmployeeInput
+    checkInOutNotifications?: CheckInOutNotificationUncheckedCreateNestedManyWithoutUserInput
+    leaveNotifications?: LeaveNotificationUncheckedCreateNestedManyWithoutUserInput
+    projects?: ProjectUncheckedCreateNestedManyWithoutMembersInput
+    profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
+    experiences?: UserExperienceUncheckedCreateNestedManyWithoutUserInput
+    educations?: UserEducationUncheckedCreateNestedManyWithoutUserInput
+    skills?: UserSkillUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutActivityLogsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutActivityLogsInput, UserUncheckedCreateWithoutActivityLogsInput>
+  }
+
+  export type TimerSessionUpsertWithoutActivityLogsInput = {
+    update: XOR<TimerSessionUpdateWithoutActivityLogsInput, TimerSessionUncheckedUpdateWithoutActivityLogsInput>
+    create: XOR<TimerSessionCreateWithoutActivityLogsInput, TimerSessionUncheckedCreateWithoutActivityLogsInput>
+    where?: TimerSessionWhereInput
+  }
+
+  export type TimerSessionUpdateToOneWithWhereWithoutActivityLogsInput = {
+    where?: TimerSessionWhereInput
+    data: XOR<TimerSessionUpdateWithoutActivityLogsInput, TimerSessionUncheckedUpdateWithoutActivityLogsInput>
+  }
+
+  export type TimerSessionUpdateWithoutActivityLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastProjectSwitchTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    totalDuration?: NullableIntFieldUpdateOperationsInput | number | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    status?: StringFieldUpdateOperationsInput | string
+    isPaused?: BoolFieldUpdateOperationsInput | boolean
+    pausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutTimerSessionsNestedInput
+    project?: ProjectUpdateOneWithoutTimerSessionsNestedInput
+    pauseLogs?: PauseLogUpdateManyWithoutTimerSessionNestedInput
+  }
+
+  export type TimerSessionUncheckedUpdateWithoutActivityLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastProjectSwitchTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    totalDuration?: NullableIntFieldUpdateOperationsInput | number | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    status?: StringFieldUpdateOperationsInput | string
+    isPaused?: BoolFieldUpdateOperationsInput | boolean
+    pausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pauseLogs?: PauseLogUncheckedUpdateManyWithoutTimerSessionNestedInput
+  }
+
+  export type UserUpsertWithoutActivityLogsInput = {
+    update: XOR<UserUpdateWithoutActivityLogsInput, UserUncheckedUpdateWithoutActivityLogsInput>
+    create: XOR<UserCreateWithoutActivityLogsInput, UserUncheckedCreateWithoutActivityLogsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutActivityLogsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutActivityLogsInput, UserUncheckedUpdateWithoutActivityLogsInput>
+  }
+
+  export type UserUpdateWithoutActivityLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    uniqueId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    salary?: NullableIntFieldUpdateOperationsInput | number | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    isPasswordChanged?: BoolFieldUpdateOperationsInput | boolean
+    isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    announcements?: AnnouncementUpdateManyWithoutCreatedByNestedInput
+    leaves?: LeaveUpdateManyWithoutEmployeeNestedInput
+    timerSessions?: TimerSessionUpdateManyWithoutUserNestedInput
+    timesheets?: TimesheetUpdateManyWithoutUserNestedInput
+    announcementNotifications?: AnnouncementNotificationUpdateManyWithoutEmployeeNestedInput
+    checkInOutNotifications?: CheckInOutNotificationUpdateManyWithoutUserNestedInput
+    leaveNotifications?: LeaveNotificationUpdateManyWithoutUserNestedInput
+    projects?: ProjectUpdateManyWithoutMembersNestedInput
+    department?: DepartmentUpdateOneWithoutEmployeesNestedInput
+    profile?: ProfileUpdateOneWithoutUserNestedInput
+    experiences?: UserExperienceUpdateManyWithoutUserNestedInput
+    educations?: UserEducationUpdateManyWithoutUserNestedInput
+    skills?: UserSkillUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutActivityLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    uniqueId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    salary?: NullableIntFieldUpdateOperationsInput | number | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    departmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    isPasswordChanged?: BoolFieldUpdateOperationsInput | boolean
+    isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    announcements?: AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
+    leaves?: LeaveUncheckedUpdateManyWithoutEmployeeNestedInput
+    timerSessions?: TimerSessionUncheckedUpdateManyWithoutUserNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
+    announcementNotifications?: AnnouncementNotificationUncheckedUpdateManyWithoutEmployeeNestedInput
+    checkInOutNotifications?: CheckInOutNotificationUncheckedUpdateManyWithoutUserNestedInput
+    leaveNotifications?: LeaveNotificationUncheckedUpdateManyWithoutUserNestedInput
+    projects?: ProjectUncheckedUpdateManyWithoutMembersNestedInput
+    profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
+    experiences?: UserExperienceUncheckedUpdateManyWithoutUserNestedInput
+    educations?: UserEducationUncheckedUpdateManyWithoutUserNestedInput
+    skills?: UserSkillUncheckedUpdateManyWithoutUserNestedInput
+  }
+
   export type TimerSessionCreateWithoutPauseLogsInput = {
     id?: string
     startTime: Date | string
@@ -35709,6 +37892,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutTimerSessionsInput
     project?: ProjectCreateNestedOneWithoutTimerSessionsInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutTimerSessionInput
   }
 
   export type TimerSessionUncheckedCreateWithoutPauseLogsInput = {
@@ -35725,6 +37909,7 @@ export namespace Prisma {
     pausedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutTimerSessionInput
   }
 
   export type TimerSessionCreateOrConnectWithoutPauseLogsInput = {
@@ -35757,6 +37942,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutTimerSessionsNestedInput
     project?: ProjectUpdateOneWithoutTimerSessionsNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutTimerSessionNestedInput
   }
 
   export type TimerSessionUncheckedUpdateWithoutPauseLogsInput = {
@@ -35773,6 +37959,7 @@ export namespace Prisma {
     pausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutTimerSessionNestedInput
   }
 
   export type UserCreateWithoutTimesheetsInput = {
@@ -35809,6 +37996,7 @@ export namespace Prisma {
     experiences?: UserExperienceCreateNestedManyWithoutUserInput
     educations?: UserEducationCreateNestedManyWithoutUserInput
     skills?: UserSkillCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTimesheetsInput = {
@@ -35845,6 +38033,7 @@ export namespace Prisma {
     experiences?: UserExperienceUncheckedCreateNestedManyWithoutUserInput
     educations?: UserEducationUncheckedCreateNestedManyWithoutUserInput
     skills?: UserSkillUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTimesheetsInput = {
@@ -35928,6 +38117,7 @@ export namespace Prisma {
     experiences?: UserExperienceUpdateManyWithoutUserNestedInput
     educations?: UserEducationUpdateManyWithoutUserNestedInput
     skills?: UserSkillUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTimesheetsInput = {
@@ -35964,6 +38154,7 @@ export namespace Prisma {
     experiences?: UserExperienceUncheckedUpdateManyWithoutUserNestedInput
     educations?: UserEducationUncheckedUpdateManyWithoutUserNestedInput
     skills?: UserSkillUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ProjectUpsertWithoutTimesheetsInput = {
@@ -36037,6 +38228,7 @@ export namespace Prisma {
     experiences?: UserExperienceCreateNestedManyWithoutUserInput
     educations?: UserEducationCreateNestedManyWithoutUserInput
     skills?: UserSkillCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProfileInput = {
@@ -36073,6 +38265,7 @@ export namespace Prisma {
     experiences?: UserExperienceUncheckedCreateNestedManyWithoutUserInput
     educations?: UserEducationUncheckedCreateNestedManyWithoutUserInput
     skills?: UserSkillUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProfileInput = {
@@ -36125,6 +38318,7 @@ export namespace Prisma {
     experiences?: UserExperienceUpdateManyWithoutUserNestedInput
     educations?: UserEducationUpdateManyWithoutUserNestedInput
     skills?: UserSkillUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProfileInput = {
@@ -36161,6 +38355,7 @@ export namespace Prisma {
     experiences?: UserExperienceUncheckedUpdateManyWithoutUserNestedInput
     educations?: UserEducationUncheckedUpdateManyWithoutUserNestedInput
     skills?: UserSkillUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutExperiencesInput = {
@@ -36197,6 +38392,7 @@ export namespace Prisma {
     profile?: ProfileCreateNestedOneWithoutUserInput
     educations?: UserEducationCreateNestedManyWithoutUserInput
     skills?: UserSkillCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutExperiencesInput = {
@@ -36233,6 +38429,7 @@ export namespace Prisma {
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     educations?: UserEducationUncheckedCreateNestedManyWithoutUserInput
     skills?: UserSkillUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutExperiencesInput = {
@@ -36285,6 +38482,7 @@ export namespace Prisma {
     profile?: ProfileUpdateOneWithoutUserNestedInput
     educations?: UserEducationUpdateManyWithoutUserNestedInput
     skills?: UserSkillUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutExperiencesInput = {
@@ -36321,6 +38519,7 @@ export namespace Prisma {
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     educations?: UserEducationUncheckedUpdateManyWithoutUserNestedInput
     skills?: UserSkillUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutEducationsInput = {
@@ -36357,6 +38556,7 @@ export namespace Prisma {
     profile?: ProfileCreateNestedOneWithoutUserInput
     experiences?: UserExperienceCreateNestedManyWithoutUserInput
     skills?: UserSkillCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutEducationsInput = {
@@ -36393,6 +38593,7 @@ export namespace Prisma {
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     experiences?: UserExperienceUncheckedCreateNestedManyWithoutUserInput
     skills?: UserSkillUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutEducationsInput = {
@@ -36445,6 +38646,7 @@ export namespace Prisma {
     profile?: ProfileUpdateOneWithoutUserNestedInput
     experiences?: UserExperienceUpdateManyWithoutUserNestedInput
     skills?: UserSkillUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEducationsInput = {
@@ -36481,6 +38683,7 @@ export namespace Prisma {
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     experiences?: UserExperienceUncheckedUpdateManyWithoutUserNestedInput
     skills?: UserSkillUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSkillsInput = {
@@ -36517,6 +38720,7 @@ export namespace Prisma {
     profile?: ProfileCreateNestedOneWithoutUserInput
     experiences?: UserExperienceCreateNestedManyWithoutUserInput
     educations?: UserEducationCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSkillsInput = {
@@ -36553,6 +38757,7 @@ export namespace Prisma {
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     experiences?: UserExperienceUncheckedCreateNestedManyWithoutUserInput
     educations?: UserEducationUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSkillsInput = {
@@ -36605,6 +38810,7 @@ export namespace Prisma {
     profile?: ProfileUpdateOneWithoutUserNestedInput
     experiences?: UserExperienceUpdateManyWithoutUserNestedInput
     educations?: UserEducationUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSkillsInput = {
@@ -36641,6 +38847,7 @@ export namespace Prisma {
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     experiences?: UserExperienceUncheckedUpdateManyWithoutUserNestedInput
     educations?: UserEducationUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCheckInOutNotificationsInput = {
@@ -36677,6 +38884,7 @@ export namespace Prisma {
     experiences?: UserExperienceCreateNestedManyWithoutUserInput
     educations?: UserEducationCreateNestedManyWithoutUserInput
     skills?: UserSkillCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCheckInOutNotificationsInput = {
@@ -36713,6 +38921,7 @@ export namespace Prisma {
     experiences?: UserExperienceUncheckedCreateNestedManyWithoutUserInput
     educations?: UserEducationUncheckedCreateNestedManyWithoutUserInput
     skills?: UserSkillUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCheckInOutNotificationsInput = {
@@ -36765,6 +38974,7 @@ export namespace Prisma {
     experiences?: UserExperienceUpdateManyWithoutUserNestedInput
     educations?: UserEducationUpdateManyWithoutUserNestedInput
     skills?: UserSkillUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCheckInOutNotificationsInput = {
@@ -36801,6 +39011,7 @@ export namespace Prisma {
     experiences?: UserExperienceUncheckedUpdateManyWithoutUserNestedInput
     educations?: UserEducationUncheckedUpdateManyWithoutUserNestedInput
     skills?: UserSkillUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SessionCreateManyUserInput = {
@@ -36936,6 +39147,20 @@ export namespace Prisma {
   export type UserSkillCreateManyUserInput = {
     id?: string
     skillName: string
+    createdAt?: Date | string
+  }
+
+  export type ActivityLogCreateManyUserInput = {
+    id?: string
+    timerSessionId: string
+    timestamp: Date | string
+    keyboardCount?: number
+    mouseDistance?: number
+    clickCount?: number
+    isIdle?: boolean
+    windowTitle?: string | null
+    appName?: string | null
+    url?: string | null
     createdAt?: Date | string
   }
 
@@ -37113,6 +39338,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     project?: ProjectUpdateOneWithoutTimerSessionsNestedInput
     pauseLogs?: PauseLogUpdateManyWithoutTimerSessionNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutTimerSessionNestedInput
   }
 
   export type TimerSessionUncheckedUpdateWithoutUserInput = {
@@ -37129,6 +39355,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pauseLogs?: PauseLogUncheckedUpdateManyWithoutTimerSessionNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutTimerSessionNestedInput
   }
 
   export type TimerSessionUncheckedUpdateManyWithoutUserInput = {
@@ -37390,6 +39617,48 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ActivityLogUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    keyboardCount?: IntFieldUpdateOperationsInput | number
+    mouseDistance?: IntFieldUpdateOperationsInput | number
+    clickCount?: IntFieldUpdateOperationsInput | number
+    isIdle?: BoolFieldUpdateOperationsInput | boolean
+    windowTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    appName?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timerSession?: TimerSessionUpdateOneRequiredWithoutActivityLogsNestedInput
+  }
+
+  export type ActivityLogUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timerSessionId?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    keyboardCount?: IntFieldUpdateOperationsInput | number
+    mouseDistance?: IntFieldUpdateOperationsInput | number
+    clickCount?: IntFieldUpdateOperationsInput | number
+    isIdle?: BoolFieldUpdateOperationsInput | boolean
+    windowTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    appName?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ActivityLogUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timerSessionId?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    keyboardCount?: IntFieldUpdateOperationsInput | number
+    mouseDistance?: IntFieldUpdateOperationsInput | number
+    clickCount?: IntFieldUpdateOperationsInput | number
+    isIdle?: BoolFieldUpdateOperationsInput | boolean
+    windowTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    appName?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type AnnouncementNotificationCreateManyAnnouncementInput = {
     id?: string
     employeeId: string
@@ -37539,6 +39808,7 @@ export namespace Prisma {
     experiences?: UserExperienceUpdateManyWithoutUserNestedInput
     educations?: UserEducationUpdateManyWithoutUserNestedInput
     skills?: UserSkillUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDepartmentInput = {
@@ -37575,6 +39845,7 @@ export namespace Prisma {
     experiences?: UserExperienceUncheckedUpdateManyWithoutUserNestedInput
     educations?: UserEducationUncheckedUpdateManyWithoutUserNestedInput
     skills?: UserSkillUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutDepartmentInput = {
@@ -37732,6 +40003,7 @@ export namespace Prisma {
     experiences?: UserExperienceUpdateManyWithoutUserNestedInput
     educations?: UserEducationUpdateManyWithoutUserNestedInput
     skills?: UserSkillUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectsInput = {
@@ -37768,6 +40040,7 @@ export namespace Prisma {
     experiences?: UserExperienceUncheckedUpdateManyWithoutUserNestedInput
     educations?: UserEducationUncheckedUpdateManyWithoutUserNestedInput
     skills?: UserSkillUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutProjectsInput = {
@@ -37807,6 +40080,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutTimerSessionsNestedInput
     pauseLogs?: PauseLogUpdateManyWithoutTimerSessionNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutTimerSessionNestedInput
   }
 
   export type TimerSessionUncheckedUpdateWithoutProjectInput = {
@@ -37823,6 +40097,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pauseLogs?: PauseLogUncheckedUpdateManyWithoutTimerSessionNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutTimerSessionNestedInput
   }
 
   export type TimerSessionUncheckedUpdateManyWithoutProjectInput = {
@@ -37887,6 +40162,20 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type ActivityLogCreateManyTimerSessionInput = {
+    id?: string
+    userId: string
+    timestamp: Date | string
+    keyboardCount?: number
+    mouseDistance?: number
+    clickCount?: number
+    isIdle?: boolean
+    windowTitle?: string | null
+    appName?: string | null
+    url?: string | null
+    createdAt?: Date | string
+  }
+
   export type PauseLogUpdateWithoutTimerSessionInput = {
     id?: StringFieldUpdateOperationsInput | string
     pausedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37908,6 +40197,48 @@ export namespace Prisma {
     pausedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     resumedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     duration?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ActivityLogUpdateWithoutTimerSessionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    keyboardCount?: IntFieldUpdateOperationsInput | number
+    mouseDistance?: IntFieldUpdateOperationsInput | number
+    clickCount?: IntFieldUpdateOperationsInput | number
+    isIdle?: BoolFieldUpdateOperationsInput | boolean
+    windowTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    appName?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutActivityLogsNestedInput
+  }
+
+  export type ActivityLogUncheckedUpdateWithoutTimerSessionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    keyboardCount?: IntFieldUpdateOperationsInput | number
+    mouseDistance?: IntFieldUpdateOperationsInput | number
+    clickCount?: IntFieldUpdateOperationsInput | number
+    isIdle?: BoolFieldUpdateOperationsInput | boolean
+    windowTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    appName?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ActivityLogUncheckedUpdateManyWithoutTimerSessionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    keyboardCount?: IntFieldUpdateOperationsInput | number
+    mouseDistance?: IntFieldUpdateOperationsInput | number
+    clickCount?: IntFieldUpdateOperationsInput | number
+    isIdle?: BoolFieldUpdateOperationsInput | boolean
+    windowTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    appName?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

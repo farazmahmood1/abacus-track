@@ -16,8 +16,6 @@ import { auth } from './lib/auth.js'
 
 const app = express()
 
-
-
 app.use(
   cors({
     origin: [
@@ -49,7 +47,7 @@ app.use(compression())
 // }
 
 app.get('/', (req, res) => {
-  res.send("ÐÑÐ°ÑÐµ Ð¾f Ð¡rÐµÐ°tÑvÐµ ÐÐ¾lutÑÐ¾nÑfÐ¾rrÐ¾fFull-ÑÐµrvÑÑÐµ Ð¡rÐµÐ°tÑvÐµ ÐgÐµnÑÑÐ¡lÐ¾ud ÐÐ¾lutÑÐ¾nÑWÐµb Ð°nd Ð°ÑÑ DÐµvÐµlÐ¾ÑÐµmÐµntÐrÐ°ndÑng Ð°nd ÐdÐµntÑtÑÐÐ¾ÑÑÐ°l ÐÐµdÑÐ° Ð°rkÐtÑng & ÐÐÐWhÐµthÐµr thrÐ¾ugh rÐ¾buÑt ÐÐ ÐÑ, ÑÑÐ°lÐ°blÐµ ÑlÐ¾ud ÑÐ¾lutÑÐ¾nÑ, Ð¾r ÑÐµÐ°mlÐµÑÑ ÑntÐµgrÐ°tÑÐ¾nÑ,wÐµ buÑld dÑgÑtÐ°l ÑrÐ¾duÑtÑ thÐ°t ÐµmÑÐ¾wÐµr buÑÑnÐµÑÑÐµÑ tÐ¾ grÐ¾w Ð°nd ÑnnÐ¾vÐ°tÐµ.")
+  res.send('Welcome to Forrof Tracker API v1')
 })
 
 app.use('/api', routes)

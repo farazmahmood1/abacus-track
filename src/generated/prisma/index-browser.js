@@ -264,6 +264,21 @@ exports.Prisma.TimerSessionScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ActivityLogScalarFieldEnum = {
+  id: 'id',
+  timerSessionId: 'timerSessionId',
+  userId: 'userId',
+  timestamp: 'timestamp',
+  keyboardCount: 'keyboardCount',
+  mouseDistance: 'mouseDistance',
+  clickCount: 'clickCount',
+  isIdle: 'isIdle',
+  windowTitle: 'windowTitle',
+  appName: 'appName',
+  url: 'url',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.PauseLogScalarFieldEnum = {
   id: 'id',
   timerSessionId: 'timerSessionId',
@@ -418,6 +433,7 @@ exports.Prisma.ModelName = {
   Department: 'Department',
   Project: 'Project',
   TimerSession: 'TimerSession',
+  ActivityLog: 'ActivityLog',
   PauseLog: 'PauseLog',
   Timesheet: 'Timesheet',
   ImportantLink: 'ImportantLink',
