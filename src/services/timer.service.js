@@ -64,27 +64,30 @@ export const getLastSessionToday = async userId => {
 /**
  * Get today's work hours (from active session project hours)
  */
+/**
+ * Get today's work hours (from timesheet records)
+ */
 export const getTodayTimesheet = async userId => {
-  const activeSession = await getActiveSession(userId)
+  const now = new Date()
+  const localYear = now.getFullYear()
+  const localMonth = now.getMonth()
+  const localDate = now.getDate()
 
-  if (!activeSession || !activeSession.projectId) {
-    return null
-  }
+  // Construct UTC date that corresponds to the start of "today" in local terms
+  // The Timesheet model stores workDate as UTC midnight
+  const todayWorkDate = new Date(Date.UTC(localYear, localMonth, localDate, 0, 0, 0, 0))
 
-  // Get the project to see total hours worked on it
-  const project = await prisma.project.findUnique({
-    where: { id: activeSession.projectId },
-    select: {
-      id: true,
-      name: true,
-      totalHoursWorked: true,
-    },
+  const timesheets = await prisma.timesheet.findMany({
+    where: {
+      userId,
+      workDate: todayWorkDate
+    }
   })
 
+  const totalHours = timesheets.reduce((sum, ts) => sum + (ts.totalHours || 0), 0)
+
   return {
-    projectId: project?.id,
-    projectName: project?.name,
-    totalHours: project?.totalHoursWorked || 0,
+    totalHours: totalHours || 0
   }
 }
 

@@ -116,40 +116,12 @@ export const getAttendanceRecords = async (userId, filters = {}) => {
 
   // Process attendance records
   const attendanceRecords = allUsers.map(user => {
-    // Filter timesheets to only those with workDate matching the selected local date
-    const timesheetsForDate = user.timesheets.filter(sheet => {
-      const sheetYear = sheet.workDate.getFullYear()
-      const sheetMonth = sheet.workDate.getMonth()
-      const sheetDay = sheet.workDate.getDate()
+    // Timesheets are already filtered by the Prisma query for the target date
+    const timesheet = user.timesheets[0]
 
-      const targetYear = targetDate.getFullYear()
-      const targetMonth = targetDate.getMonth()
-      const targetDay = targetDate.getDate()
-
-      return (
-        sheetYear === targetYear && sheetMonth === targetMonth && sheetDay === targetDay
-      )
-    })
-    const timesheet = timesheetsForDate[0]
-
-    // Filter timerSessions to only those that started on the selected local date
-    const timerSessionsForDate = user.timerSessions.filter(session => {
-      const sessionLocalDate = new Date(session.startTime)
-      const sessionLocalYear = sessionLocalDate.getFullYear()
-      const sessionLocalMonth = sessionLocalDate.getMonth()
-      const sessionLocalDate_day = sessionLocalDate.getDate()
-
-      const targetYear = targetDate.getFullYear()
-      const targetMonth = targetDate.getMonth()
-      const targetDay = targetDate.getDate()
-
-      return (
-        sessionLocalYear === targetYear &&
-        sessionLocalMonth === targetMonth &&
-        sessionLocalDate_day === targetDay
-      )
-    })
-    const timerSession = timerSessionsForDate[0]
+    // Timer sessions are already filtered by the Prisma query for the target date
+    // ordered by startTime desc, so the first one is the latest
+    const timerSession = user.timerSessions[0]
 
     let status = 'Absent'
     let checkIn = null
