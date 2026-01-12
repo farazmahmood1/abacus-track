@@ -6,7 +6,9 @@ import { loadEmailTemplate } from '../utils/loadTemplate.js'
 import { sendEmail } from './mailer.js'
 import { ac, admin, employee } from './permission.js'
 import { generateUniqueIdForDatabase } from '../utils/generateUniqueId.js'
+import fs from 'fs'
 
+console.log('!!! AUTH.JS LOADED !!!');
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: 'postgresql',
@@ -15,6 +17,7 @@ export const auth = betterAuth({
     user: {
       create: {
         after: async (userData, ctx) => {
+          console.log('!!! AUTH HOOK TRIGGERED !!!');
           try {
             const isAdminCreated = !ctx.request.url.includes('/auth/sign-up')
 
@@ -36,14 +39,31 @@ export const auth = betterAuth({
             let password = 'forrof1234'
             let source = 'default'
             try {
+              // DEBUG: Log context to file
+              const debugData = {
+                headers: ctx.request && ctx.request.headers ? Object.fromEntries(ctx.request.headers.entries()) : 'no-headers',
+                input: ctx.input,
+                bodyData: ctx.body,
+                ctxKeys: Object.keys(ctx),
+                requestUrl: ctx.request ? ctx.request.url : 'no-url',
+                userDataRaw: userData
+              }
+              const debugPath = 'd:/Software Development/react-js/aa-forrof/forrof-tracker-backend/auth-debug.json';
+              fs.writeFileSync(debugPath, JSON.stringify(debugData, null, 2))
+              console.log('!!! WROTE DEBUG FILE TO ' + debugPath + ' !!!');
+
               // 1. Check custom header (most robust as it's not a stream)
               const headerPassword = ctx.request.headers.get('x-temp-password')
 
               if (headerPassword) {
                 password = headerPassword
                 source = 'header'
+              } else if (ctx.body && (ctx.body.password || (ctx.body.data && ctx.body.data.tempPassword))) {
+                // 2. Check ctx.body (if better-auth already parsed it)
+                password = ctx.body.password || (ctx.body.data && ctx.body.data.tempPassword)
+                source = 'ctx.body'
               } else if (ctx.input && (ctx.input.password || (ctx.input.data && ctx.input.data.tempPassword))) {
-                // 2. Check ctx.input (if better-auth already parsed it)
+                // 3. Check ctx.input (if better-auth already parsed it)
                 password = ctx.input.password || (ctx.input.data && ctx.input.data.tempPassword)
                 source = 'ctx.input'
               } else {

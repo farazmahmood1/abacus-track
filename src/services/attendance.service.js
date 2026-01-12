@@ -93,10 +93,17 @@ export const getAttendanceRecords = async (userId, filters = {}) => {
       },
       timerSessions: {
         where: {
-          startTime: {
-            gte: startDate,
-            lte: endDate,
-          },
+          OR: [
+            {
+              startTime: {
+                gte: startDate,
+                lte: endDate,
+              },
+            },
+            {
+              isActive: true, // Always include active sessions
+            },
+          ],
         },
         orderBy: { startTime: 'desc' },
         include: {
@@ -132,21 +139,26 @@ export const getAttendanceRecords = async (userId, filters = {}) => {
     // Check if the selected date is today
     const isToday = startOfDay(new Date()).getTime() === startOfDay(targetDate).getTime()
 
+    // Find the actual active session (might not be at index 0 if sorting by startTime)
+    const activeSession = user.timerSessions.find(s => s.isActive)
+    // Use active session if available, otherwise fallback to the latest session for this date
+    const effectiveSession = activeSession || timerSession
+
     // Check if user has an active break
     if (
-      isToday &&
-      timerSession &&
-      timerSession.pauseLogs &&
-      timerSession.pauseLogs.length > 0
+      effectiveSession &&
+      effectiveSession.pauseLogs &&
+      effectiveSession.pauseLogs.length > 0
     ) {
-      const activeBreak = timerSession.pauseLogs.find(log => log.resumedAt === null)
+      const activeBreak = effectiveSession.pauseLogs.find(log => log.resumedAt === null)
       if (activeBreak) {
         isOnBreak = true
       }
     }
 
     // Determine status: prioritize active timer session for real-time status
-    if (isToday && timerSession && timerSession.isActive && !timerSession.isPaused) {
+    // If we have an active session, they are Online/Break regardless of "isToday"
+    if (effectiveSession && effectiveSession.isActive && !effectiveSession.isPaused) {
       // Check if on break first
       if (isOnBreak) {
         status = 'Break'
@@ -154,9 +166,9 @@ export const getAttendanceRecords = async (userId, filters = {}) => {
         // User is currently online
         status = 'Online'
       }
-      checkIn = timerSession.startTime
-      checkOut = timerSession.endTime || null // endTime may be null if session is active
-    } else if (timesheet || timerSession) {
+      checkIn = effectiveSession.startTime
+      checkOut = effectiveSession.endTime || null // endTime may be null if session is active
+    } else if (timesheet || effectiveSession) {
       // User has records but not currently online
       status = 'Offline'
 
@@ -165,11 +177,11 @@ export const getAttendanceRecords = async (userId, filters = {}) => {
         checkIn = timesheet.checkInTime
         checkOut = timesheet.checkOutTime
         workHours = timesheet.totalHours || 0
-      } else if (timerSession) {
+      } else if (effectiveSession) {
         // Fall back to individual timer session if no timesheet
-        checkIn = timerSession.startTime
-        checkOut = timerSession.endTime
-        workHours = timerSession.totalDuration ? timerSession.totalDuration / 3600 : 0
+        checkIn = effectiveSession.startTime
+        checkOut = effectiveSession.endTime
+        workHours = effectiveSession.totalDuration ? effectiveSession.totalDuration / 3600 : 0
       }
     }
 
@@ -179,8 +191,8 @@ export const getAttendanceRecords = async (userId, filters = {}) => {
       const elapsed = (new Date() - new Date(checkIn)) / 1000
       // Subtract pause time
       let totalPauseSeconds = 0
-      if (timerSession?.pauseLogs) {
-        timerSession.pauseLogs.forEach(log => {
+      if (effectiveSession?.pauseLogs) {
+        effectiveSession.pauseLogs.forEach(log => {
           if (log.resumedAt) {
             totalPauseSeconds += log.duration || 0
           } else {
@@ -258,10 +270,6 @@ export const getAttendanceSummary = async (date = new Date()) => {
   if (isToday) {
     onlineUsers = await prisma.timerSession.count({
       where: {
-        startTime: {
-          gte: startDate,
-          lte: endDate,
-        },
         isActive: true,
       },
     })
