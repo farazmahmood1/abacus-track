@@ -32,20 +32,31 @@ export const auth = betterAuth({
               },
             })
 
-            // Try to extract the password from the request body if it's a create user request
+            // Try to extract the password from multiple sources
             let password = 'forrof1234'
+            let source = 'default'
             try {
-              // Clone the request to avoid consuming the body if it's needed elsewhere
-              const body = await ctx.request.clone().json()
-              console.log('Request body in hook:', body)
-              if (body && body.password) {
-                password = body.password
-              } else if (body && body.data && body.data.password) {
-                // Some versions of better-auth might wrap it
-                password = body.data.password
+              // 1. Check custom header (most robust as it's not a stream)
+              const headerPassword = ctx.request.headers.get('x-temp-password')
+
+              if (headerPassword) {
+                password = headerPassword
+                source = 'header'
+              } else if (ctx.input && (ctx.input.password || (ctx.input.data && ctx.input.data.tempPassword))) {
+                // 2. Check ctx.input (if better-auth already parsed it)
+                password = ctx.input.password || (ctx.input.data && ctx.input.data.tempPassword)
+                source = 'ctx.input'
+              } else {
+                // 3. Fallback to reading cloned body (might fail if stream is locked)
+                const body = await ctx.request.clone().json().catch(() => null)
+                if (body) {
+                  password = body.password || (body.data && body.data.tempPassword) || (body.data && body.data.password) || password
+                  source = 'cloned-body'
+                }
               }
+              console.log(`[AUTH HOOK] Password for ${userData.email} found via ${source}`)
             } catch (e) {
-              console.warn('Could not read request body in hook:', e.message)
+              console.warn(`[AUTH HOOK] Error extracting password: ${e.message}`)
             }
 
             if (isAdminCreated) {
