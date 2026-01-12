@@ -35,12 +35,17 @@ export const auth = betterAuth({
             // Try to extract the password from the request body if it's a create user request
             let password = 'forrof1234'
             try {
-              const body = await ctx.request.json()
+              // Clone the request to avoid consuming the body if it's needed elsewhere
+              const body = await ctx.request.clone().json()
+              console.log('Request body in hook:', body)
               if (body && body.password) {
                 password = body.password
+              } else if (body && body.data && body.data.password) {
+                // Some versions of better-auth might wrap it
+                password = body.data.password
               }
             } catch (e) {
-              // Not a JSON request or password not in body
+              console.warn('Could not read request body in hook:', e.message)
             }
 
             if (isAdminCreated) {
