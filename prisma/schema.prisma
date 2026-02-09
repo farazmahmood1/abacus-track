@@ -56,6 +56,43 @@ model User {
   // Activity Tracking
   activityLogs ActivityLog[]
 
+  // Shift Management
+  userShifts UserShift[]
+
+  // Leave Balances
+  leaveBalances LeaveBalance[]
+
+  // Overtime Records
+  overtimeRecords OvertimeRecord[]
+
+  // Attendance Deviations
+  attendanceDeviations AttendanceDeviation[]
+
+  // Attendance Regularization
+  regularizations         AttendanceRegularization[]
+  approvedRegularizations AttendanceRegularization[] @relation("RegularizationApprover")
+
+  // Timesheet Submissions
+  timesheetSubmissions         TimesheetSubmission[] @relation("TimesheetSubmissions")
+  approvedTimesheetSubmissions TimesheetSubmission[] @relation("TimesheetApprover")
+
+  // Performance Reviews
+  reviewsAsEmployee Review[] @relation("ReviewEmployee")
+  reviewsAsReviewer  Review[] @relation("Reviewer")
+
+  // Assets
+  assetAssignments AssetAssignment[]
+
+  // Standups
+  standupReports StandupReport[]
+
+  // Feedback
+  feedbacks Feedback[]
+
+  // Chat
+  conversationParticipants ConversationParticipant[]
+  sentMessages             Message[]
+
   banned     Boolean?  @default(false)
   banReason  String?
   banExpires DateTime?
@@ -273,7 +310,8 @@ model Project {
 
   // Track timer sessions for reference
   timerSessions TimerSession[] @relation("ProjectTimerSessions")
-  timesheets    Timesheet[]    @relation("ProjectTimesheets")
+  timesheets       Timesheet[]      @relation("ProjectTimesheets")
+  timesheetEntries TimesheetEntry[] @relation("TimesheetEntryProject")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -303,6 +341,7 @@ model TimerSession {
 
   pauseLogs    PauseLog[]
   activityLogs ActivityLog[]
+  deviations   AttendanceDeviation[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -378,6 +417,46 @@ model Timesheet {
   @@index([userId])
   @@index([projectId])
   @@index([workDate])
+}
+
+// Weekly Timesheet Submissions
+model TimesheetSubmission {
+  id          String         @id @default(cuid())
+  userId      String
+  user        User           @relation("TimesheetSubmissions", fields: [userId], references: [id], onDelete: Cascade)
+  weekStart   DateTime       @db.Date
+  weekEnd     DateTime       @db.Date
+  totalHours  Float
+  status      ApprovalStatus @default(PENDING)
+  submittedAt DateTime       @default(now())
+  approvedBy  String?
+  approver    User?          @relation("TimesheetApprover", fields: [approvedBy], references: [id])
+  approvedAt  DateTime?
+  adminNote   String?
+  entries     TimesheetEntry[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  @@unique([userId, weekStart])
+  @@index([userId])
+  @@index([status])
+  @@map("timesheet_submissions")
+}
+
+model TimesheetEntry {
+  id           String              @id @default(cuid())
+  submissionId String
+  submission   TimesheetSubmission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  date         DateTime            @db.Date
+  projectId    String?
+  project      Project?            @relation("TimesheetEntryProject", fields: [projectId], references: [id], onDelete: SetNull)
+  hours        Float
+  description  String?
+  createdAt    DateTime            @default(now())
+
+  @@index([submissionId])
+  @@index([projectId])
+  @@map("timesheet_entries")
 }
 
 model ImportantLink {
@@ -468,6 +547,158 @@ model UserSkill {
   @@map("user_skills")
 }
 
+// Shift Management
+model Shift {
+  id           String      @id @default(cuid())
+  name         String      // "Morning Shift", "Night Shift"
+  startTime    String      // "09:00" (HH:mm format)
+  endTime      String      // "18:00"
+  graceMinutes Int         @default(15)
+  breakMinutes Int         @default(60)
+  isDefault    Boolean     @default(false)
+  isActive     Boolean     @default(true)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  employees    UserShift[]
+
+  @@map("shifts")
+}
+
+model UserShift {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  shiftId   String
+  shift     Shift     @relation(fields: [shiftId], references: [id], onDelete: Cascade)
+  startDate DateTime  @db.Date
+  endDate   DateTime? @db.Date
+  createdAt DateTime  @default(now())
+
+  @@unique([userId, shiftId, startDate])
+  @@index([userId])
+  @@index([shiftId])
+  @@map("user_shifts")
+}
+
+// Leave Balance Management
+model LeaveBalance {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  leaveType   LeaveType
+  year        Int
+  totalDays   Float     // Allocated days for the year
+  usedDays    Float     @default(0)
+  carriedOver Float     @default(0) // From previous year
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([userId, leaveType, year])
+  @@index([userId])
+  @@index([year])
+  @@map("leave_balances")
+}
+
+model LeavePolicy {
+  id            String    @id @default(cuid())
+  leaveType     LeaveType @unique
+  annualDays    Float     // Default days per year
+  maxCarryOver  Float     @default(0)
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@map("leave_policies")
+}
+
+// Late/Early Departure Tracking
+model AttendanceDeviation {
+  id              String       @id @default(cuid())
+  userId          String
+  user            User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date            DateTime     @db.Date
+  timerSessionId  String
+  timerSession    TimerSession @relation(fields: [timerSessionId], references: [id], onDelete: Cascade)
+  expectedStart   DateTime
+  actualStart     DateTime
+  expectedEnd     DateTime
+  actualEnd       DateTime?
+  lateMinutes     Int          @default(0)
+  earlyMinutes    Int          @default(0)
+  isExcused       Boolean      @default(false)
+  excuseReason    String?
+  createdAt       DateTime     @default(now())
+
+  @@unique([userId, date])
+  @@index([userId])
+  @@index([date])
+  @@map("attendance_deviations")
+}
+
+// Attendance Regularization
+model AttendanceRegularization {
+  id            String             @id @default(cuid())
+  userId        String
+  user          User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date          DateTime           @db.Date
+  type          RegularizationType
+  requestedTime DateTime
+  reason        String
+  status        ApprovalStatus     @default(PENDING)
+  approvedBy    String?
+  approver      User?              @relation("RegularizationApprover", fields: [approvedBy], references: [id])
+  adminNote     String?
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+
+  @@index([userId])
+  @@index([date])
+  @@index([status])
+  @@map("attendance_regularizations")
+}
+
+enum RegularizationType {
+  MISSED_CHECKIN
+  MISSED_CHECKOUT
+  WRONG_TIME
+}
+
+enum ApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+// Overtime Tracking
+model OvertimeConfig {
+  id                String   @id @default(cuid())
+  dailyLimitHours   Float    @default(9)
+  weeklyLimitHours  Float    @default(45)
+  monthlyLimitHours Float    @default(180)
+  alertThreshold    Float    @default(0.9) // Alert at 90% of limit
+  isActive          Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@map("overtime_configs")
+}
+
+model OvertimeRecord {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date          DateTime @db.Date
+  regularHours  Float
+  overtimeHours Float
+  totalHours    Float
+  createdAt     DateTime @default(now())
+
+  @@unique([userId, date])
+  @@index([userId])
+  @@index([date])
+  @@map("overtime_records")
+}
+
 model CheckInOutNotification {
   id     String @id @default(uuid())
   userId String
@@ -486,4 +717,259 @@ model CheckInOutNotification {
   @@index([type])
   @@index([isRead])
   @@map("check_in_out_notifications")
+}
+
+// App Usage Categorization (for Reports)
+model AppCategory {
+  id        String             @id @default(cuid())
+  appName   String             @unique
+  category  ProductivityCategory
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+
+  @@map("app_categories")
+}
+
+enum ProductivityCategory {
+  PRODUCTIVE
+  NEUTRAL
+  UNPRODUCTIVE
+  UNCATEGORIZED
+}
+
+// Performance Reviews
+model ReviewCycle {
+  id        String            @id @default(cuid())
+  name      String
+  startDate DateTime          @db.Date
+  endDate   DateTime          @db.Date
+  status    ReviewCycleStatus @default(DRAFT)
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  reviews   Review[]
+
+  @@map("review_cycles")
+}
+
+enum ReviewCycleStatus {
+  DRAFT
+  ACTIVE
+  COMPLETED
+}
+
+model Review {
+  id            String       @id @default(cuid())
+  cycleId       String
+  cycle         ReviewCycle  @relation(fields: [cycleId], references: [id], onDelete: Cascade)
+  employeeId    String
+  employee      User         @relation("ReviewEmployee", fields: [employeeId], references: [id])
+  reviewerId    String
+  reviewer      User         @relation("Reviewer", fields: [reviewerId], references: [id])
+  overallRating Float?
+  strengths     String?
+  improvements  String?
+  comments      String?
+  status        ReviewStatus @default(PENDING)
+  submittedAt   DateTime?
+  goals         ReviewGoal[]
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  @@index([cycleId])
+  @@index([employeeId])
+  @@index([reviewerId])
+  @@map("reviews")
+}
+
+enum ReviewStatus {
+  PENDING
+  IN_PROGRESS
+  SUBMITTED
+  ACKNOWLEDGED
+}
+
+model ReviewGoal {
+  id          String   @id @default(cuid())
+  reviewId    String
+  review      Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  rating      Float?
+  weight      Float    @default(1)
+  createdAt   DateTime @default(now())
+
+  @@index([reviewId])
+  @@map("review_goals")
+}
+
+// Asset Tracking
+model Asset {
+  id           String            @id @default(cuid())
+  name         String
+  type         AssetType
+  serialNumber String?           @unique
+  purchaseDate DateTime?         @db.Date
+  purchaseCost Float?
+  condition    AssetCondition    @default(GOOD)
+  notes        String?
+  isAvailable  Boolean           @default(true)
+  assignments  AssetAssignment[]
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+
+  @@map("assets")
+}
+
+enum AssetType {
+  LAPTOP
+  MONITOR
+  KEYBOARD
+  MOUSE
+  HEADSET
+  PHONE
+  TABLET
+  FURNITURE
+  SOFTWARE_LICENSE
+  OTHER
+}
+
+enum AssetCondition {
+  NEW
+  GOOD
+  FAIR
+  POOR
+  DAMAGED
+  RETIRED
+}
+
+model AssetAssignment {
+  id         String    @id @default(cuid())
+  assetId    String
+  asset      Asset     @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  userId     String
+  user       User      @relation(fields: [userId], references: [id])
+  assignedAt DateTime  @default(now())
+  returnedAt DateTime?
+  notes      String?
+
+  @@index([assetId])
+  @@index([userId])
+  @@map("asset_assignments")
+}
+
+// Daily Standup Reports
+model StandupReport {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date      DateTime @db.Date
+  yesterday String
+  today     String
+  blockers  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, date])
+  @@index([userId])
+  @@index([date])
+  @@map("standup_reports")
+}
+
+// Feedback & Suggestions
+model Feedback {
+  id          String           @id @default(cuid())
+  userId      String?
+  user        User?            @relation(fields: [userId], references: [id])
+  category    FeedbackCategory
+  title       String
+  message     String
+  isAnonymous Boolean          @default(false)
+  status      FeedbackStatus   @default(NEW)
+  adminReply  String?
+  repliedBy   String?
+  repliedAt   DateTime?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@map("feedback")
+}
+
+enum FeedbackCategory {
+  SUGGESTION
+  COMPLAINT
+  APPRECIATION
+  BUG_REPORT
+  OTHER
+}
+
+enum FeedbackStatus {
+  NEW
+  REVIEWED
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+// Chat / Messaging
+model Conversation {
+  id           String                    @id @default(cuid())
+  type         ConversationType          @default(DIRECT)
+  name         String?
+  participants ConversationParticipant[]
+  messages     Message[]
+  createdAt    DateTime                  @default(now())
+  updatedAt    DateTime                  @updatedAt
+
+  @@map("conversations")
+}
+
+enum ConversationType {
+  DIRECT
+  GROUP
+}
+
+model ConversationParticipant {
+  id             String        @id @default(cuid())
+  conversationId String
+  conversation   Conversation  @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  userId         String
+  user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lastReadAt     DateTime?
+  createdAt      DateTime      @default(now())
+
+  @@unique([conversationId, userId])
+  @@index([conversationId])
+  @@index([userId])
+  @@map("conversation_participants")
+}
+
+model Message {
+  id             String       @id @default(cuid())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  senderId       String
+  sender         User         @relation(fields: [senderId], references: [id])
+  content        String
+  isEdited       Boolean      @default(false)
+  editedAt       DateTime?
+  createdAt      DateTime     @default(now())
+
+  @@index([conversationId])
+  @@index([senderId])
+  @@index([createdAt])
+  @@map("messages")
+}
+
+// Team Calendar — Holidays
+model Holiday {
+  id         String   @id @default(cuid())
+  name       String
+  date       DateTime @db.Date
+  isOptional Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("holidays")
 }

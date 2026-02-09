@@ -1,8 +1,10 @@
 import 'dotenv/config'
+import { createServer } from 'http'
 import app from './app.js'
 import prisma from './config/prisma.js'
 import { ENV } from './config/env.js'
 import logger from './config/logger.js'
+import { initializeSocket } from './lib/socket.js'
 
 let server
 
@@ -11,7 +13,11 @@ async function startServer() {
     await prisma.$connect()
     logger.info('✅ Connected to Database')
 
-    server = app.listen(ENV.PORT, () => {
+    // Create HTTP server and attach both Express and Socket.IO
+    server = createServer(app)
+    initializeSocket(server)
+
+    server.listen(ENV.PORT, () => {
       logger.info(`🚀 Server running on port ${ENV.PORT} (${ENV.NODE_ENV})`)
     })
   } catch (err) {

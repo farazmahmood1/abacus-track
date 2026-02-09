@@ -1,5 +1,16 @@
 import prisma from '../config/prisma.js'
 import ApiError from '../utils/ApiError.js'
+import {
+  emitCheckIn,
+  emitCheckOut,
+  emitTimerPause,
+  emitTimerResume,
+  emitBreakStart,
+  emitBreakEnd,
+  emitAdminNotification,
+} from './socketEvents.js'
+import { recordOvertime } from './overtime.service.js'
+import { recordCheckInDeviation, recordCheckOutDeviation } from './deviations.service.js'
 
 /**
  * Check if user has an active timer session
@@ -143,6 +154,20 @@ export const checkIn = async (userId, projectId = null) => {
     },
   })
 
+  // Record late arrival deviation if applicable
+  await recordCheckInDeviation(userId, session.id, now)
+
+  // Emit real-time check-in event
+  const user = await prisma.user.findUnique({ where: { id: userId }, select: { name: true } })
+  emitCheckIn(userId, user?.name || 'Unknown', session)
+  emitAdminNotification({
+    type: 'check-in',
+    title: 'Employee Check-in',
+    message: `${user?.name || 'An employee'} has checked in`,
+    userId,
+    timestamp: now.toISOString(),
+  })
+
   return session
 }
 
@@ -259,6 +284,12 @@ export const checkOut = async userId => {
     })
   }
 
+  // Record early departure deviation if applicable
+  await recordCheckOutDeviation(userId, session.id, endTime)
+
+  // Record overtime data
+  await recordOvertime(userId, endTime, totalSessionWorkHours || workHours)
+
   // Create check-out notification for admins
   await prisma.checkInOutNotification.create({
     data: {
@@ -266,6 +297,17 @@ export const checkOut = async userId => {
       type: 'check_out',
       time: endTime,
     },
+  })
+
+  // Emit real-time check-out event
+  const user = await prisma.user.findUnique({ where: { id: userId }, select: { name: true } })
+  emitCheckOut(userId, user?.name || 'Unknown', updatedSession)
+  emitAdminNotification({
+    type: 'check-out',
+    title: 'Employee Check-out',
+    message: `${user?.name || 'An employee'} has checked out`,
+    userId,
+    timestamp: endTime.toISOString(),
   })
 
   return updatedSession
@@ -302,6 +344,10 @@ export const pauseTimer = async userId => {
       pausedAt,
     },
   })
+
+  // Emit real-time pause event
+  const pauseUser = await prisma.user.findUnique({ where: { id: userId }, select: { name: true } })
+  emitTimerPause(userId, pauseUser?.name || 'Unknown')
 
   return updatedSession
 }
@@ -352,6 +398,10 @@ export const resumeTimer = async userId => {
       pauseLogs: true,
     },
   })
+
+  // Emit real-time resume event
+  const resumeUser = await prisma.user.findUnique({ where: { id: userId }, select: { name: true } })
+  emitTimerResume(userId, resumeUser?.name || 'Unknown')
 
   return updatedSession
 }
@@ -670,6 +720,10 @@ export const startBreak = async userId => {
     },
   })
 
+  // Emit real-time break start event
+  const breakStartUser = await prisma.user.findUnique({ where: { id: userId }, select: { name: true } })
+  emitBreakStart(userId, breakStartUser?.name || 'Unknown')
+
   return {
     ...session,
     currentBreak: breakLog,
@@ -710,6 +764,10 @@ export const endBreak = async userId => {
       duration: breakDuration,
     },
   })
+
+  // Emit real-time break end event
+  const breakEndUser = await prisma.user.findUnique({ where: { id: userId }, select: { name: true } })
+  emitBreakEnd(userId, breakEndUser?.name || 'Unknown')
 
   return {
     ...session,

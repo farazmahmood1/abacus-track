@@ -12,6 +12,7 @@ export const statement = {
   dashboard: ['read'],
   onboarding: ['create', 'read', 'edit', 'delete'],
   notifications: ['create', 'read', 'edit', 'delete'],
+  shift: ['create', 'read', 'edit', 'delete'],
 }
 
 export const ac = createAccessControl(statement)
@@ -24,6 +25,7 @@ export const employee = ac.newRole({
   project: ['read', 'edit'],
   dashboard: [],
   onboarding: ['create', 'read', 'edit', 'delete'],
+  shift: ['read'],
 })
 
 export const admin = ac.newRole({
@@ -35,5 +37,6 @@ export const admin = ac.newRole({
   dashboard: ['read'],
   onboarding: ['create', 'read', 'edit', 'delete'],
   notifications: ['create', 'read', 'edit', 'delete'],
+  shift: ['create', 'read', 'edit', 'delete'],
   ...adminAc.statements,
 })

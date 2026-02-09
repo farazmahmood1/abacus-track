@@ -1,4 +1,6 @@
 import prisma from '../config/prisma.js'
+import { emitLeaveStatusChanged, emitNotification } from './socketEvents.js'
+import { deductBalance, restoreBalance } from './leaveBalance.service.js'
 
 const DEFAULT_PAGE = 1
 const DEFAULT_LIMIT = 10
@@ -297,6 +299,14 @@ export async function approve(id, { status, approvalNotes }) {
       },
     })
 
+    // Update leave balance
+    if (status === 'APPROVED') {
+      await deductBalance(leave.employeeId, leave.leaveType, leave.duration)
+    } else if (status === 'REJECTED' && leave.status === 'APPROVED') {
+      // Restore balance if previously approved leave is now rejected
+      await restoreBalance(leave.employeeId, leave.leaveType, leave.duration)
+    }
+
     // Create notification for the employee
     if (status === 'APPROVED' || status === 'REJECTED') {
       const notificationType = status === 'APPROVED' ? 'LEAVE_APPROVED' : 'LEAVE_REJECTED'
@@ -312,6 +322,16 @@ export async function approve(id, { status, approvalNotes }) {
           type: notificationType,
           message,
         },
+      })
+
+      // Emit real-time leave status change
+      emitLeaveStatusChanged(leave.employeeId, updatedLeave)
+      emitNotification(leave.employeeId, {
+        type: 'leave',
+        title: `Leave ${status.toLowerCase()}`,
+        message,
+        leaveId: id,
+        timestamp: new Date().toISOString(),
       })
     }
 

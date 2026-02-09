@@ -1,4 +1,5 @@
 import prisma from '../config/prisma.js'
+import { emitNewAnnouncement } from './socketEvents.js'
 
 const DEFAULT_PAGE = 1
 const DEFAULT_LIMIT = 10
@@ -130,6 +131,10 @@ async function createAnnouncementNotifications(announcement) {
       data: notificationData,
     })
     console.log(`Successfully created ${result.count} announcement notifications`)
+
+    // Emit real-time announcement notification
+    const targetUserIds = employees.map(emp => emp.id)
+    emitNewAnnouncement(announcement, announcement.departmentId ? targetUserIds : null)
   } catch (error) {
     console.error('Error creating announcement notifications:', error.message)
     // Don't throw - announcement is already created

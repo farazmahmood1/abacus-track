@@ -196,6 +196,8 @@ export const auth = betterAuth({
   trustedOrigins: [
     'http://localhost:5173',
     'http://localhost:5174',
+    'http://127.0.0.1:3001',
+    'http://localhost:3001',
     'https://forrof-tracker.vercel.app',
     'https://forrof-tracker-backend.vercel.app',
     'https://tracker.forrof.io',
