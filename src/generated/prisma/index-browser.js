@@ -140,7 +140,10 @@ exports.Prisma.UserScalarFieldEnum = {
   linkedinUrl: 'linkedinUrl',
   banned: 'banned',
   banReason: 'banReason',
-  banExpires: 'banExpires'
+  banExpires: 'banExpires',
+  managerId: 'managerId',
+  dateOfBirth: 'dateOfBirth',
+  joinDate: 'joinDate'
 };
 
 exports.Prisma.SessionScalarFieldEnum = {
@@ -259,6 +262,12 @@ exports.Prisma.TimerSessionScalarFieldEnum = {
   status: 'status',
   isPaused: 'isPaused',
   pausedAt: 'pausedAt',
+  checkInLatitude: 'checkInLatitude',
+  checkInLongitude: 'checkInLongitude',
+  checkInAddress: 'checkInAddress',
+  checkOutLatitude: 'checkOutLatitude',
+  checkOutLongitude: 'checkOutLongitude',
+  checkOutAddress: 'checkOutAddress',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -618,6 +627,278 @@ exports.Prisma.HolidayScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.LocationLogScalarFieldEnum = {
+  id: 'id',
+  timerSessionId: 'timerSessionId',
+  userId: 'userId',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  accuracy: 'accuracy',
+  address: 'address',
+  timestamp: 'timestamp'
+};
+
+exports.Prisma.PomodoroSessionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  taskDescription: 'taskDescription',
+  focusDuration: 'focusDuration',
+  breakDuration: 'breakDuration',
+  longBreakDuration: 'longBreakDuration',
+  totalRounds: 'totalRounds',
+  completedRounds: 'completedRounds',
+  totalFocusMinutes: 'totalFocusMinutes',
+  status: 'status',
+  startedAt: 'startedAt',
+  endedAt: 'endedAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.PomodoroSettingsScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  focusDuration: 'focusDuration',
+  breakDuration: 'breakDuration',
+  longBreakDuration: 'longBreakDuration',
+  roundsBeforeLongBreak: 'roundsBeforeLongBreak',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ShiftScheduleEntryScalarFieldEnum = {
+  id: 'id',
+  employeeId: 'employeeId',
+  shiftId: 'shiftId',
+  date: 'date',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ShiftSwapRequestScalarFieldEnum = {
+  id: 'id',
+  requesterId: 'requesterId',
+  requesterScheduleId: 'requesterScheduleId',
+  targetEmployeeId: 'targetEmployeeId',
+  targetScheduleId: 'targetScheduleId',
+  status: 'status',
+  reason: 'reason',
+  adminNote: 'adminNote',
+  reviewedBy: 'reviewedBy',
+  reviewedAt: 'reviewedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ShiftSettingsScalarFieldEnum = {
+  id: 'id',
+  minRestPeriodHours: 'minRestPeriodHours',
+  maxShiftHours: 'maxShiftHours',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.EmployeeAvailabilityScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  dayOfWeek: 'dayOfWeek',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  isAvailable: 'isAvailable',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.BonusCommissionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  category: 'category',
+  amount: 'amount',
+  currency: 'currency',
+  description: 'description',
+  status: 'status',
+  approvedBy: 'approvedBy',
+  approvedAt: 'approvedAt',
+  paidAt: 'paidAt',
+  payPeriod: 'payPeriod',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ExpenseScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  title: 'title',
+  description: 'description',
+  amount: 'amount',
+  currency: 'currency',
+  category: 'category',
+  receiptUrl: 'receiptUrl',
+  receiptFileName: 'receiptFileName',
+  status: 'status',
+  rejectionReason: 'rejectionReason',
+  approvedBy: 'approvedBy',
+  approvedAt: 'approvedAt',
+  reimbursedAt: 'reimbursedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.OffboardingProcessScalarFieldEnum = {
+  id: 'id',
+  employeeId: 'employeeId',
+  initiatedBy: 'initiatedBy',
+  status: 'status',
+  lastWorkingDate: 'lastWorkingDate',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.OffboardingTaskScalarFieldEnum = {
+  id: 'id',
+  processId: 'processId',
+  title: 'title',
+  description: 'description',
+  category: 'category',
+  assignedTo: 'assignedTo',
+  status: 'status',
+  dueDate: 'dueDate',
+  completedAt: 'completedAt',
+  completedBy: 'completedBy',
+  notes: 'notes',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.DocumentScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  category: 'category',
+  filePath: 'filePath',
+  fileName: 'fileName',
+  fileSize: 'fileSize',
+  mimeType: 'mimeType',
+  version: 'version',
+  requiresAcknowledgment: 'requiresAcknowledgment',
+  uploadedBy: 'uploadedBy',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.DocumentAcknowledgmentScalarFieldEnum = {
+  id: 'id',
+  documentId: 'documentId',
+  userId: 'userId',
+  acknowledgedAt: 'acknowledgedAt'
+};
+
+exports.Prisma.MilestoneEventScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  eventDate: 'eventDate',
+  year: 'year',
+  announcementId: 'announcementId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.GamificationPointsScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  points: 'points',
+  reason: 'reason',
+  category: 'category',
+  earnedAt: 'earnedAt'
+};
+
+exports.Prisma.BadgeScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  icon: 'icon',
+  criteria: 'criteria',
+  threshold: 'threshold',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.UserBadgeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  badgeId: 'badgeId',
+  earnedAt: 'earnedAt'
+};
+
+exports.Prisma.WellnessChallengeScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  type: 'type',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  goal: 'goal',
+  unit: 'unit',
+  createdBy: 'createdBy',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.WellnessChallengeParticipantScalarFieldEnum = {
+  id: 'id',
+  challengeId: 'challengeId',
+  userId: 'userId',
+  progress: 'progress',
+  completedAt: 'completedAt',
+  joinedAt: 'joinedAt'
+};
+
+exports.Prisma.MoodEntryScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  mood: 'mood',
+  note: 'note',
+  date: 'date',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.IntegrationScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  name: 'name',
+  webhookUrl: 'webhookUrl',
+  accessToken: 'accessToken',
+  refreshToken: 'refreshToken',
+  channelId: 'channelId',
+  domain: 'domain',
+  projectMapping: 'projectMapping',
+  isActive: 'isActive',
+  configuredBy: 'configuredBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ScheduledReportScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  reportType: 'reportType',
+  frequency: 'frequency',
+  recipients: 'recipients',
+  filters: 'filters',
+  lastSentAt: 'lastSentAt',
+  nextSendAt: 'nextSendAt',
+  isActive: 'isActive',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -742,6 +1023,123 @@ exports.ConversationType = exports.$Enums.ConversationType = {
   GROUP: 'GROUP'
 };
 
+exports.PomodoroStatus = exports.$Enums.PomodoroStatus = {
+  IN_PROGRESS: 'IN_PROGRESS',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED'
+};
+
+exports.CompensationType = exports.$Enums.CompensationType = {
+  BONUS: 'BONUS',
+  COMMISSION: 'COMMISSION'
+};
+
+exports.CompensationCategory = exports.$Enums.CompensationCategory = {
+  PERFORMANCE: 'PERFORMANCE',
+  REFERRAL: 'REFERRAL',
+  HOLIDAY: 'HOLIDAY',
+  SALES: 'SALES',
+  RETENTION: 'RETENTION',
+  SIGNING: 'SIGNING',
+  OTHER_COMPENSATION: 'OTHER_COMPENSATION'
+};
+
+exports.CompensationStatus = exports.$Enums.CompensationStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  PAID: 'PAID',
+  CANCELLED: 'CANCELLED'
+};
+
+exports.ExpenseCategory = exports.$Enums.ExpenseCategory = {
+  TRAVEL: 'TRAVEL',
+  MEALS: 'MEALS',
+  EQUIPMENT: 'EQUIPMENT',
+  SOFTWARE: 'SOFTWARE',
+  OFFICE_SUPPLIES: 'OFFICE_SUPPLIES',
+  TRAINING: 'TRAINING',
+  OTHER_EXPENSE: 'OTHER_EXPENSE'
+};
+
+exports.ExpenseStatus = exports.$Enums.ExpenseStatus = {
+  SUBMITTED: 'SUBMITTED',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+  REIMBURSED: 'REIMBURSED'
+};
+
+exports.OffboardingStatus = exports.$Enums.OffboardingStatus = {
+  IN_PROGRESS: 'IN_PROGRESS',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED'
+};
+
+exports.OffboardingCategory = exports.$Enums.OffboardingCategory = {
+  IT_ACCESS: 'IT_ACCESS',
+  EQUIPMENT: 'EQUIPMENT',
+  KNOWLEDGE_TRANSFER: 'KNOWLEDGE_TRANSFER',
+  EXIT_INTERVIEW: 'EXIT_INTERVIEW',
+  DOCUMENTATION: 'DOCUMENTATION',
+  FINAL_PAY: 'FINAL_PAY'
+};
+
+exports.OffboardingTaskStatus = exports.$Enums.OffboardingTaskStatus = {
+  PENDING: 'PENDING',
+  IN_PROGRESS: 'IN_PROGRESS',
+  COMPLETED: 'COMPLETED'
+};
+
+exports.DocumentCategory = exports.$Enums.DocumentCategory = {
+  CONTRACT: 'CONTRACT',
+  POLICY: 'POLICY',
+  HANDBOOK: 'HANDBOOK',
+  NDA: 'NDA',
+  OTHER_DOCUMENT: 'OTHER_DOCUMENT'
+};
+
+exports.MilestoneType = exports.$Enums.MilestoneType = {
+  BIRTHDAY: 'BIRTHDAY',
+  WORK_ANNIVERSARY: 'WORK_ANNIVERSARY'
+};
+
+exports.GamificationCategory = exports.$Enums.GamificationCategory = {
+  ATTENDANCE: 'ATTENDANCE',
+  PRODUCTIVITY: 'PRODUCTIVITY',
+  RECOGNITION: 'RECOGNITION',
+  TRAINING: 'TRAINING',
+  WELLNESS: 'WELLNESS'
+};
+
+exports.WellnessChallengeType = exports.$Enums.WellnessChallengeType = {
+  STEPS: 'STEPS',
+  MINDFULNESS: 'MINDFULNESS',
+  HYDRATION: 'HYDRATION',
+  EXERCISE: 'EXERCISE',
+  CUSTOM: 'CUSTOM'
+};
+
+exports.IntegrationType = exports.$Enums.IntegrationType = {
+  SLACK: 'SLACK',
+  TEAMS: 'TEAMS',
+  GOOGLE_CALENDAR: 'GOOGLE_CALENDAR',
+  JIRA: 'JIRA',
+  CLICKUP: 'CLICKUP'
+};
+
+exports.ScheduledReportType = exports.$Enums.ScheduledReportType = {
+  ATTENDANCE: 'ATTENDANCE',
+  OVERTIME: 'OVERTIME',
+  LEAVE: 'LEAVE',
+  PRODUCTIVITY: 'PRODUCTIVITY',
+  COST: 'COST'
+};
+
+exports.ReportFrequency = exports.$Enums.ReportFrequency = {
+  DAILY: 'DAILY',
+  WEEKLY: 'WEEKLY',
+  MONTHLY: 'MONTHLY'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Session: 'Session',
@@ -785,7 +1183,29 @@ exports.Prisma.ModelName = {
   Conversation: 'Conversation',
   ConversationParticipant: 'ConversationParticipant',
   Message: 'Message',
-  Holiday: 'Holiday'
+  Holiday: 'Holiday',
+  LocationLog: 'LocationLog',
+  PomodoroSession: 'PomodoroSession',
+  PomodoroSettings: 'PomodoroSettings',
+  ShiftScheduleEntry: 'ShiftScheduleEntry',
+  ShiftSwapRequest: 'ShiftSwapRequest',
+  ShiftSettings: 'ShiftSettings',
+  EmployeeAvailability: 'EmployeeAvailability',
+  BonusCommission: 'BonusCommission',
+  Expense: 'Expense',
+  OffboardingProcess: 'OffboardingProcess',
+  OffboardingTask: 'OffboardingTask',
+  Document: 'Document',
+  DocumentAcknowledgment: 'DocumentAcknowledgment',
+  MilestoneEvent: 'MilestoneEvent',
+  GamificationPoints: 'GamificationPoints',
+  Badge: 'Badge',
+  UserBadge: 'UserBadge',
+  WellnessChallenge: 'WellnessChallenge',
+  WellnessChallengeParticipant: 'WellnessChallengeParticipant',
+  MoodEntry: 'MoodEntry',
+  Integration: 'Integration',
+  ScheduledReport: 'ScheduledReport'
 };
 
 /**

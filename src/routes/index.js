@@ -28,6 +28,19 @@ import standupsRoute from './standups.route.js'
 import feedbackRoute from './feedback.route.js'
 import chatRoute from './chat.route.js'
 import calendarRoute from './calendar.route.js'
+import locationRoute from './location.route.js'
+import pomodoroRoute from './pomodoro.route.js'
+import moodRoute from './mood.route.js'
+import orgChartRoute from './orgChart.route.js'
+import documentRoute from './document.route.js'
+import compensationRoute from './compensation.route.js'
+import expenseRoute from './expense.route.js'
+import offboardingRoute from './offboarding.route.js'
+import integrationRoute from './integration.route.js'
+import scheduledReportRoute from './scheduledReport.route.js'
+import milestoneRoute from './milestone.route.js'
+import gamificationRoute from './gamification.route.js'
+import wellnessRoute from './wellness.route.js'
 
 const router = express.Router()
 
@@ -135,6 +148,58 @@ const defaultRoutes = [
   {
     path: '/calendar',
     route: calendarRoute,
+  },
+  {
+    path: '/location',
+    route: locationRoute,
+  },
+  {
+    path: '/pomodoro',
+    route: pomodoroRoute,
+  },
+  {
+    path: '/mood',
+    route: moodRoute,
+  },
+  {
+    path: '/org-chart',
+    route: orgChartRoute,
+  },
+  {
+    path: '/documents',
+    route: documentRoute,
+  },
+  {
+    path: '/compensation',
+    route: compensationRoute,
+  },
+  {
+    path: '/expenses',
+    route: expenseRoute,
+  },
+  {
+    path: '/offboarding',
+    route: offboardingRoute,
+  },
+  {
+    path: '/integrations',
+    route: integrationRoute,
+  },
+  {
+    path: '/scheduled-reports',
+    route: scheduledReportRoute,
+  },
+  {
+    path: '/milestones',
+    route: milestoneRoute,
+  },
+  {
+    path: '/gamification',
+    route: gamificationRoute,
+  },
+  {
+    path: '/wellness',
+    route: wellnessRoute,
   },
 ]
 

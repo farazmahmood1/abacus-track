@@ -94,4 +94,36 @@ router.post(
   shiftsController.unassignEmployee
 )
 
+// ============================================
+// Schedule (Drag-and-Drop)
+// ============================================
+router.get('/schedule', requirePermission('shift', 'read'), shiftsController.getSchedule)
+router.post('/schedule', requirePermission('shift', 'edit'), shiftsController.createScheduleEntry)
+router.post('/schedule/bulk', requirePermission('shift', 'edit'), shiftsController.bulkCreateScheduleEntries)
+router.put('/schedule/:id', requirePermission('shift', 'edit'), shiftsController.moveScheduleEntry)
+router.delete('/schedule/:id', requirePermission('shift', 'edit'), shiftsController.deleteScheduleEntry)
+router.get('/schedule/conflicts', requirePermission('shift', 'read'), shiftsController.checkConflicts)
+
+// ============================================
+// Swap Requests
+// ============================================
+router.post('/swaps', requirePermission('shift', 'read'), shiftsController.createSwapRequest)
+router.get('/swaps', requirePermission('shift', 'read'), shiftsController.getSwapRequests)
+router.get('/swaps/my', requirePermission('shift', 'read'), shiftsController.getMySwapRequests)
+router.patch('/swaps/:id', requirePermission('shift', 'edit'), shiftsController.respondToSwapRequest)
+
+// ============================================
+// Availability
+// ============================================
+router.get('/availability/me', requirePermission('shift', 'read'), shiftsController.getMyAvailability)
+router.put('/availability/me', requirePermission('shift', 'read'), shiftsController.updateMyAvailability)
+router.get('/availability/employee/:employeeId', requirePermission('shift', 'read'), shiftsController.getEmployeeAvailability)
+router.get('/availability/department/:departmentId', requirePermission('shift', 'read'), shiftsController.getDepartmentAvailability)
+
+// ============================================
+// Shift Settings
+// ============================================
+router.get('/settings', requirePermission('shift', 'read'), shiftsController.getShiftSettings)
+router.put('/settings', requirePermission('shift', 'edit'), shiftsController.updateShiftSettings)
+
 export default router

@@ -41,4 +41,9 @@ const markAsRead = catchAsync(async (req, res) => {
   res.json({ success: true, message: 'Marked as read' })
 })
 
-export default { createConversation, listConversations, getMessages, sendMessage, markAsRead }
+const searchUsers = catchAsync(async (req, res) => {
+  const users = await chatService.searchUsers(req.user.id, req.query.q)
+  res.json({ success: true, data: users })
+})
+
+export default { createConversation, listConversations, getMessages, sendMessage, markAsRead, searchUsers }

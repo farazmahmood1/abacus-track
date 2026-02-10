@@ -105,7 +105,7 @@ export const getTodayTimesheet = async userId => {
 /**
  * Create a new timer session (check-in)
  */
-export const checkIn = async (userId, projectId = null) => {
+export const checkIn = async (userId, projectId = null, location = {}) => {
   // Check if user already has an active session
   const existingSession = await getActiveSession(userId)
   if (existingSession) {
@@ -125,6 +125,8 @@ export const checkIn = async (userId, projectId = null) => {
   // Get current UTC date
   const now = new Date()
 
+  const { latitude, longitude, address } = location
+
   const session = await prisma.timerSession.create({
     data: {
       userId,
@@ -132,6 +134,9 @@ export const checkIn = async (userId, projectId = null) => {
       startTime: now,
       status: 'checked_in',
       isActive: true,
+      checkInLatitude: latitude || null,
+      checkInLongitude: longitude || null,
+      checkInAddress: address || null,
     },
     include: {
       pauseLogs: true,
@@ -174,7 +179,7 @@ export const checkIn = async (userId, projectId = null) => {
 /**
  * Check out from current timer session
  */
-export const checkOut = async userId => {
+export const checkOut = async (userId, location = {}) => {
   const session = await getActiveSession(userId)
   if (!session) {
     throw new ApiError(400, 'No active timer session found')
@@ -211,6 +216,8 @@ export const checkOut = async userId => {
   const workHours = actualWorkSeconds / 3600
 
   // Update session
+  const { latitude, longitude, address } = location
+
   const updatedSession = await prisma.timerSession.update({
     where: { id: session.id },
     data: {
@@ -218,6 +225,9 @@ export const checkOut = async userId => {
       totalDuration: actualWorkSeconds,
       isActive: false,
       status: 'checked_out',
+      checkOutLatitude: latitude || null,
+      checkOutLongitude: longitude || null,
+      checkOutAddress: address || null,
     },
     include: {
       pauseLogs: true,

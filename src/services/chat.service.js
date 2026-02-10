@@ -2,6 +2,29 @@ import prisma from '../config/prisma.js'
 import ApiError from '../utils/ApiError.js'
 
 /**
+ * Search users by name or email for starting a chat
+ */
+export async function searchUsers(currentUserId, query) {
+  if (!query || query.trim().length < 2) return []
+
+  const users = await prisma.user.findMany({
+    where: {
+      id: { not: currentUserId },
+      banned: { not: true },
+      OR: [
+        { name: { contains: query, mode: 'insensitive' } },
+        { email: { contains: query, mode: 'insensitive' } },
+      ],
+    },
+    select: { id: true, name: true, email: true, image: true },
+    take: 10,
+    orderBy: { name: 'asc' },
+  })
+
+  return users
+}
+
+/**
  * Get or create a direct conversation between two users
  */
 export async function getOrCreateDirectConversation(userId, otherUserId) {

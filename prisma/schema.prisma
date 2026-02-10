@@ -97,6 +97,43 @@ model User {
   banReason  String?
   banExpires DateTime?
 
+  // Manager hierarchy (Org Chart)
+  managerId    String?
+  manager      User?   @relation("ManagerReports", fields: [managerId], references: [id])
+  directReports User[] @relation("ManagerReports")
+
+  // Milestone dates
+  dateOfBirth DateTime?
+  joinDate    DateTime?
+
+  // New feature relations
+  pomodoroSessions        PomodoroSession[]
+  pomodoroSettings        PomodoroSettings?
+  shiftScheduleEntries    ShiftScheduleEntry[]
+  shiftSwapRequestsSent   ShiftSwapRequest[]   @relation("SwapRequester")
+  shiftSwapRequestsTarget ShiftSwapRequest[]   @relation("SwapTarget")
+  shiftSwapReviews        ShiftSwapRequest[]   @relation("SwapReviewer")
+  availability            EmployeeAvailability[]
+  bonusCommissions        BonusCommission[]
+  approvedCompensations   BonusCommission[]    @relation("CompensationApprover")
+  expenses                Expense[]
+  approvedExpenses        Expense[]            @relation("ExpenseApprover")
+  offboardingProcesses    OffboardingProcess[] @relation("OffboardingEmployee")
+  initiatedOffboardings   OffboardingProcess[] @relation("OffboardingInitiator")
+  offboardingTasksAssigned OffboardingTask[]   @relation("OffboardingTaskAssignee")
+  offboardingTasksCompleted OffboardingTask[]  @relation("OffboardingTaskCompleter")
+  uploadedDocuments       Document[]
+  documentAcknowledgments DocumentAcknowledgment[]
+  milestoneEvents         MilestoneEvent[]
+  gamificationPoints      GamificationPoints[]
+  userBadges              UserBadge[]
+  wellnessChallengesCreated WellnessChallenge[]
+  wellnessParticipations  WellnessChallengeParticipant[]
+  moodEntries             MoodEntry[]
+  configuratedIntegrations Integration[]
+  locationLogs            LocationLog[]
+  scheduledReports        ScheduledReport[]
+
   @@unique([email])
   @@map("user")
 }
@@ -339,9 +376,18 @@ model TimerSession {
   isPaused Boolean   @default(false)
   pausedAt DateTime?
 
+  // GPS Location
+  checkInLatitude   Float?
+  checkInLongitude  Float?
+  checkInAddress    String?
+  checkOutLatitude  Float?
+  checkOutLongitude Float?
+  checkOutAddress   String?
+
   pauseLogs    PauseLog[]
   activityLogs ActivityLog[]
   deviations   AttendanceDeviation[]
+  locationLogs LocationLog[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -560,6 +606,7 @@ model Shift {
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
   employees    UserShift[]
+  scheduleEntries ShiftScheduleEntry[]
 
   @@map("shifts")
 }
@@ -972,4 +1019,536 @@ model Holiday {
   updatedAt  DateTime @updatedAt
 
   @@map("holidays")
+}
+
+// ============================================
+// NEW FEATURES — Phase 1 Schema Additions
+// ============================================
+
+// Feature 1: GPS Location Tracking
+model LocationLog {
+  id             String       @id @default(cuid())
+  timerSessionId String
+  timerSession   TimerSession @relation(fields: [timerSessionId], references: [id], onDelete: Cascade)
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  latitude       Float
+  longitude      Float
+  accuracy       Float?
+  address        String?
+  timestamp      DateTime     @default(now())
+
+  @@index([timerSessionId])
+  @@index([userId])
+  @@index([timestamp])
+  @@map("location_logs")
+}
+
+// Feature 2: Pomodoro Timer
+model PomodoroSession {
+  id                String   @id @default(cuid())
+  userId            String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  taskDescription   String?
+  focusDuration     Int      @default(25) // minutes
+  breakDuration     Int      @default(5)
+  longBreakDuration Int      @default(15)
+  totalRounds       Int      @default(4)
+  completedRounds   Int      @default(0)
+  totalFocusMinutes Int      @default(0)
+  status            PomodoroStatus @default(COMPLETED)
+  startedAt         DateTime @default(now())
+  endedAt           DateTime?
+  createdAt         DateTime @default(now())
+
+  @@index([userId])
+  @@index([createdAt])
+  @@map("pomodoro_sessions")
+}
+
+enum PomodoroStatus {
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+model PomodoroSettings {
+  id                String @id @default(cuid())
+  userId            String @unique
+  user              User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  focusDuration     Int    @default(25)
+  breakDuration     Int    @default(5)
+  longBreakDuration Int    @default(15)
+  roundsBeforeLongBreak Int @default(4)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@map("pomodoro_settings")
+}
+
+// Feature 3: Shift Schedule Entries
+model ShiftScheduleEntry {
+  id         String   @id @default(cuid())
+  employeeId String
+  employee   User     @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  shiftId    String
+  shift      Shift    @relation(fields: [shiftId], references: [id], onDelete: Cascade)
+  date       DateTime @db.Date
+  startTime  String   // "09:00"
+  endTime    String   // "18:00"
+  createdBy  String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([employeeId, date, shiftId])
+  @@index([employeeId])
+  @@index([shiftId])
+  @@index([date])
+  @@map("shift_schedule_entries")
+}
+
+// Feature 4: Shift Swap Requests
+model ShiftSwapRequest {
+  id                    String             @id @default(cuid())
+  requesterId           String
+  requester             User               @relation("SwapRequester", fields: [requesterId], references: [id])
+  requesterScheduleId   String
+  targetEmployeeId      String
+  targetEmployee        User               @relation("SwapTarget", fields: [targetEmployeeId], references: [id])
+  targetScheduleId      String
+  status                ApprovalStatus     @default(PENDING)
+  reason                String?
+  adminNote             String?
+  reviewedBy            String?
+  reviewer              User?              @relation("SwapReviewer", fields: [reviewedBy], references: [id])
+  reviewedAt            DateTime?
+  createdAt             DateTime           @default(now())
+  updatedAt             DateTime           @updatedAt
+
+  @@index([requesterId])
+  @@index([targetEmployeeId])
+  @@index([status])
+  @@map("shift_swap_requests")
+}
+
+// Feature 7: Shift Settings
+model ShiftSettings {
+  id                  String   @id @default(cuid())
+  minRestPeriodHours  Float    @default(11)
+  maxShiftHours       Float    @default(12)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@map("shift_settings")
+}
+
+// Feature 6: Employee Availability
+model EmployeeAvailability {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  dayOfWeek   Int      // 0=Sunday, 6=Saturday
+  startTime   String   // "09:00"
+  endTime     String   // "17:00"
+  isAvailable Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([userId, dayOfWeek])
+  @@index([userId])
+  @@map("employee_availability")
+}
+
+// Feature 8: Bonus & Commission Tracking
+model BonusCommission {
+  id          String                @id @default(cuid())
+  userId      String
+  user        User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type        CompensationType
+  category    CompensationCategory
+  amount      Float
+  currency    String                @default("USD")
+  description String?
+  status      CompensationStatus    @default(PENDING)
+  approvedBy  String?
+  approver    User?                 @relation("CompensationApprover", fields: [approvedBy], references: [id])
+  approvedAt  DateTime?
+  paidAt      DateTime?
+  payPeriod   String?               // "2026-01" format
+  createdAt   DateTime              @default(now())
+  updatedAt   DateTime              @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@index([type])
+  @@map("bonus_commissions")
+}
+
+enum CompensationType {
+  BONUS
+  COMMISSION
+}
+
+enum CompensationCategory {
+  PERFORMANCE
+  REFERRAL
+  HOLIDAY
+  SALES
+  RETENTION
+  SIGNING
+  OTHER_COMPENSATION
+}
+
+enum CompensationStatus {
+  PENDING
+  APPROVED
+  PAID
+  CANCELLED
+}
+
+// Feature 9: Expense Management
+model Expense {
+  id              String        @id @default(cuid())
+  userId          String
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title           String
+  description     String?
+  amount          Float
+  currency        String        @default("USD")
+  category        ExpenseCategory
+  receiptUrl      String?
+  receiptFileName String?
+  status          ExpenseStatus @default(SUBMITTED)
+  rejectionReason String?
+  approvedBy      String?
+  approver        User?         @relation("ExpenseApprover", fields: [approvedBy], references: [id])
+  approvedAt      DateTime?
+  reimbursedAt    DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@map("expenses")
+}
+
+enum ExpenseCategory {
+  TRAVEL
+  MEALS
+  EQUIPMENT
+  SOFTWARE
+  OFFICE_SUPPLIES
+  TRAINING
+  OTHER_EXPENSE
+}
+
+enum ExpenseStatus {
+  SUBMITTED
+  APPROVED
+  REJECTED
+  REIMBURSED
+}
+
+// Feature 10: Offboarding Workflows
+model OffboardingProcess {
+  id              String              @id @default(cuid())
+  employeeId      String
+  employee        User                @relation("OffboardingEmployee", fields: [employeeId], references: [id])
+  initiatedBy     String
+  initiator       User                @relation("OffboardingInitiator", fields: [initiatedBy], references: [id])
+  status          OffboardingStatus   @default(IN_PROGRESS)
+  lastWorkingDate DateTime            @db.Date
+  completedAt     DateTime?
+  tasks           OffboardingTask[]
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+
+  @@index([employeeId])
+  @@index([status])
+  @@map("offboarding_processes")
+}
+
+enum OffboardingStatus {
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+model OffboardingTask {
+  id          String                 @id @default(cuid())
+  processId   String
+  process     OffboardingProcess     @relation(fields: [processId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  category    OffboardingCategory
+  assignedTo  String?
+  assignee    User?                  @relation("OffboardingTaskAssignee", fields: [assignedTo], references: [id])
+  status      OffboardingTaskStatus  @default(PENDING)
+  dueDate     DateTime?
+  completedAt DateTime?
+  completedBy String?
+  completer   User?                  @relation("OffboardingTaskCompleter", fields: [completedBy], references: [id])
+  notes       String?
+  sortOrder   Int                    @default(0)
+  createdAt   DateTime               @default(now())
+  updatedAt   DateTime               @updatedAt
+
+  @@index([processId])
+  @@index([assignedTo])
+  @@map("offboarding_tasks")
+}
+
+enum OffboardingCategory {
+  IT_ACCESS
+  EQUIPMENT
+  KNOWLEDGE_TRANSFER
+  EXIT_INTERVIEW
+  DOCUMENTATION
+  FINAL_PAY
+}
+
+enum OffboardingTaskStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+}
+
+// Feature 12: Document Management
+model Document {
+  id                      String                  @id @default(cuid())
+  title                   String
+  description             String?
+  category                DocumentCategory
+  filePath                String
+  fileName                String
+  fileSize                Int
+  mimeType                String
+  version                 Int                     @default(1)
+  requiresAcknowledgment  Boolean                 @default(false)
+  uploadedBy              String
+  uploader                User                    @relation(fields: [uploadedBy], references: [id])
+  isActive                Boolean                 @default(true)
+  acknowledgments         DocumentAcknowledgment[]
+  createdAt               DateTime                @default(now())
+  updatedAt               DateTime                @updatedAt
+
+  @@index([category])
+  @@index([uploadedBy])
+  @@map("documents")
+}
+
+enum DocumentCategory {
+  CONTRACT
+  POLICY
+  HANDBOOK
+  NDA
+  OTHER_DOCUMENT
+}
+
+model DocumentAcknowledgment {
+  id             String   @id @default(cuid())
+  documentId     String
+  document       Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  acknowledgedAt DateTime @default(now())
+
+  @@unique([documentId, userId])
+  @@index([documentId])
+  @@index([userId])
+  @@map("document_acknowledgments")
+}
+
+// Feature 13: Birthday & Work Anniversary
+model MilestoneEvent {
+  id             String        @id @default(cuid())
+  userId         String
+  user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type           MilestoneType
+  eventDate      DateTime      @db.Date
+  year           Int
+  announcementId String?
+  createdAt      DateTime      @default(now())
+
+  @@unique([userId, type, year])
+  @@index([eventDate])
+  @@map("milestone_events")
+}
+
+enum MilestoneType {
+  BIRTHDAY
+  WORK_ANNIVERSARY
+}
+
+// Feature 14: Gamification
+model GamificationPoints {
+  id       String                  @id @default(cuid())
+  userId   String
+  user     User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  points   Int
+  reason   String
+  category GamificationCategory
+  earnedAt DateTime                @default(now())
+
+  @@index([userId])
+  @@index([earnedAt])
+  @@map("gamification_points")
+}
+
+enum GamificationCategory {
+  ATTENDANCE
+  PRODUCTIVITY
+  RECOGNITION
+  TRAINING
+  WELLNESS
+}
+
+model Badge {
+  id          String      @id @default(cuid())
+  name        String      @unique
+  description String
+  icon        String      // emoji or icon name
+  criteria    String      // human-readable criteria
+  threshold   Int         @default(0) // points needed
+  userBadges  UserBadge[]
+  createdAt   DateTime    @default(now())
+
+  @@map("badges")
+}
+
+model UserBadge {
+  id       String   @id @default(cuid())
+  userId   String
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badgeId  String
+  badge    Badge    @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+  earnedAt DateTime @default(now())
+
+  @@unique([userId, badgeId])
+  @@index([userId])
+  @@map("user_badges")
+}
+
+// Feature 15: Wellness Challenges
+model WellnessChallenge {
+  id           String                         @id @default(cuid())
+  title        String
+  description  String?
+  type         WellnessChallengeType
+  startDate    DateTime                       @db.Date
+  endDate      DateTime                       @db.Date
+  goal         Float                          // target number
+  unit         String                         // "steps", "minutes", "glasses", etc.
+  createdBy    String
+  creator      User                           @relation(fields: [createdBy], references: [id])
+  isActive     Boolean                        @default(true)
+  participants WellnessChallengeParticipant[]
+  createdAt    DateTime                       @default(now())
+  updatedAt    DateTime                       @updatedAt
+
+  @@index([isActive])
+  @@map("wellness_challenges")
+}
+
+enum WellnessChallengeType {
+  STEPS
+  MINDFULNESS
+  HYDRATION
+  EXERCISE
+  CUSTOM
+}
+
+model WellnessChallengeParticipant {
+  id          String            @id @default(cuid())
+  challengeId String
+  challenge   WellnessChallenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  progress    Float             @default(0)
+  completedAt DateTime?
+  joinedAt    DateTime          @default(now())
+
+  @@unique([challengeId, userId])
+  @@index([challengeId])
+  @@index([userId])
+  @@map("wellness_challenge_participants")
+}
+
+// Feature 16: Mood Tracking
+model MoodEntry {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  mood      Int      // 1-5 scale
+  note      String?
+  date      DateTime @db.Date
+  createdAt DateTime @default(now())
+
+  @@unique([userId, date])
+  @@index([userId])
+  @@index([date])
+  @@map("mood_entries")
+}
+
+// Feature 17: Integrations (Slack, Teams, Google Calendar, Jira, ClickUp)
+model Integration {
+  id           String          @id @default(cuid())
+  type         IntegrationType
+  name         String?
+  webhookUrl   String?
+  accessToken  String?
+  refreshToken String?
+  channelId    String?
+  domain       String?         // for Jira: "company.atlassian.net"
+  projectMapping String?       @db.Text // JSON mapping of Forrof projects to external projects
+  isActive     Boolean         @default(true)
+  configuredBy String
+  configurer   User            @relation(fields: [configuredBy], references: [id])
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+
+  @@index([type])
+  @@map("integrations")
+}
+
+enum IntegrationType {
+  SLACK
+  TEAMS
+  GOOGLE_CALENDAR
+  JIRA
+  CLICKUP
+}
+
+// Feature 24: Scheduled Report Delivery
+model ScheduledReport {
+  id         String              @id @default(cuid())
+  name       String
+  reportType ScheduledReportType
+  frequency  ReportFrequency
+  recipients String[]            // array of email addresses
+  filters    String?             @db.Text // JSON filters
+  lastSentAt DateTime?
+  nextSendAt DateTime?
+  isActive   Boolean             @default(true)
+  createdBy  String
+  creator    User                @relation(fields: [createdBy], references: [id])
+  createdAt  DateTime            @default(now())
+  updatedAt  DateTime            @updatedAt
+
+  @@index([isActive])
+  @@map("scheduled_reports")
+}
+
+enum ScheduledReportType {
+  ATTENDANCE
+  OVERTIME
+  LEAVE
+  PRODUCTIVITY
+  COST
+}
+
+enum ReportFrequency {
+  DAILY
+  WEEKLY
+  MONTHLY
 }

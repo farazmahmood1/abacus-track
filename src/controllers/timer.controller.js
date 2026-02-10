@@ -55,9 +55,13 @@ export const checkIn = catchAsync(async (req, res) => {
     throw new ApiError(401, 'Unauthorized')
   }
 
-  const projectId = req.body?.projectId || null
+  const { projectId, latitude, longitude, address } = req.body || {}
 
-  const timerSession = await timerService.checkIn(req.user.id, projectId)
+  const timerSession = await timerService.checkIn(req.user.id, projectId || null, {
+    latitude,
+    longitude,
+    address,
+  })
 
   res.status(201).json({
     timer: timerSession,
@@ -73,7 +77,13 @@ export const checkOut = catchAsync(async (req, res) => {
     throw new ApiError(401, 'Unauthorized')
   }
 
-  const timerSession = await timerService.checkOut(req.user.id)
+  const { latitude, longitude, address } = req.body || {}
+
+  const timerSession = await timerService.checkOut(req.user.id, {
+    latitude,
+    longitude,
+    address,
+  })
 
   res.json({
     timer: timerSession,

@@ -206,6 +206,27 @@ export const getAttendanceRecords = async (userId, filters = {}) => {
       workHours = (timesheet?.totalHours || 0) + currentSessionHours
     }
 
+    // Build location data from effective session
+    let checkInLocation = null
+    let checkOutLocation = null
+
+    if (effectiveSession) {
+      if (effectiveSession.checkInLatitude != null && effectiveSession.checkInLongitude != null) {
+        checkInLocation = {
+          lat: effectiveSession.checkInLatitude,
+          lng: effectiveSession.checkInLongitude,
+          address: effectiveSession.checkInAddress || null,
+        }
+      }
+      if (effectiveSession.checkOutLatitude != null && effectiveSession.checkOutLongitude != null) {
+        checkOutLocation = {
+          lat: effectiveSession.checkOutLatitude,
+          lng: effectiveSession.checkOutLongitude,
+          address: effectiveSession.checkOutAddress || null,
+        }
+      }
+    }
+
     return {
       id: user.id,
       employeeId: user.id, // Add employeeId for frontend compatibility
@@ -217,6 +238,8 @@ export const getAttendanceRecords = async (userId, filters = {}) => {
       checkInTime: checkIn,
       checkOutTime: checkOut,
       workHours: Math.max(0, workHours).toFixed(4),
+      checkInLocation,
+      checkOutLocation,
     }
   })
 

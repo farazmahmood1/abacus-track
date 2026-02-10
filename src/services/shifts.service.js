@@ -216,3 +216,331 @@ export async function getShiftEmployees(shiftId) {
     assignmentId: a.id,
   }))
 }
+
+// ============================================
+// Shift Schedule (Drag-and-Drop)
+// ============================================
+
+export async function getSchedule(weekStart, departmentId) {
+  const start = new Date(weekStart)
+  start.setHours(0, 0, 0, 0)
+  const end = new Date(start)
+  end.setDate(end.getDate() + 7)
+
+  const where = {
+    date: { gte: start, lt: end },
+  }
+
+  if (departmentId) {
+    where.employee = { departmentId }
+  }
+
+  return prisma.shiftScheduleEntry.findMany({
+    where,
+    include: {
+      employee: { select: { id: true, name: true, email: true, image: true, departmentId: true } },
+      shift: { select: { id: true, name: true, startTime: true, endTime: true } },
+    },
+    orderBy: [{ date: 'asc' }, { startTime: 'asc' }],
+  })
+}
+
+export async function createScheduleEntry(data) {
+  return prisma.shiftScheduleEntry.create({
+    data: {
+      employeeId: data.employeeId,
+      shiftId: data.shiftId,
+      date: new Date(data.date),
+      startTime: data.startTime,
+      endTime: data.endTime,
+      createdBy: data.createdBy,
+    },
+    include: {
+      employee: { select: { id: true, name: true, email: true, image: true } },
+      shift: { select: { id: true, name: true, startTime: true, endTime: true } },
+    },
+  })
+}
+
+export async function bulkCreateScheduleEntries(entries, createdBy) {
+  const results = []
+  for (const entry of entries) {
+    const created = await createScheduleEntry({ ...entry, createdBy })
+    results.push(created)
+  }
+  return results
+}
+
+export async function moveScheduleEntry(id, data) {
+  const entry = await prisma.shiftScheduleEntry.findUnique({ where: { id } })
+  if (!entry) throw new ApiError(404, 'Schedule entry not found')
+
+  const updateData = {}
+  if (data.date) updateData.date = new Date(data.date)
+  if (data.employeeId) updateData.employeeId = data.employeeId
+  if (data.shiftId) updateData.shiftId = data.shiftId
+  if (data.startTime) updateData.startTime = data.startTime
+  if (data.endTime) updateData.endTime = data.endTime
+
+  return prisma.shiftScheduleEntry.update({
+    where: { id },
+    data: updateData,
+    include: {
+      employee: { select: { id: true, name: true, email: true, image: true } },
+      shift: { select: { id: true, name: true, startTime: true, endTime: true } },
+    },
+  })
+}
+
+export async function deleteScheduleEntry(id) {
+  const entry = await prisma.shiftScheduleEntry.findUnique({ where: { id } })
+  if (!entry) throw new ApiError(404, 'Schedule entry not found')
+  return prisma.shiftScheduleEntry.delete({ where: { id } })
+}
+
+// ============================================
+// Shift Swap Requests
+// ============================================
+
+export async function createSwapRequest(data) {
+  return prisma.shiftSwapRequest.create({
+    data: {
+      requesterId: data.requesterId,
+      requesterScheduleId: data.requesterScheduleId,
+      targetEmployeeId: data.targetEmployeeId,
+      targetScheduleId: data.targetScheduleId,
+      reason: data.reason || null,
+    },
+    include: {
+      requester: { select: { id: true, name: true, image: true } },
+      targetEmployee: { select: { id: true, name: true, image: true } },
+    },
+  })
+}
+
+export async function getSwapRequests(filters = {}) {
+  const { status, page = 1, limit = 10 } = filters
+  const skip = (page - 1) * limit
+  const where = {}
+  if (status) where.status = status
+
+  const [data, total] = await Promise.all([
+    prisma.shiftSwapRequest.findMany({
+      where,
+      include: {
+        requester: { select: { id: true, name: true, image: true } },
+        targetEmployee: { select: { id: true, name: true, image: true } },
+        reviewer: { select: { id: true, name: true } },
+      },
+      orderBy: { createdAt: 'desc' },
+      skip,
+      take: limit,
+    }),
+    prisma.shiftSwapRequest.count({ where }),
+  ])
+
+  return { data, meta: { page, total, totalPages: Math.ceil(total / limit) } }
+}
+
+export async function getMySwapRequests(userId) {
+  return prisma.shiftSwapRequest.findMany({
+    where: {
+      OR: [{ requesterId: userId }, { targetEmployeeId: userId }],
+    },
+    include: {
+      requester: { select: { id: true, name: true, image: true } },
+      targetEmployee: { select: { id: true, name: true, image: true } },
+      reviewer: { select: { id: true, name: true } },
+    },
+    orderBy: { createdAt: 'desc' },
+  })
+}
+
+export async function respondToSwapRequest(id, status, reviewerId, adminNote) {
+  const request = await prisma.shiftSwapRequest.findUnique({ where: { id } })
+  if (!request) throw new ApiError(404, 'Swap request not found')
+  if (request.status !== 'PENDING') throw new ApiError(400, 'Request already processed')
+
+  const updated = await prisma.shiftSwapRequest.update({
+    where: { id },
+    data: {
+      status,
+      reviewedBy: reviewerId,
+      reviewedAt: new Date(),
+      adminNote: adminNote || null,
+    },
+  })
+
+  // If approved, swap the schedule entries
+  if (status === 'APPROVED') {
+    const requesterEntry = await prisma.shiftScheduleEntry.findUnique({ where: { id: request.requesterScheduleId } })
+    const targetEntry = await prisma.shiftScheduleEntry.findUnique({ where: { id: request.targetScheduleId } })
+
+    if (requesterEntry && targetEntry) {
+      await prisma.$transaction([
+        prisma.shiftScheduleEntry.update({
+          where: { id: requesterEntry.id },
+          data: { employeeId: targetEntry.employeeId },
+        }),
+        prisma.shiftScheduleEntry.update({
+          where: { id: targetEntry.id },
+          data: { employeeId: requesterEntry.employeeId },
+        }),
+      ])
+    }
+  }
+
+  return updated
+}
+
+// ============================================
+// Shift Conflict Detection
+// ============================================
+
+export async function checkConflicts(weekStart) {
+  const schedule = await getSchedule(weekStart)
+  const settings = await getShiftSettings()
+  const conflicts = []
+
+  // Group by employee
+  const byEmployee = {}
+  schedule.forEach(entry => {
+    if (!byEmployee[entry.employeeId]) byEmployee[entry.employeeId] = []
+    byEmployee[entry.employeeId].push(entry)
+  })
+
+  for (const [employeeId, entries] of Object.entries(byEmployee)) {
+    const sorted = entries.sort((a, b) => {
+      const dateA = new Date(a.date).getTime() + parseTime(a.startTime)
+      const dateB = new Date(b.date).getTime() + parseTime(b.startTime)
+      return dateA - dateB
+    })
+
+    for (let i = 0; i < sorted.length; i++) {
+      for (let j = i + 1; j < sorted.length; j++) {
+        const a = sorted[i]
+        const b = sorted[j]
+        const aDate = new Date(a.date).toISOString().split('T')[0]
+        const bDate = new Date(b.date).toISOString().split('T')[0]
+
+        // Same day overlap
+        if (aDate === bDate) {
+          if (timeOverlaps(a.startTime, a.endTime, b.startTime, b.endTime)) {
+            conflicts.push({
+              entryId: a.id,
+              conflictingEntryId: b.id,
+              type: 'OVERLAP',
+              reason: `${a.employee.name} has overlapping shifts on ${aDate}`,
+            })
+          }
+        }
+
+        // Rest period check (between consecutive days)
+        const aEnd = new Date(a.date).getTime() + parseTime(a.endTime)
+        const bStart = new Date(b.date).getTime() + parseTime(b.startTime)
+        const restHours = (bStart - aEnd) / (1000 * 60 * 60)
+
+        if (restHours > 0 && restHours < settings.minRestPeriodHours) {
+          conflicts.push({
+            entryId: a.id,
+            conflictingEntryId: b.id,
+            type: 'REST_PERIOD_VIOLATION',
+            reason: `${a.employee.name} has only ${restHours.toFixed(1)}h rest (min: ${settings.minRestPeriodHours}h)`,
+          })
+        }
+      }
+    }
+  }
+
+  return conflicts
+}
+
+function parseTime(timeStr) {
+  const [h, m] = timeStr.split(':').map(Number)
+  return (h * 60 + m) * 60 * 1000
+}
+
+function timeOverlaps(start1, end1, start2, end2) {
+  const s1 = parseTime(start1), e1 = parseTime(end1)
+  const s2 = parseTime(start2), e2 = parseTime(end2)
+  return s1 < e2 && s2 < e1
+}
+
+// ============================================
+// Employee Availability
+// ============================================
+
+export async function getMyAvailability(userId) {
+  return prisma.employeeAvailability.findMany({
+    where: { userId },
+    orderBy: { dayOfWeek: 'asc' },
+  })
+}
+
+export async function updateMyAvailability(userId, slots) {
+  // Delete existing and recreate
+  await prisma.employeeAvailability.deleteMany({ where: { userId } })
+
+  if (slots.length === 0) return []
+
+  await prisma.employeeAvailability.createMany({
+    data: slots.map(s => ({
+      userId,
+      dayOfWeek: s.dayOfWeek,
+      startTime: s.startTime,
+      endTime: s.endTime,
+      isAvailable: s.isAvailable !== undefined ? s.isAvailable : true,
+    })),
+  })
+
+  return prisma.employeeAvailability.findMany({
+    where: { userId },
+    orderBy: { dayOfWeek: 'asc' },
+  })
+}
+
+export async function getEmployeeAvailability(employeeId) {
+  return prisma.employeeAvailability.findMany({
+    where: { userId: employeeId },
+    orderBy: { dayOfWeek: 'asc' },
+  })
+}
+
+export async function getDepartmentAvailability(departmentId) {
+  const employees = await prisma.user.findMany({
+    where: { departmentId, banned: { not: true } },
+    select: {
+      id: true, name: true, image: true,
+      availability: { orderBy: { dayOfWeek: 'asc' } },
+    },
+  })
+  return employees
+}
+
+// ============================================
+// Shift Settings (Rest Period)
+// ============================================
+
+export async function getShiftSettings() {
+  let settings = await prisma.shiftSettings.findFirst()
+  if (!settings) {
+    settings = await prisma.shiftSettings.create({
+      data: { minRestPeriodHours: 11, maxShiftHours: 12 },
+    })
+  }
+  return settings
+}
+
+export async function updateShiftSettings(data) {
+  const existing = await prisma.shiftSettings.findFirst()
+  if (existing) {
+    return prisma.shiftSettings.update({
+      where: { id: existing.id },
+      data: {
+        minRestPeriodHours: data.minRestPeriodHours ?? existing.minRestPeriodHours,
+        maxShiftHours: data.maxShiftHours ?? existing.maxShiftHours,
+      },
+    })
+  }
+  return prisma.shiftSettings.create({ data })
+}

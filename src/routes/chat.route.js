@@ -5,6 +5,7 @@ import { requirePermission } from '../middlewares/requirePermission.js'
 const router = express.Router()
 
 // All chat routes require basic auth (leave:read as the baseline permission)
+router.get('/users/search', requirePermission('leave', 'read'), chatController.searchUsers)
 router.post('/conversations', requirePermission('leave', 'read'), chatController.createConversation)
 router.get('/conversations', requirePermission('leave', 'read'), chatController.listConversations)
 router.get('/conversations/:id/messages', requirePermission('leave', 'read'), chatController.getMessages)
