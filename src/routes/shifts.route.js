@@ -35,46 +35,6 @@ router.post(
 )
 
 /**
- * GET /api/shifts/:id
- * Get a single shift
- */
-router.get(
-  '/:id',
-  requirePermission('shift', 'read'),
-  shiftsController.getShift
-)
-
-/**
- * PUT /api/shifts/:id
- * Update a shift
- */
-router.put(
-  '/:id',
-  requirePermission('shift', 'edit'),
-  shiftsController.updateShift
-)
-
-/**
- * DELETE /api/shifts/:id
- * Delete a shift
- */
-router.delete(
-  '/:id',
-  requirePermission('shift', 'delete'),
-  shiftsController.deleteShift
-)
-
-/**
- * GET /api/shifts/:id/employees
- * Get employees in a shift
- */
-router.get(
-  '/:id/employees',
-  requirePermission('shift', 'read'),
-  shiftsController.getShiftEmployees
-)
-
-/**
  * POST /api/shifts/assign
  * Assign employee to shift
  */
@@ -125,5 +85,49 @@ router.get('/availability/department/:departmentId', requirePermission('shift', 
 // ============================================
 router.get('/settings', requirePermission('shift', 'read'), shiftsController.getShiftSettings)
 router.put('/settings', requirePermission('shift', 'edit'), shiftsController.updateShiftSettings)
+
+// ============================================
+// Single shift by ID (MUST be after all specific routes)
+// ============================================
+
+/**
+ * GET /api/shifts/:id
+ * Get a single shift
+ */
+router.get(
+  '/:id',
+  requirePermission('shift', 'read'),
+  shiftsController.getShift
+)
+
+/**
+ * PUT /api/shifts/:id
+ * Update a shift
+ */
+router.put(
+  '/:id',
+  requirePermission('shift', 'edit'),
+  shiftsController.updateShift
+)
+
+/**
+ * DELETE /api/shifts/:id
+ * Delete a shift
+ */
+router.delete(
+  '/:id',
+  requirePermission('shift', 'delete'),
+  shiftsController.deleteShift
+)
+
+/**
+ * GET /api/shifts/:id/employees
+ * Get employees in a shift
+ */
+router.get(
+  '/:id/employees',
+  requirePermission('shift', 'read'),
+  shiftsController.getShiftEmployees
+)
 
 export default router

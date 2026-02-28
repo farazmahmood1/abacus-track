@@ -31,31 +31,26 @@ export const getDashboardData = async (filters = {}) => {
     userFilter.departmentId = departmentId
   }
 
-  // Get all employees
+  // Get all employees (non-admin)
   const allEmployees = await prisma.user.findMany({
     where: userFilter,
     select: {
       id: true,
+      banned: true,
     },
   })
 
   const employeeIds = allEmployees.map(e => e.id)
 
-  // Get active employees (those with running timer - isActive is true AND endTime is null)
-  const activeTimerSessions = await prisma.timerSession.findMany({
-    where: {
-      userId: { in: employeeIds },
-      isActive: true,
-      isPaused: false,
-      endTime: null,
-    },
-    distinct: ['userId'],
-    select: { userId: true },
-  })
-  const activeEmployees = activeTimerSessions.length
+  // Active employees = non-banned accounts
+  const activeEmployees = allEmployees.filter(e => !e.banned).length
+  // Inactive employees = banned/deactivated accounts
+  const inactiveEmployees = allEmployees.filter(e => e.banned).length
 
-  // Get inactive employees (those without running timer)
-  const inactiveEmployees = employeeIds.length - activeEmployees
+  const todayStart = new Date()
+  todayStart.setHours(0, 0, 0, 0)
+  const todayEnd = new Date()
+  todayEnd.setHours(23, 59, 59, 999)
 
   // Build filter for timesheets
   const timesheetFilter = {

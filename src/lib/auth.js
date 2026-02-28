@@ -6,9 +6,7 @@ import { loadEmailTemplate } from '../utils/loadTemplate.js'
 import { sendEmail } from './mailer.js'
 import { ac, admin, employee } from './permission.js'
 import { generateUniqueIdForDatabase } from '../utils/generateUniqueId.js'
-import fs from 'fs'
 
-console.log('!!! AUTH.JS LOADED !!!');
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: 'postgresql',
@@ -17,7 +15,6 @@ export const auth = betterAuth({
     user: {
       create: {
         after: async (userData, ctx) => {
-          console.log('!!! AUTH HOOK TRIGGERED !!!');
           try {
             const isAdminCreated = !ctx.request.url.includes('/auth/sign-up')
 
@@ -35,46 +32,16 @@ export const auth = betterAuth({
               },
             })
 
-            // Try to extract the password from multiple sources
+            // Extract password from custom header
             let password = 'forrof1234'
-            let source = 'default'
             try {
-              // DEBUG: Log context to file
-              const debugData = {
-                headers: ctx.request && ctx.request.headers ? Object.fromEntries(ctx.request.headers.entries()) : 'no-headers',
-                input: ctx.input,
-                bodyData: ctx.body,
-                ctxKeys: Object.keys(ctx),
-                requestUrl: ctx.request ? ctx.request.url : 'no-url',
-                userDataRaw: userData
-              }
-              const debugPath = 'd:/Software Development/react-js/aa-forrof/forrof-tracker-backend/auth-debug.json';
-              fs.writeFileSync(debugPath, JSON.stringify(debugData, null, 2))
-              console.log('!!! WROTE DEBUG FILE TO ' + debugPath + ' !!!');
-
-              // 1. Check custom header (most robust as it's not a stream)
               const headerPassword = ctx.request.headers.get('x-temp-password')
-
               if (headerPassword) {
                 password = headerPassword
-                source = 'header'
-              } else if (ctx.body && (ctx.body.password || (ctx.body.data && ctx.body.data.tempPassword))) {
-                // 2. Check ctx.body (if better-auth already parsed it)
-                password = ctx.body.password || (ctx.body.data && ctx.body.data.tempPassword)
-                source = 'ctx.body'
-              } else if (ctx.input && (ctx.input.password || (ctx.input.data && ctx.input.data.tempPassword))) {
-                // 3. Check ctx.input (if better-auth already parsed it)
-                password = ctx.input.password || (ctx.input.data && ctx.input.data.tempPassword)
-                source = 'ctx.input'
               } else {
-                // 3. Fallback to reading cloned body (might fail if stream is locked)
-                const body = await ctx.request.clone().json().catch(() => null)
-                if (body) {
-                  password = body.password || (body.data && body.data.tempPassword) || (body.data && body.data.password) || password
-                  source = 'cloned-body'
-                }
+                // Fallback: try parsed body/input
+                password = ctx.body?.password || ctx.input?.password || password
               }
-              console.log(`[AUTH HOOK] Password for ${userData.email} found via ${source}`)
             } catch (e) {
               console.warn(`[AUTH HOOK] Error extracting password: ${e.message}`)
             }
@@ -108,7 +75,7 @@ export const auth = betterAuth({
                 `,
                 text: `Welcome to Forrof!\n\nHi ${userData.name},\n\nYour account has been created.\n\nEmail: ${userData.email}\nTemporary Password: ${password}\n\nPlease change your password after your first login.\n\nGo to: https://tracker.forrof.io`,
               })
-              console.log('Welcome email sent to:', userData.email)
+              console.log('[AUTH HOOK] Welcome email sent to:', userData.email)
             }
           } catch (error) {
             console.error('Error in user creation hook:', error)

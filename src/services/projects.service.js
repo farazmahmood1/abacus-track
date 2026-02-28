@@ -62,11 +62,36 @@ export async function list({
     prisma.project.count({ where }),
   ])
 
-  // Calculate total hours for each project
+  // Calculate total hours dynamically for each project from timer sessions + timesheets
+  const projectIds = items.map(p => p.id)
+
+  const [timerAgg, timesheetAgg] = await Promise.all([
+    prisma.timerSession.groupBy({
+      by: ['projectId'],
+      where: { projectId: { in: projectIds } },
+      _sum: { totalDuration: true },
+    }),
+    prisma.timesheet.groupBy({
+      by: ['projectId'],
+      where: { projectId: { in: projectIds } },
+      _sum: { totalHours: true },
+    }),
+  ])
+
+  const timerHoursMap = new Map(
+    timerAgg.map(a => [a.projectId, (a._sum.totalDuration || 0) / 3600])
+  )
+  const timesheetHoursMap = new Map(
+    timesheetAgg.map(a => [a.projectId, a._sum.totalHours || 0])
+  )
+
   const itemsWithHours = items.map(project => {
+    const timerHrs = timerHoursMap.get(project.id) || 0
+    const tsHrs = timesheetHoursMap.get(project.id) || 0
+    const computedHours = timerHrs + tsHrs
     return {
       ...project,
-      totalHours: parseFloat((project.totalHoursWorked || 0).toFixed(2)),
+      totalHours: parseFloat(computedHours.toFixed(2)),
       assignedUsers: project._count.members,
     }
   })
@@ -110,7 +135,8 @@ export async function getById(id) {
   })
 
   if (project) {
-    project.totalHours = parseFloat((project.totalHoursWorked || 0).toFixed(2))
+    const hours = await getProjectHours(id)
+    project.totalHours = hours.totalHours
     project.assignedUsers = project.members.length
   }
 

@@ -31,40 +31,45 @@ const generateUniqueIdForDatabase = async () => {
 
 async function main() {
   try {
-    console.log('🔄 Migrating unique IDs from RDX to E-ID format...')
+    console.log('🔄 Backfilling unique IDs for all users...\n')
+
+    // Find the highest existing E-ID number to continue from
+    const existingEIds = await prisma.user.findMany({
+      where: { uniqueId: { startsWith: 'E-' } },
+      select: { uniqueId: true },
+      orderBy: { uniqueId: 'desc' },
+      take: 1,
+    })
+
+    let counter = 1
+    if (existingEIds.length > 0) {
+      const lastNumber = parseInt(existingEIds[0].uniqueId.replace('E-', ''), 10)
+      counter = lastNumber + 1
+      console.log(`Continuing from E-${String(counter).padStart(3, '0')} (found existing IDs up to ${existingEIds[0].uniqueId})`)
+    }
 
     // Find all users with RDX IDs
     const usersWithRDX = await prisma.user.findMany({
-      where: {
-        uniqueId: {
-          startsWith: 'RDX-',
-        },
-      },
+      where: { uniqueId: { startsWith: 'RDX-' } },
       orderBy: { createdAt: 'asc' },
     })
-
     console.log(`Found ${usersWithRDX.length} users with RDX IDs`)
 
-    let counter = 1
     for (const user of usersWithRDX) {
       const newEId = generateUniqueId(counter)
       await prisma.user.update({
         where: { id: user.id },
         data: { uniqueId: newEId },
       })
-      console.log(
-        `✅ Migrated ${user.uniqueId} → ${newEId} for user ${user.name} (${user.email})`
-      )
+      console.log(`✅ Migrated ${user.uniqueId} → ${newEId} for ${user.name} (${user.email})`)
       counter++
     }
 
-    // Also check for users without any ID and generate for them
+    // Find all users without any unique ID
     const usersWithoutId = await prisma.user.findMany({
-      where: {
-        uniqueId: null,
-      },
+      where: { uniqueId: null },
+      orderBy: { createdAt: 'asc' },
     })
-
     console.log(`Found ${usersWithoutId.length} users without unique IDs`)
 
     for (const user of usersWithoutId) {
@@ -73,12 +78,13 @@ async function main() {
         where: { id: user.id },
         data: { uniqueId: newEId },
       })
-      console.log(`✅ Generated ${newEId} for user ${user.name} (${user.email})`)
+      console.log(`✅ Generated ${newEId} for ${user.name} (${user.email})`)
       counter++
     }
 
+    const total = usersWithRDX.length + usersWithoutId.length
     console.log(
-      `\n✨ Successfully migrated ${usersWithRDX.length + usersWithoutId.length} users to E-ID format!`
+      `\n✨ Successfully processed ${total} users!`
     )
   } catch (error) {
     console.error('❌ Error migrating unique IDs:', error)

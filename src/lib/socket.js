@@ -73,6 +73,19 @@ export function initializeSocket(httpServer) {
 
     logger.info(`Socket connected: ${userName} (${userRole}) [${socket.id}]`)
 
+    // Broadcast presence: send full online user list to admins
+    if (connectedUsers.get(userId)?.size === 1) {
+      // First socket for this user — they just came online
+      io.to('role:admin').emit('presence:update', {
+        onlineUserIds: Array.from(connectedUsers.keys()),
+      })
+    }
+
+    // Send current online list to newly connected socket
+    socket.emit('presence:update', {
+      onlineUserIds: Array.from(connectedUsers.keys()),
+    })
+
     // Chat: Join/leave conversation rooms
     socket.on('chat:join', conversationId => {
       socket.join(`conversation:${conversationId}`)
@@ -106,6 +119,13 @@ export function initializeSocket(httpServer) {
           connectedUsers.delete(userId)
         }
       }
+      // If user has no more sockets, they went offline — broadcast update
+      if (!connectedUsers.has(userId)) {
+        io.to('role:admin').emit('presence:update', {
+          onlineUserIds: Array.from(connectedUsers.keys()),
+        })
+      }
+
       logger.info(`Socket disconnected: ${userName} [${socket.id}] - ${reason}`)
     })
   })
