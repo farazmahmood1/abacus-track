@@ -134,6 +134,7 @@ exports.Prisma.UserScalarFieldEnum = {
   salary: 'salary',
   address: 'address',
   departmentId: 'departmentId',
+  companyId: 'companyId',
   isPasswordChanged: 'isPasswordChanged',
   isProfileCompleted: 'isProfileCompleted',
   githubUrl: 'githubUrl',
@@ -189,6 +190,7 @@ exports.Prisma.AnnouncementScalarFieldEnum = {
   description: 'description',
   category: 'category',
   departmentId: 'departmentId',
+  companyId: 'companyId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   expiresAt: 'expiresAt',
@@ -235,6 +237,7 @@ exports.Prisma.DepartmentScalarFieldEnum = {
   id: 'id',
   name: 'name',
   description: 'description',
+  companyId: 'companyId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -244,6 +247,7 @@ exports.Prisma.ProjectScalarFieldEnum = {
   name: 'name',
   description: 'description',
   status: 'status',
+  companyId: 'companyId',
   departmentId: 'departmentId',
   totalHoursWorked: 'totalHoursWorked',
   createdAt: 'createdAt',
@@ -403,6 +407,7 @@ exports.Prisma.ShiftScalarFieldEnum = {
   breakMinutes: 'breakMinutes',
   isDefault: 'isDefault',
   isActive: 'isActive',
+  companyId: 'companyId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -434,6 +439,7 @@ exports.Prisma.LeavePolicyScalarFieldEnum = {
   annualDays: 'annualDays',
   maxCarryOver: 'maxCarryOver',
   isActive: 'isActive',
+  companyId: 'companyId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -475,6 +481,7 @@ exports.Prisma.OvertimeConfigScalarFieldEnum = {
   monthlyLimitHours: 'monthlyLimitHours',
   alertThreshold: 'alertThreshold',
   isActive: 'isActive',
+  companyId: 'companyId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -504,6 +511,7 @@ exports.Prisma.AppCategoryScalarFieldEnum = {
   id: 'id',
   appName: 'appName',
   category: 'category',
+  companyId: 'companyId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -514,6 +522,7 @@ exports.Prisma.ReviewCycleScalarFieldEnum = {
   startDate: 'startDate',
   endDate: 'endDate',
   status: 'status',
+  companyId: 'companyId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -553,6 +562,7 @@ exports.Prisma.AssetScalarFieldEnum = {
   condition: 'condition',
   notes: 'notes',
   isAvailable: 'isAvailable',
+  companyId: 'companyId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -596,6 +606,7 @@ exports.Prisma.ConversationScalarFieldEnum = {
   id: 'id',
   type: 'type',
   name: 'name',
+  companyId: 'companyId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -623,6 +634,7 @@ exports.Prisma.HolidayScalarFieldEnum = {
   name: 'name',
   date: 'date',
   isOptional: 'isOptional',
+  companyId: 'companyId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -696,6 +708,7 @@ exports.Prisma.ShiftSettingsScalarFieldEnum = {
   id: 'id',
   minRestPeriodHours: 'minRestPeriodHours',
   maxShiftHours: 'maxShiftHours',
+  companyId: 'companyId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -788,6 +801,7 @@ exports.Prisma.DocumentScalarFieldEnum = {
   requiresAcknowledgment: 'requiresAcknowledgment',
   uploadedBy: 'uploadedBy',
   isActive: 'isActive',
+  companyId: 'companyId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -825,6 +839,7 @@ exports.Prisma.BadgeScalarFieldEnum = {
   icon: 'icon',
   criteria: 'criteria',
   threshold: 'threshold',
+  companyId: 'companyId',
   createdAt: 'createdAt'
 };
 
@@ -846,6 +861,7 @@ exports.Prisma.WellnessChallengeScalarFieldEnum = {
   unit: 'unit',
   createdBy: 'createdBy',
   isActive: 'isActive',
+  companyId: 'companyId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -880,6 +896,7 @@ exports.Prisma.IntegrationScalarFieldEnum = {
   projectMapping: 'projectMapping',
   isActive: 'isActive',
   configuredBy: 'configuredBy',
+  companyId: 'companyId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -895,13 +912,110 @@ exports.Prisma.ScheduledReportScalarFieldEnum = {
   nextSendAt: 'nextSendAt',
   isActive: 'isActive',
   createdBy: 'createdBy',
+  companyId: 'companyId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CompanyScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  domain: 'domain',
+  logo: 'logo',
+  colorPrimary: 'colorPrimary',
+  colorSecondary: 'colorSecondary',
+  status: 'status',
+  maxUsers: 'maxUsers',
+  currentUserCount: 'currentUserCount',
+  stripeCustomerId: 'stripeCustomerId',
+  stripeSubscriptionId: 'stripeSubscriptionId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PlanScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  description: 'description',
+  price: 'price',
+  yearlyPrice: 'yearlyPrice',
+  currency: 'currency',
+  maxUsers: 'maxUsers',
+  maxStorage: 'maxStorage',
+  apiAccess: 'apiAccess',
+  supportLevel: 'supportLevel',
+  isActive: 'isActive',
+  isCustom: 'isCustom',
+  sortOrder: 'sortOrder',
+  stripeProductId: 'stripeProductId',
+  stripeMonthlyPriceId: 'stripeMonthlyPriceId',
+  stripeYearlyPriceId: 'stripeYearlyPriceId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PlanFeatureScalarFieldEnum = {
+  id: 'id',
+  planId: 'planId',
+  featureKey: 'featureKey',
+  featureName: 'featureName',
+  enabled: 'enabled',
+  limit: 'limit',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.SubscriptionScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  planId: 'planId',
+  stripeSubscriptionId: 'stripeSubscriptionId',
+  stripeCustomerId: 'stripeCustomerId',
+  stripePriceId: 'stripePriceId',
+  status: 'status',
+  billingCycle: 'billingCycle',
+  currentPeriodStart: 'currentPeriodStart',
+  currentPeriodEnd: 'currentPeriodEnd',
+  cancelAtPeriodEnd: 'cancelAtPeriodEnd',
+  canceledAt: 'canceledAt',
+  trialStart: 'trialStart',
+  trialEnd: 'trialEnd',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AuditLogScalarFieldEnum = {
+  id: 'id',
+  actorId: 'actorId',
+  actorRole: 'actorRole',
+  action: 'action',
+  targetType: 'targetType',
+  targetId: 'targetId',
+  metadata: 'metadata',
+  ipAddress: 'ipAddress',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.CompanyFeatureOverrideScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  featureKey: 'featureKey',
+  enabled: 'enabled',
+  limit: 'limit',
+  reason: 'reason',
+  overriddenBy: 'overriddenBy',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -912,6 +1026,12 @@ exports.Prisma.QueryMode = {
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
 };
 exports.AnnouncementCategory = exports.$Enums.AnnouncementCategory = {
   holiday: 'holiday',
@@ -1140,6 +1260,32 @@ exports.ReportFrequency = exports.$Enums.ReportFrequency = {
   MONTHLY: 'MONTHLY'
 };
 
+exports.CompanyStatus = exports.$Enums.CompanyStatus = {
+  ACTIVE: 'ACTIVE',
+  SUSPENDED: 'SUSPENDED',
+  DEACTIVATED: 'DEACTIVATED'
+};
+
+exports.SupportLevel = exports.$Enums.SupportLevel = {
+  BASIC: 'BASIC',
+  STANDARD: 'STANDARD',
+  PRIORITY: 'PRIORITY',
+  DEDICATED: 'DEDICATED'
+};
+
+exports.SubscriptionStatus = exports.$Enums.SubscriptionStatus = {
+  ACTIVE: 'ACTIVE',
+  PAST_DUE: 'PAST_DUE',
+  CANCELED: 'CANCELED',
+  TRIALING: 'TRIALING',
+  INCOMPLETE: 'INCOMPLETE'
+};
+
+exports.BillingCycle = exports.$Enums.BillingCycle = {
+  MONTHLY: 'MONTHLY',
+  YEARLY: 'YEARLY'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Session: 'Session',
@@ -1205,7 +1351,13 @@ exports.Prisma.ModelName = {
   WellnessChallengeParticipant: 'WellnessChallengeParticipant',
   MoodEntry: 'MoodEntry',
   Integration: 'Integration',
-  ScheduledReport: 'ScheduledReport'
+  ScheduledReport: 'ScheduledReport',
+  Company: 'Company',
+  Plan: 'Plan',
+  PlanFeature: 'PlanFeature',
+  Subscription: 'Subscription',
+  AuditLog: 'AuditLog',
+  CompanyFeatureOverride: 'CompanyFeatureOverride'
 };
 
 /**

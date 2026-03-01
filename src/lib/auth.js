@@ -4,7 +4,7 @@ import { admin as adminPlugin } from 'better-auth/plugins'
 import prisma from '../config/prisma.js'
 import { loadEmailTemplate } from '../utils/loadTemplate.js'
 import { sendEmail } from './mailer.js'
-import { ac, admin, employee } from './permission.js'
+import { ac, admin, employee, superAdmin } from './permission.js'
 import { generateUniqueIdForDatabase } from '../utils/generateUniqueId.js'
 
 export const auth = betterAuth({
@@ -95,6 +95,7 @@ export const auth = betterAuth({
       uniqueId: { enabled: true, required: false },
       githubUrl: { enabled: true, required: false },
       linkedinUrl: { enabled: true, required: false },
+      companyId: { enabled: true, required: false },
     },
     changeEmail: { enabled: true },
   },
@@ -145,11 +146,12 @@ export const auth = betterAuth({
     adminPlugin({
       ac,
       roles: {
+        super_admin: superAdmin,
         admin,
         employee,
       },
       defaultRole: 'employee',
-      adminRoles: ['admin'],
+      adminRoles: ['admin', 'super_admin'],
     }),
   ],
   advanced: {

@@ -30,6 +30,11 @@ const envSchema = z.object({
   CLOUDINARY_NAME: z.string().min(1, 'CLOUDINARY_NAME is required'),
   CLOUDINARY_APIKEY: z.string().min(1, 'CLOUDINARY_APIKEY is required'),
   CLOUDINARY_SECRET: z.string().min(1, 'CLOUDINARY_SECRET is required'),
+
+  // Stripe (optional — required for billing features)
+  STRIPE_SECRET_KEY: z.string().optional().default(''),
+  STRIPE_WEBHOOK_SECRET: z.string().optional().default(''),
+  STRIPE_PUBLISHABLE_KEY: z.string().optional().default(''),
 })
 
 export const ENV = envSchema.parse(process.env)

@@ -41,6 +41,8 @@ import scheduledReportRoute from './scheduledReport.route.js'
 import milestoneRoute from './milestone.route.js'
 import gamificationRoute from './gamification.route.js'
 import wellnessRoute from './wellness.route.js'
+import superAdminRoute from './superAdmin.route.js'
+import billingRoute from './billing.route.js'
 
 const router = express.Router()
 
@@ -200,6 +202,14 @@ const defaultRoutes = [
   {
     path: '/wellness',
     route: wellnessRoute,
+  },
+  {
+    path: '/super-admin',
+    route: superAdminRoute,
+  },
+  {
+    path: '/billing',
+    route: billingRoute,
   },
 ]
 

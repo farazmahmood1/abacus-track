@@ -42,6 +42,10 @@ model User {
   address            String?
   departmentId       String?
   department         Department? @relation("DepartmentEmployees", fields: [departmentId], references: [id], onDelete: SetNull)
+
+  // Multi-tenant
+  companyId          String?
+  company            Company?    @relation("CompanyUsers", fields: [companyId], references: [id], onDelete: SetNull)
   isPasswordChanged  Boolean     @default(true)
   isProfileCompleted Boolean     @default(false)
   githubUrl          String?
@@ -134,7 +138,12 @@ model User {
   locationLogs            LocationLog[]
   scheduledReports        ScheduledReport[]
 
+  // Super Admin relations
+  auditLogs               AuditLog[]               @relation("AuditLogActor")
+  featureOverrides        CompanyFeatureOverride[]  @relation("FeatureOverrideUser")
+
   @@unique([email])
+  @@index([companyId])
   @@map("user")
 }
 
@@ -195,6 +204,10 @@ model Announcement {
   category     AnnouncementCategory
   departmentId String?
   department   Department?          @relation("DepartmentAnnouncements", fields: [departmentId], references: [id], onDelete: SetNull)
+
+  // Multi-tenant
+  companyId String?
+  company   Company? @relation("CompanyAnnouncements", fields: [companyId], references: [id], onDelete: Cascade)
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -280,8 +293,39 @@ model Leave {
 }
 
 enum Role {
+  SUPER_ADMIN
   ADMIN
   EMPLOYEE
+}
+
+// ============================================
+// MULTI-TENANT & SUBSCRIPTION ENUMS
+// ============================================
+
+enum CompanyStatus {
+  ACTIVE
+  SUSPENDED
+  DEACTIVATED
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  PAST_DUE
+  CANCELED
+  TRIALING
+  INCOMPLETE
+}
+
+enum BillingCycle {
+  MONTHLY
+  YEARLY
+}
+
+enum SupportLevel {
+  BASIC
+  STANDARD
+  PRIORITY
+  DEDICATED
 }
 
 enum AnnouncementCategory {
@@ -315,8 +359,12 @@ enum ProjectStatus {
 
 model Department {
   id          String  @id @default(cuid())
-  name        String  @unique
+  name        String
   description String?
+
+  // Multi-tenant
+  companyId String?
+  company   Company? @relation("CompanyDepartments", fields: [companyId], references: [id], onDelete: Cascade)
 
   // Relationships
   employees     User[]         @relation("DepartmentEmployees")
@@ -326,6 +374,8 @@ model Department {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  @@unique([name, companyId])
+  @@index([companyId])
   @@map("departments")
 }
 
@@ -334,6 +384,10 @@ model Project {
   name        String
   description String?       @db.Text
   status      ProjectStatus @default(ACTIVE)
+
+  // Multi-tenant
+  companyId String?
+  company   Company? @relation("CompanyProjects", fields: [companyId], references: [id], onDelete: Cascade)
 
   // Department association
   departmentId String?
@@ -353,6 +407,7 @@ model Project {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  @@index([companyId])
   @@index([departmentId])
   @@index([status])
   @@map("projects")
@@ -603,11 +658,17 @@ model Shift {
   breakMinutes Int         @default(60)
   isDefault    Boolean     @default(false)
   isActive     Boolean     @default(true)
+
+  // Multi-tenant
+  companyId String?
+  company   Company? @relation("CompanyShifts", fields: [companyId], references: [id], onDelete: Cascade)
+
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
   employees    UserShift[]
   scheduleEntries ShiftScheduleEntry[]
 
+  @@index([companyId])
   @@map("shifts")
 }
 
@@ -648,13 +709,20 @@ model LeaveBalance {
 
 model LeavePolicy {
   id            String    @id @default(cuid())
-  leaveType     LeaveType @unique
+  leaveType     LeaveType
   annualDays    Float     // Default days per year
   maxCarryOver  Float     @default(0)
   isActive      Boolean   @default(true)
+
+  // Multi-tenant
+  companyId String?
+  company   Company? @relation("CompanyLeavePolicies", fields: [companyId], references: [id], onDelete: Cascade)
+
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
+  @@unique([leaveType, companyId])
+  @@index([companyId])
   @@map("leave_policies")
 }
 
@@ -724,9 +792,15 @@ model OvertimeConfig {
   monthlyLimitHours Float    @default(180)
   alertThreshold    Float    @default(0.9) // Alert at 90% of limit
   isActive          Boolean  @default(true)
+
+  // Multi-tenant
+  companyId String?
+  company   Company? @relation("CompanyOvertimeConfigs", fields: [companyId], references: [id], onDelete: Cascade)
+
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
+  @@index([companyId])
   @@map("overtime_configs")
 }
 
@@ -769,11 +843,18 @@ model CheckInOutNotification {
 // App Usage Categorization (for Reports)
 model AppCategory {
   id        String             @id @default(cuid())
-  appName   String             @unique
+  appName   String
   category  ProductivityCategory
+
+  // Multi-tenant (null = global default)
+  companyId String?
+  company   Company? @relation("CompanyAppCategories", fields: [companyId], references: [id], onDelete: Cascade)
+
   createdAt DateTime           @default(now())
   updatedAt DateTime           @updatedAt
 
+  @@unique([appName, companyId])
+  @@index([companyId])
   @@map("app_categories")
 }
 
@@ -791,10 +872,16 @@ model ReviewCycle {
   startDate DateTime          @db.Date
   endDate   DateTime          @db.Date
   status    ReviewCycleStatus @default(DRAFT)
+
+  // Multi-tenant
+  companyId String?
+  company   Company? @relation("CompanyReviewCycles", fields: [companyId], references: [id], onDelete: Cascade)
+
   createdAt DateTime          @default(now())
   updatedAt DateTime          @updatedAt
   reviews   Review[]
 
+  @@index([companyId])
   @@map("review_cycles")
 }
 
@@ -860,10 +947,16 @@ model Asset {
   condition    AssetCondition    @default(GOOD)
   notes        String?
   isAvailable  Boolean           @default(true)
+
+  // Multi-tenant
+  companyId String?
+  company   Company? @relation("CompanyAssets", fields: [companyId], references: [id], onDelete: Cascade)
+
   assignments  AssetAssignment[]
   createdAt    DateTime          @default(now())
   updatedAt    DateTime          @updatedAt
 
+  @@index([companyId])
   @@map("assets")
 }
 
@@ -964,11 +1057,17 @@ model Conversation {
   id           String                    @id @default(cuid())
   type         ConversationType          @default(DIRECT)
   name         String?
+
+  // Multi-tenant
+  companyId String?
+  company   Company? @relation("CompanyConversations", fields: [companyId], references: [id], onDelete: Cascade)
+
   participants ConversationParticipant[]
   messages     Message[]
   createdAt    DateTime                  @default(now())
   updatedAt    DateTime                  @updatedAt
 
+  @@index([companyId])
   @@map("conversations")
 }
 
@@ -1015,9 +1114,15 @@ model Holiday {
   name       String
   date       DateTime @db.Date
   isOptional Boolean  @default(false)
+
+  // Multi-tenant
+  companyId String?
+  company   Company? @relation("CompanyHolidays", fields: [companyId], references: [id], onDelete: Cascade)
+
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
+  @@index([companyId])
   @@map("holidays")
 }
 
@@ -1136,9 +1241,15 @@ model ShiftSettings {
   id                  String   @id @default(cuid())
   minRestPeriodHours  Float    @default(11)
   maxShiftHours       Float    @default(12)
+
+  // Multi-tenant
+  companyId String?
+  company   Company? @relation("CompanyShiftSettings", fields: [companyId], references: [id], onDelete: Cascade)
+
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
 
+  @@index([companyId])
   @@map("shift_settings")
 }
 
@@ -1328,10 +1439,16 @@ model Document {
   uploadedBy              String
   uploader                User                    @relation(fields: [uploadedBy], references: [id])
   isActive                Boolean                 @default(true)
+
+  // Multi-tenant
+  companyId String?
+  company   Company? @relation("CompanyDocuments", fields: [companyId], references: [id], onDelete: Cascade)
+
   acknowledgments         DocumentAcknowledgment[]
   createdAt               DateTime                @default(now())
   updatedAt               DateTime                @updatedAt
 
+  @@index([companyId])
   @@index([category])
   @@index([uploadedBy])
   @@map("documents")
@@ -1405,14 +1522,21 @@ enum GamificationCategory {
 
 model Badge {
   id          String      @id @default(cuid())
-  name        String      @unique
+  name        String
   description String
   icon        String      // emoji or icon name
   criteria    String      // human-readable criteria
   threshold   Int         @default(0) // points needed
+
+  // Multi-tenant
+  companyId String?
+  company   Company? @relation("CompanyBadges", fields: [companyId], references: [id], onDelete: Cascade)
+
   userBadges  UserBadge[]
   createdAt   DateTime    @default(now())
 
+  @@unique([name, companyId])
+  @@index([companyId])
   @@map("badges")
 }
 
@@ -1442,10 +1566,16 @@ model WellnessChallenge {
   createdBy    String
   creator      User                           @relation(fields: [createdBy], references: [id])
   isActive     Boolean                        @default(true)
+
+  // Multi-tenant
+  companyId String?
+  company   Company? @relation("CompanyWellnessChallenges", fields: [companyId], references: [id], onDelete: Cascade)
+
   participants WellnessChallengeParticipant[]
   createdAt    DateTime                       @default(now())
   updatedAt    DateTime                       @updatedAt
 
+  @@index([companyId])
   @@index([isActive])
   @@map("wellness_challenges")
 }
@@ -1504,9 +1634,15 @@ model Integration {
   isActive     Boolean         @default(true)
   configuredBy String
   configurer   User            @relation(fields: [configuredBy], references: [id])
+
+  // Multi-tenant
+  companyId String?
+  company   Company? @relation("CompanyIntegrations", fields: [companyId], references: [id], onDelete: Cascade)
+
   createdAt    DateTime        @default(now())
   updatedAt    DateTime        @updatedAt
 
+  @@index([companyId])
   @@index([type])
   @@map("integrations")
 }
@@ -1532,9 +1668,15 @@ model ScheduledReport {
   isActive   Boolean             @default(true)
   createdBy  String
   creator    User                @relation(fields: [createdBy], references: [id])
+
+  // Multi-tenant
+  companyId String?
+  company   Company? @relation("CompanyScheduledReports", fields: [companyId], references: [id], onDelete: Cascade)
+
   createdAt  DateTime            @default(now())
   updatedAt  DateTime            @updatedAt
 
+  @@index([companyId])
   @@index([isActive])
   @@map("scheduled_reports")
 }
@@ -1551,4 +1693,162 @@ enum ReportFrequency {
   DAILY
   WEEKLY
   MONTHLY
+}
+
+// ============================================
+// MULTI-TENANT SaaS MODELS
+// ============================================
+
+model Company {
+  id               String        @id @default(cuid())
+  name             String
+  slug             String        @unique
+  domain           String?
+  logo             String?
+  colorPrimary     String?       @default("#4f46e5")
+  colorSecondary   String?
+  status           CompanyStatus @default(ACTIVE)
+  maxUsers         Int           @default(5)
+  currentUserCount Int           @default(0)
+
+  // Stripe
+  stripeCustomerId     String? @unique
+  stripeSubscriptionId String?
+
+  // Relations
+  users                User[]                   @relation("CompanyUsers")
+  departments          Department[]             @relation("CompanyDepartments")
+  projects             Project[]                @relation("CompanyProjects")
+  shifts               Shift[]                  @relation("CompanyShifts")
+  shiftSettings        ShiftSettings[]          @relation("CompanyShiftSettings")
+  leavePolicies        LeavePolicy[]            @relation("CompanyLeavePolicies")
+  overtimeConfigs      OvertimeConfig[]         @relation("CompanyOvertimeConfigs")
+  announcements        Announcement[]           @relation("CompanyAnnouncements")
+  holidays             Holiday[]                @relation("CompanyHolidays")
+  reviewCycles         ReviewCycle[]            @relation("CompanyReviewCycles")
+  assets               Asset[]                  @relation("CompanyAssets")
+  documents            Document[]               @relation("CompanyDocuments")
+  badges               Badge[]                  @relation("CompanyBadges")
+  wellnessChallenges   WellnessChallenge[]      @relation("CompanyWellnessChallenges")
+  integrations         Integration[]            @relation("CompanyIntegrations")
+  scheduledReports     ScheduledReport[]        @relation("CompanyScheduledReports")
+  conversations        Conversation[]           @relation("CompanyConversations")
+  appCategories        AppCategory[]            @relation("CompanyAppCategories")
+  subscriptions        Subscription[]
+  featureOverrides     CompanyFeatureOverride[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@index([slug])
+  @@map("companies")
+}
+
+model Plan {
+  id          String       @id @default(cuid())
+  name        String       // Free, Basic, Enterprise, Custom
+  slug        String       @unique
+  description String?
+  price       Float        @default(0) // Monthly price per seat
+  yearlyPrice Float        @default(0) // Yearly price per seat
+  currency    String       @default("USD")
+  maxUsers    Int          @default(5)
+  maxStorage  Int          @default(1024) // MB
+  apiAccess   Boolean      @default(false)
+  supportLevel SupportLevel @default(BASIC)
+  isActive    Boolean      @default(true)
+  isCustom    Boolean      @default(false)
+  sortOrder   Int          @default(0)
+
+  // Stripe
+  stripeProductId       String?
+  stripeMonthlyPriceId  String?
+  stripeYearlyPriceId   String?
+
+  features      PlanFeature[]
+  subscriptions Subscription[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("plans")
+}
+
+model PlanFeature {
+  id          String  @id @default(cuid())
+  planId      String
+  plan        Plan    @relation(fields: [planId], references: [id], onDelete: Cascade)
+  featureKey  String  // e.g. "time_tracking", "reports", "chat"
+  featureName String  // Human-readable: "Time Tracking", "Reports"
+  enabled     Boolean @default(false)
+  limit       Int?    // Optional limit (e.g. max 5 projects)
+
+  createdAt DateTime @default(now())
+
+  @@unique([planId, featureKey])
+  @@index([planId])
+  @@map("plan_features")
+}
+
+model Subscription {
+  id                   String             @id @default(cuid())
+  companyId            String
+  company              Company            @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  planId               String
+  plan                 Plan               @relation(fields: [planId], references: [id])
+  stripeSubscriptionId String?            @unique
+  stripeCustomerId     String?
+  stripePriceId        String?
+  status               SubscriptionStatus @default(ACTIVE)
+  billingCycle         BillingCycle       @default(MONTHLY)
+  currentPeriodStart   DateTime?
+  currentPeriodEnd     DateTime?
+  cancelAtPeriodEnd    Boolean            @default(false)
+  canceledAt           DateTime?
+  trialStart           DateTime?
+  trialEnd             DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([companyId])
+  @@index([status])
+  @@map("subscriptions")
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  actorId    String
+  actor      User     @relation("AuditLogActor", fields: [actorId], references: [id])
+  actorRole  String
+  action     String   // e.g. "company.suspend", "plan.change", "user.role_change"
+  targetType String   // e.g. "company", "user", "plan"
+  targetId   String?
+  metadata   Json?    // Additional context
+  ipAddress  String?
+  createdAt  DateTime @default(now())
+
+  @@index([actorId])
+  @@index([action])
+  @@index([targetType])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+model CompanyFeatureOverride {
+  id           String   @id @default(cuid())
+  companyId    String
+  company      Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  featureKey   String
+  enabled      Boolean  @default(true)
+  limit        Int?
+  reason       String?
+  overriddenBy String
+  overrider    User     @relation("FeatureOverrideUser", fields: [overriddenBy], references: [id])
+  createdAt    DateTime @default(now())
+
+  @@unique([companyId, featureKey])
+  @@index([companyId])
+  @@map("company_feature_overrides")
 }

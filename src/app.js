@@ -13,6 +13,7 @@ import routes from './routes/index.js'
 import { ENV } from './config/env.js'
 import { toNodeHandler } from 'better-auth/node'
 import { auth } from './lib/auth.js'
+import { handleStripeWebhook } from './controllers/billing.controller.js'
 
 const app = express()
 
@@ -33,6 +34,9 @@ app.use(
 )
 
 app.all('/api/auth/*splat', toNodeHandler(auth))
+
+// Stripe webhook — must be BEFORE json body parser (needs raw body)
+app.post('/api/billing/webhooks/stripe', express.raw({ type: 'application/json' }), handleStripeWebhook)
 
 if (ENV.NODE_ENV === 'development') {
   app.use(successHandler)
