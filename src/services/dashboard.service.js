@@ -5,7 +5,7 @@ import prisma from '../config/prisma.js'
  * Supports filtering by department, project, and date range
  */
 export const getDashboardData = async (filters = {}) => {
-  const { departmentId, projectId, startDate, endDate } = filters
+  const { departmentId, projectId, startDate, endDate, companyId } = filters
 
   // Build where clauses for date range filters
   const dateFilter = {}
@@ -23,9 +23,10 @@ export const getDashboardData = async (filters = {}) => {
     }
   }
 
-  // Build department/project filter for users
+  // Build department/project filter for users - scope to company
   const userFilter = {
-    role: { not: 'admin' },
+    role: { notIn: ['admin', 'super_admin'] },
+    ...(companyId ? { companyId } : {}),
   }
   if (departmentId && departmentId !== 'all') {
     userFilter.departmentId = departmentId

@@ -7,10 +7,10 @@ const DEFAULT_LIMIT = 10
 /**
  * Create a new department
  */
-export async function create({ name, description }) {
-  // Check if department already exists
-  const existingDept = await prisma.department.findUnique({
-    where: { name },
+export async function create({ name, description, companyId }) {
+  // Check if department already exists within this company
+  const existingDept = await prisma.department.findFirst({
+    where: { name, companyId },
   })
 
   if (existingDept) {
@@ -21,6 +21,7 @@ export async function create({ name, description }) {
     data: {
       name,
       description,
+      companyId,
     },
   })
 }
@@ -28,11 +29,15 @@ export async function create({ name, description }) {
 /**
  * Get all departments with optional filters
  */
-export async function list({ search, page = DEFAULT_PAGE, limit = DEFAULT_LIMIT }) {
+export async function list({ search, page = DEFAULT_PAGE, limit = DEFAULT_LIMIT, companyId }) {
   page = Number(page) || DEFAULT_PAGE
   limit = Math.min(Number(limit) || DEFAULT_LIMIT, 100)
 
   const where = {}
+
+  if (companyId) {
+    where.companyId = companyId
+  }
 
   if (search) {
     where.OR = [

@@ -12,18 +12,26 @@ const connectedUsers = new Map()
  * @param {import('http').Server} httpServer
  */
 export function initializeSocket(httpServer) {
+  const allowedOrigins = [
+    'https://forrof-tracker.vercel.app',
+    'https://tracker.forrof.io',
+    'https://www.tracker.forrof.io',
+    'https://vs-code-time-duration.vercel.app',
+  ]
+
   io = new Server(httpServer, {
     cors: {
-      origin: [
-        'http://localhost:5173',
-        'http://localhost:5174',
-        'http://127.0.0.1:3001',
-        'http://localhost:3001',
-        'https://forrof-tracker.vercel.app',
-        'https://tracker.forrof.io',
-        'https://www.tracker.forrof.io',
-        'https://vs-code-time-duration.vercel.app',
-      ],
+      origin: (origin, callback) => {
+        if (
+          !origin ||
+          allowedOrigins.includes(origin) ||
+          /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)
+        ) {
+          callback(null, true)
+        } else {
+          callback(new Error('CORS not allowed'))
+        }
+      },
       credentials: true,
     },
     pingTimeout: 60000,

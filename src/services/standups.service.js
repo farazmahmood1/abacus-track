@@ -42,11 +42,16 @@ export async function getTodayStandup(userId) {
   })
 }
 
-export async function listStandups({ date, userId, departmentId, page = 1, limit = 20 }) {
+export async function listStandups({ date, userId, departmentId, companyId, page = 1, limit = 20 }) {
   const where = {}
   if (date) where.date = new Date(new Date(date).toISOString().split('T')[0])
   if (userId) where.userId = userId
-  if (departmentId) where.user = { departmentId }
+
+  // Scope to company and exclude super_admin
+  const userFilter = { role: { not: 'super_admin' } }
+  if (companyId) userFilter.companyId = companyId
+  if (departmentId) userFilter.departmentId = departmentId
+  where.user = userFilter
 
   const [records, total] = await Promise.all([
     prisma.standupReport.findMany({
@@ -61,11 +66,11 @@ export async function listStandups({ date, userId, departmentId, page = 1, limit
   return { data: records, meta: { page, limit, total, totalPages: Math.ceil(total / limit) } }
 }
 
-export async function getMissingStandups() {
+export async function getMissingStandups(companyId) {
   const today = new Date(new Date().toISOString().split('T')[0])
 
   const allUsers = await prisma.user.findMany({
-    where: { role: 'employee', banned: { not: true } },
+    where: { role: 'employee', banned: { not: true }, ...(companyId ? { companyId } : {}) },
     select: { id: true, name: true, email: true, image: true, departmentId: true },
   })
 

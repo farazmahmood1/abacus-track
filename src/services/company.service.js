@@ -43,6 +43,12 @@ export async function getCompanyById(id) {
         include: { plan: true },
       },
       featureOverrides: true,
+      users: {
+        where: { role: 'admin' },
+        orderBy: { createdAt: 'asc' },
+        take: 1,
+        select: { id: true, name: true, email: true, phone: true, designation: true },
+      },
       _count: {
         select: {
           users: true,
@@ -53,7 +59,10 @@ export async function getCompanyById(id) {
     },
   })
   if (!company) throw new ApiError(404, 'Company not found')
-  return company
+
+  // Flatten the owner from the users array
+  const { users, ...rest } = company
+  return { ...rest, owner: users[0] || null }
 }
 
 export async function createCompany(data) {

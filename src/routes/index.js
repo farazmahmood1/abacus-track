@@ -43,6 +43,7 @@ import gamificationRoute from './gamification.route.js'
 import wellnessRoute from './wellness.route.js'
 import superAdminRoute from './superAdmin.route.js'
 import billingRoute from './billing.route.js'
+import ownerOnboardingRoute from './ownerOnboarding.route.js'
 
 const router = express.Router()
 
@@ -210,6 +211,10 @@ const defaultRoutes = [
   {
     path: '/billing',
     route: billingRoute,
+  },
+  {
+    path: '/owner-onboarding',
+    route: ownerOnboardingRoute,
   },
 ]
 

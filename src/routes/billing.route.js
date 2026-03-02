@@ -8,6 +8,12 @@ const router = Router()
 // Public — fetch plans (no auth needed)
 router.get('/plans', billingController.getPublicPlans)
 
+// Company setup (auth only, no permission — user has no company yet)
+router.post('/setup-company', requireAuth, billingController.setupCompany)
+
+// Company info (any authenticated user with a company)
+router.get('/company', requireAuth, billingController.getCompany)
+
 // Authenticated — billing management (company admins)
 router.post('/checkout-session', requirePermission('billing', 'edit'), billingController.createCheckoutSession)
 router.post('/portal-session', requirePermission('billing', 'edit'), billingController.createPortalSession)

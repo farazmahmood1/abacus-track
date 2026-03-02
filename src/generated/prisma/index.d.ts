@@ -9117,6 +9117,7 @@ export namespace Prisma {
     isProfileCompleted: boolean | null
     githubUrl: string | null
     linkedinUrl: string | null
+    designation: string | null
     banned: boolean | null
     banReason: string | null
     banExpires: Date | null
@@ -9144,6 +9145,7 @@ export namespace Prisma {
     isProfileCompleted: boolean | null
     githubUrl: string | null
     linkedinUrl: string | null
+    designation: string | null
     banned: boolean | null
     banReason: string | null
     banExpires: Date | null
@@ -9171,6 +9173,7 @@ export namespace Prisma {
     isProfileCompleted: number
     githubUrl: number
     linkedinUrl: number
+    designation: number
     banned: number
     banReason: number
     banExpires: number
@@ -9208,6 +9211,7 @@ export namespace Prisma {
     isProfileCompleted?: true
     githubUrl?: true
     linkedinUrl?: true
+    designation?: true
     banned?: true
     banReason?: true
     banExpires?: true
@@ -9235,6 +9239,7 @@ export namespace Prisma {
     isProfileCompleted?: true
     githubUrl?: true
     linkedinUrl?: true
+    designation?: true
     banned?: true
     banReason?: true
     banExpires?: true
@@ -9262,6 +9267,7 @@ export namespace Prisma {
     isProfileCompleted?: true
     githubUrl?: true
     linkedinUrl?: true
+    designation?: true
     banned?: true
     banReason?: true
     banExpires?: true
@@ -9376,6 +9382,7 @@ export namespace Prisma {
     isProfileCompleted: boolean
     githubUrl: string | null
     linkedinUrl: string | null
+    designation: string | null
     banned: boolean | null
     banReason: string | null
     banExpires: Date | null
@@ -9422,6 +9429,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: boolean
     linkedinUrl?: boolean
+    designation?: boolean
     banned?: boolean
     banReason?: boolean
     banExpires?: boolean
@@ -9512,6 +9520,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: boolean
     linkedinUrl?: boolean
+    designation?: boolean
     banned?: boolean
     banReason?: boolean
     banExpires?: boolean
@@ -9542,6 +9551,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: boolean
     linkedinUrl?: boolean
+    designation?: boolean
     banned?: boolean
     banReason?: boolean
     banExpires?: boolean
@@ -9572,6 +9582,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: boolean
     linkedinUrl?: boolean
+    designation?: boolean
     banned?: boolean
     banReason?: boolean
     banExpires?: boolean
@@ -9580,7 +9591,7 @@ export namespace Prisma {
     joinDate?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "uniqueId" | "name" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "phone" | "role" | "salary" | "address" | "departmentId" | "companyId" | "isPasswordChanged" | "isProfileCompleted" | "githubUrl" | "linkedinUrl" | "banned" | "banReason" | "banExpires" | "managerId" | "dateOfBirth" | "joinDate", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "uniqueId" | "name" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "phone" | "role" | "salary" | "address" | "departmentId" | "companyId" | "isPasswordChanged" | "isProfileCompleted" | "githubUrl" | "linkedinUrl" | "designation" | "banned" | "banReason" | "banExpires" | "managerId" | "dateOfBirth" | "joinDate", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
@@ -9742,6 +9753,7 @@ export namespace Prisma {
       isProfileCompleted: boolean
       githubUrl: string | null
       linkedinUrl: string | null
+      designation: string | null
       banned: boolean | null
       banReason: string | null
       banExpires: Date | null
@@ -10251,6 +10263,7 @@ export namespace Prisma {
     readonly isProfileCompleted: FieldRef<"User", 'Boolean'>
     readonly githubUrl: FieldRef<"User", 'String'>
     readonly linkedinUrl: FieldRef<"User", 'String'>
+    readonly designation: FieldRef<"User", 'String'>
     readonly banned: FieldRef<"User", 'Boolean'>
     readonly banReason: FieldRef<"User", 'String'>
     readonly banExpires: FieldRef<"User", 'DateTime'>
@@ -85889,6 +85902,13 @@ export namespace Prisma {
     logo: string | null
     colorPrimary: string | null
     colorSecondary: string | null
+    description: string | null
+    industry: string | null
+    teamSize: string | null
+    website: string | null
+    companyAddress: string | null
+    timezone: string | null
+    workingHours: string | null
     status: $Enums.CompanyStatus | null
     maxUsers: number | null
     currentUserCount: number | null
@@ -85906,6 +85926,13 @@ export namespace Prisma {
     logo: string | null
     colorPrimary: string | null
     colorSecondary: string | null
+    description: string | null
+    industry: string | null
+    teamSize: string | null
+    website: string | null
+    companyAddress: string | null
+    timezone: string | null
+    workingHours: string | null
     status: $Enums.CompanyStatus | null
     maxUsers: number | null
     currentUserCount: number | null
@@ -85923,6 +85950,13 @@ export namespace Prisma {
     logo: number
     colorPrimary: number
     colorSecondary: number
+    description: number
+    industry: number
+    teamSize: number
+    website: number
+    companyAddress: number
+    timezone: number
+    workingHours: number
     status: number
     maxUsers: number
     currentUserCount: number
@@ -85952,6 +85986,13 @@ export namespace Prisma {
     logo?: true
     colorPrimary?: true
     colorSecondary?: true
+    description?: true
+    industry?: true
+    teamSize?: true
+    website?: true
+    companyAddress?: true
+    timezone?: true
+    workingHours?: true
     status?: true
     maxUsers?: true
     currentUserCount?: true
@@ -85969,6 +86010,13 @@ export namespace Prisma {
     logo?: true
     colorPrimary?: true
     colorSecondary?: true
+    description?: true
+    industry?: true
+    teamSize?: true
+    website?: true
+    companyAddress?: true
+    timezone?: true
+    workingHours?: true
     status?: true
     maxUsers?: true
     currentUserCount?: true
@@ -85986,6 +86034,13 @@ export namespace Prisma {
     logo?: true
     colorPrimary?: true
     colorSecondary?: true
+    description?: true
+    industry?: true
+    teamSize?: true
+    website?: true
+    companyAddress?: true
+    timezone?: true
+    workingHours?: true
     status?: true
     maxUsers?: true
     currentUserCount?: true
@@ -86090,6 +86145,13 @@ export namespace Prisma {
     logo: string | null
     colorPrimary: string | null
     colorSecondary: string | null
+    description: string | null
+    industry: string | null
+    teamSize: string | null
+    website: string | null
+    companyAddress: string | null
+    timezone: string | null
+    workingHours: string | null
     status: $Enums.CompanyStatus
     maxUsers: number
     currentUserCount: number
@@ -86126,6 +86188,13 @@ export namespace Prisma {
     logo?: boolean
     colorPrimary?: boolean
     colorSecondary?: boolean
+    description?: boolean
+    industry?: boolean
+    teamSize?: boolean
+    website?: boolean
+    companyAddress?: boolean
+    timezone?: boolean
+    workingHours?: boolean
     status?: boolean
     maxUsers?: boolean
     currentUserCount?: boolean
@@ -86164,6 +86233,13 @@ export namespace Prisma {
     logo?: boolean
     colorPrimary?: boolean
     colorSecondary?: boolean
+    description?: boolean
+    industry?: boolean
+    teamSize?: boolean
+    website?: boolean
+    companyAddress?: boolean
+    timezone?: boolean
+    workingHours?: boolean
     status?: boolean
     maxUsers?: boolean
     currentUserCount?: boolean
@@ -86181,6 +86257,13 @@ export namespace Prisma {
     logo?: boolean
     colorPrimary?: boolean
     colorSecondary?: boolean
+    description?: boolean
+    industry?: boolean
+    teamSize?: boolean
+    website?: boolean
+    companyAddress?: boolean
+    timezone?: boolean
+    workingHours?: boolean
     status?: boolean
     maxUsers?: boolean
     currentUserCount?: boolean
@@ -86198,6 +86281,13 @@ export namespace Prisma {
     logo?: boolean
     colorPrimary?: boolean
     colorSecondary?: boolean
+    description?: boolean
+    industry?: boolean
+    teamSize?: boolean
+    website?: boolean
+    companyAddress?: boolean
+    timezone?: boolean
+    workingHours?: boolean
     status?: boolean
     maxUsers?: boolean
     currentUserCount?: boolean
@@ -86207,7 +86297,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "domain" | "logo" | "colorPrimary" | "colorSecondary" | "status" | "maxUsers" | "currentUserCount" | "stripeCustomerId" | "stripeSubscriptionId" | "createdAt" | "updatedAt", ExtArgs["result"]["company"]>
+  export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "domain" | "logo" | "colorPrimary" | "colorSecondary" | "description" | "industry" | "teamSize" | "website" | "companyAddress" | "timezone" | "workingHours" | "status" | "maxUsers" | "currentUserCount" | "stripeCustomerId" | "stripeSubscriptionId" | "createdAt" | "updatedAt", ExtArgs["result"]["company"]>
   export type CompanyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | Company$usersArgs<ExtArgs>
     departments?: boolean | Company$departmentsArgs<ExtArgs>
@@ -86266,6 +86356,13 @@ export namespace Prisma {
       logo: string | null
       colorPrimary: string | null
       colorSecondary: string | null
+      description: string | null
+      industry: string | null
+      teamSize: string | null
+      website: string | null
+      companyAddress: string | null
+      timezone: string | null
+      workingHours: string | null
       status: $Enums.CompanyStatus
       maxUsers: number
       currentUserCount: number
@@ -86723,6 +86820,13 @@ export namespace Prisma {
     readonly logo: FieldRef<"Company", 'String'>
     readonly colorPrimary: FieldRef<"Company", 'String'>
     readonly colorSecondary: FieldRef<"Company", 'String'>
+    readonly description: FieldRef<"Company", 'String'>
+    readonly industry: FieldRef<"Company", 'String'>
+    readonly teamSize: FieldRef<"Company", 'String'>
+    readonly website: FieldRef<"Company", 'String'>
+    readonly companyAddress: FieldRef<"Company", 'String'>
+    readonly timezone: FieldRef<"Company", 'String'>
+    readonly workingHours: FieldRef<"Company", 'String'>
     readonly status: FieldRef<"Company", 'CompanyStatus'>
     readonly maxUsers: FieldRef<"Company", 'Int'>
     readonly currentUserCount: FieldRef<"Company", 'Int'>
@@ -93551,6 +93655,7 @@ export namespace Prisma {
     isProfileCompleted: 'isProfileCompleted',
     githubUrl: 'githubUrl',
     linkedinUrl: 'linkedinUrl',
+    designation: 'designation',
     banned: 'banned',
     banReason: 'banReason',
     banExpires: 'banExpires',
@@ -94532,6 +94637,13 @@ export namespace Prisma {
     logo: 'logo',
     colorPrimary: 'colorPrimary',
     colorSecondary: 'colorSecondary',
+    description: 'description',
+    industry: 'industry',
+    teamSize: 'teamSize',
+    website: 'website',
+    companyAddress: 'companyAddress',
+    timezone: 'timezone',
+    workingHours: 'workingHours',
     status: 'status',
     maxUsers: 'maxUsers',
     currentUserCount: 'currentUserCount',
@@ -95271,6 +95383,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFilter<"User"> | boolean
     githubUrl?: StringNullableFilter<"User"> | string | null
     linkedinUrl?: StringNullableFilter<"User"> | string | null
+    designation?: StringNullableFilter<"User"> | string | null
     banned?: BoolNullableFilter<"User"> | boolean | null
     banReason?: StringNullableFilter<"User"> | string | null
     banExpires?: DateTimeNullableFilter<"User"> | Date | string | null
@@ -95360,6 +95473,7 @@ export namespace Prisma {
     isProfileCompleted?: SortOrder
     githubUrl?: SortOrderInput | SortOrder
     linkedinUrl?: SortOrderInput | SortOrder
+    designation?: SortOrderInput | SortOrder
     banned?: SortOrderInput | SortOrder
     banReason?: SortOrderInput | SortOrder
     banExpires?: SortOrderInput | SortOrder
@@ -95452,6 +95566,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFilter<"User"> | boolean
     githubUrl?: StringNullableFilter<"User"> | string | null
     linkedinUrl?: StringNullableFilter<"User"> | string | null
+    designation?: StringNullableFilter<"User"> | string | null
     banned?: BoolNullableFilter<"User"> | boolean | null
     banReason?: StringNullableFilter<"User"> | string | null
     banExpires?: DateTimeNullableFilter<"User"> | Date | string | null
@@ -95541,6 +95656,7 @@ export namespace Prisma {
     isProfileCompleted?: SortOrder
     githubUrl?: SortOrderInput | SortOrder
     linkedinUrl?: SortOrderInput | SortOrder
+    designation?: SortOrderInput | SortOrder
     banned?: SortOrderInput | SortOrder
     banReason?: SortOrderInput | SortOrder
     banExpires?: SortOrderInput | SortOrder
@@ -95576,6 +95692,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolWithAggregatesFilter<"User"> | boolean
     githubUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
     linkedinUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
+    designation?: StringNullableWithAggregatesFilter<"User"> | string | null
     banned?: BoolNullableWithAggregatesFilter<"User"> | boolean | null
     banReason?: StringNullableWithAggregatesFilter<"User"> | string | null
     banExpires?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
@@ -100661,6 +100778,13 @@ export namespace Prisma {
     logo?: StringNullableFilter<"Company"> | string | null
     colorPrimary?: StringNullableFilter<"Company"> | string | null
     colorSecondary?: StringNullableFilter<"Company"> | string | null
+    description?: StringNullableFilter<"Company"> | string | null
+    industry?: StringNullableFilter<"Company"> | string | null
+    teamSize?: StringNullableFilter<"Company"> | string | null
+    website?: StringNullableFilter<"Company"> | string | null
+    companyAddress?: StringNullableFilter<"Company"> | string | null
+    timezone?: StringNullableFilter<"Company"> | string | null
+    workingHours?: StringNullableFilter<"Company"> | string | null
     status?: EnumCompanyStatusFilter<"Company"> | $Enums.CompanyStatus
     maxUsers?: IntFilter<"Company"> | number
     currentUserCount?: IntFilter<"Company"> | number
@@ -100698,6 +100822,13 @@ export namespace Prisma {
     logo?: SortOrderInput | SortOrder
     colorPrimary?: SortOrderInput | SortOrder
     colorSecondary?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
+    industry?: SortOrderInput | SortOrder
+    teamSize?: SortOrderInput | SortOrder
+    website?: SortOrderInput | SortOrder
+    companyAddress?: SortOrderInput | SortOrder
+    timezone?: SortOrderInput | SortOrder
+    workingHours?: SortOrderInput | SortOrder
     status?: SortOrder
     maxUsers?: SortOrder
     currentUserCount?: SortOrder
@@ -100739,6 +100870,13 @@ export namespace Prisma {
     logo?: StringNullableFilter<"Company"> | string | null
     colorPrimary?: StringNullableFilter<"Company"> | string | null
     colorSecondary?: StringNullableFilter<"Company"> | string | null
+    description?: StringNullableFilter<"Company"> | string | null
+    industry?: StringNullableFilter<"Company"> | string | null
+    teamSize?: StringNullableFilter<"Company"> | string | null
+    website?: StringNullableFilter<"Company"> | string | null
+    companyAddress?: StringNullableFilter<"Company"> | string | null
+    timezone?: StringNullableFilter<"Company"> | string | null
+    workingHours?: StringNullableFilter<"Company"> | string | null
     status?: EnumCompanyStatusFilter<"Company"> | $Enums.CompanyStatus
     maxUsers?: IntFilter<"Company"> | number
     currentUserCount?: IntFilter<"Company"> | number
@@ -100775,6 +100913,13 @@ export namespace Prisma {
     logo?: SortOrderInput | SortOrder
     colorPrimary?: SortOrderInput | SortOrder
     colorSecondary?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
+    industry?: SortOrderInput | SortOrder
+    teamSize?: SortOrderInput | SortOrder
+    website?: SortOrderInput | SortOrder
+    companyAddress?: SortOrderInput | SortOrder
+    timezone?: SortOrderInput | SortOrder
+    workingHours?: SortOrderInput | SortOrder
     status?: SortOrder
     maxUsers?: SortOrder
     currentUserCount?: SortOrder
@@ -100800,6 +100945,13 @@ export namespace Prisma {
     logo?: StringNullableWithAggregatesFilter<"Company"> | string | null
     colorPrimary?: StringNullableWithAggregatesFilter<"Company"> | string | null
     colorSecondary?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    description?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    industry?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    teamSize?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    website?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    companyAddress?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    timezone?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    workingHours?: StringNullableWithAggregatesFilter<"Company"> | string | null
     status?: EnumCompanyStatusWithAggregatesFilter<"Company"> | $Enums.CompanyStatus
     maxUsers?: IntWithAggregatesFilter<"Company"> | number
     currentUserCount?: IntWithAggregatesFilter<"Company"> | number
@@ -101288,6 +101440,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -101376,6 +101529,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -101460,6 +101614,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -101548,6 +101703,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -101634,6 +101790,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -101659,6 +101816,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -101685,6 +101843,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -107096,6 +107255,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -107133,6 +107299,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -107170,6 +107343,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -107207,6 +107387,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -107244,6 +107431,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -107261,6 +107455,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -107278,6 +107479,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -108409,6 +108617,7 @@ export namespace Prisma {
     isProfileCompleted?: SortOrder
     githubUrl?: SortOrder
     linkedinUrl?: SortOrder
+    designation?: SortOrder
     banned?: SortOrder
     banReason?: SortOrder
     banExpires?: SortOrder
@@ -108440,6 +108649,7 @@ export namespace Prisma {
     isProfileCompleted?: SortOrder
     githubUrl?: SortOrder
     linkedinUrl?: SortOrder
+    designation?: SortOrder
     banned?: SortOrder
     banReason?: SortOrder
     banExpires?: SortOrder
@@ -108467,6 +108677,7 @@ export namespace Prisma {
     isProfileCompleted?: SortOrder
     githubUrl?: SortOrder
     linkedinUrl?: SortOrder
+    designation?: SortOrder
     banned?: SortOrder
     banReason?: SortOrder
     banExpires?: SortOrder
@@ -112177,6 +112388,13 @@ export namespace Prisma {
     logo?: SortOrder
     colorPrimary?: SortOrder
     colorSecondary?: SortOrder
+    description?: SortOrder
+    industry?: SortOrder
+    teamSize?: SortOrder
+    website?: SortOrder
+    companyAddress?: SortOrder
+    timezone?: SortOrder
+    workingHours?: SortOrder
     status?: SortOrder
     maxUsers?: SortOrder
     currentUserCount?: SortOrder
@@ -112199,6 +112417,13 @@ export namespace Prisma {
     logo?: SortOrder
     colorPrimary?: SortOrder
     colorSecondary?: SortOrder
+    description?: SortOrder
+    industry?: SortOrder
+    teamSize?: SortOrder
+    website?: SortOrder
+    companyAddress?: SortOrder
+    timezone?: SortOrder
+    workingHours?: SortOrder
     status?: SortOrder
     maxUsers?: SortOrder
     currentUserCount?: SortOrder
@@ -112216,6 +112441,13 @@ export namespace Prisma {
     logo?: SortOrder
     colorPrimary?: SortOrder
     colorSecondary?: SortOrder
+    description?: SortOrder
+    industry?: SortOrder
+    teamSize?: SortOrder
+    website?: SortOrder
+    companyAddress?: SortOrder
+    timezone?: SortOrder
+    workingHours?: SortOrder
     status?: SortOrder
     maxUsers?: SortOrder
     currentUserCount?: SortOrder
@@ -120039,6 +120271,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -120075,6 +120314,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -120772,6 +121018,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -120859,6 +121106,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -120947,6 +121195,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -121034,6 +121283,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -122465,6 +122715,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -122501,6 +122758,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -123124,6 +123388,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -123211,6 +123476,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -123315,6 +123581,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFilter<"User"> | boolean
     githubUrl?: StringNullableFilter<"User"> | string | null
     linkedinUrl?: StringNullableFilter<"User"> | string | null
+    designation?: StringNullableFilter<"User"> | string | null
     banned?: BoolNullableFilter<"User"> | boolean | null
     banReason?: StringNullableFilter<"User"> | string | null
     banExpires?: DateTimeNullableFilter<"User"> | Date | string | null
@@ -124136,6 +124403,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -124223,6 +124491,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -124322,6 +124591,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -124409,6 +124679,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -124492,6 +124763,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -124579,6 +124851,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -124678,6 +124951,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -124765,6 +125039,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -124866,6 +125141,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -124902,6 +125184,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -124952,6 +125241,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -125039,6 +125329,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -125188,6 +125479,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -125224,6 +125522,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -125280,6 +125585,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -125367,6 +125673,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -125497,6 +125804,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -125584,6 +125892,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -125720,6 +126029,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -125807,6 +126117,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -125927,6 +126238,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -126014,6 +126326,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -126156,6 +126469,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -126243,6 +126557,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -126326,6 +126641,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -126413,6 +126729,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -126542,6 +126859,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -126629,6 +126947,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -126719,6 +127038,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -126755,6 +127081,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -126805,6 +127138,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -126891,6 +127225,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -127063,6 +127398,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -127099,6 +127441,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -127183,6 +127532,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -127219,6 +127575,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -127296,6 +127659,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -127383,6 +127747,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -127597,6 +127962,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -127633,6 +128005,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -127788,6 +128167,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -127875,6 +128255,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -128143,6 +128524,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -128230,6 +128612,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -128485,6 +128868,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -128572,6 +128956,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -128732,6 +129117,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -128819,6 +129205,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -129018,6 +129405,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -129105,6 +129493,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -129239,6 +129628,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -129326,6 +129716,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -129450,6 +129841,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -129537,6 +129929,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -129625,6 +130018,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -129712,6 +130106,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -129839,6 +130234,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -129926,6 +130322,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -130020,6 +130417,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -130107,6 +130505,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -130358,6 +130757,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -130445,6 +130845,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -130544,6 +130945,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -130631,6 +131033,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -130714,6 +131117,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -130801,6 +131205,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -130900,6 +131305,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -130987,6 +131393,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -131070,6 +131477,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -131157,6 +131565,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -131256,6 +131665,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -131343,6 +131753,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -131426,6 +131837,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -131513,6 +131925,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -131612,6 +132025,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -131699,6 +132113,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -131773,6 +132188,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -131809,6 +132231,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -131919,6 +132348,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -131955,6 +132391,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -132032,6 +132475,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -132119,6 +132563,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -132253,6 +132698,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -132340,6 +132786,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -132464,6 +132911,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -132551,6 +132999,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -132650,6 +133099,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -132737,6 +133187,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -132811,6 +133262,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -132847,6 +133305,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -132899,6 +133364,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -132935,6 +133407,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -132980,6 +133459,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -133067,6 +133547,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -133221,6 +133702,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -133308,6 +133790,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -133452,6 +133935,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -133539,6 +134023,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -133627,6 +134112,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -133714,6 +134200,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -133813,6 +134300,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -133900,6 +134388,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -133994,6 +134483,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -134081,6 +134571,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -134155,6 +134646,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -134191,6 +134689,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -134243,6 +134748,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -134279,6 +134791,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -134324,6 +134843,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -134411,6 +134931,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -134510,6 +135031,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -134597,6 +135119,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -134680,6 +135203,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -134767,6 +135291,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -134866,6 +135391,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -134953,6 +135479,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -135027,6 +135554,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -135063,6 +135597,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -135115,6 +135656,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -135151,6 +135699,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -135187,6 +135742,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -135223,6 +135785,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -135315,6 +135884,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -135351,6 +135927,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -135439,6 +136022,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -135526,6 +136110,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -135614,6 +136199,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -135701,6 +136287,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -135861,6 +136448,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -135948,6 +136536,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -136042,6 +136631,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -136129,6 +136719,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -136308,6 +136899,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -136344,6 +136942,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -136422,6 +137027,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -136458,6 +137070,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -136554,6 +137173,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -136641,6 +137261,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -136781,6 +137402,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -136868,6 +137490,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -136951,6 +137574,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -137038,6 +137662,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -137137,6 +137762,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -137224,6 +137850,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -137307,6 +137934,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -137394,6 +138022,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -137493,6 +138122,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -137580,6 +138210,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -137654,6 +138285,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -137690,6 +138328,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -137794,6 +138439,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -137830,6 +138482,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -137932,6 +138591,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -138019,6 +138679,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -138149,6 +138810,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -138236,6 +138898,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -138344,6 +139007,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -138431,6 +139095,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -138561,6 +139226,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -138648,6 +139314,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -138722,6 +139389,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -138758,6 +139432,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -138810,6 +139491,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -138846,6 +139534,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -138946,6 +139641,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -139033,6 +139729,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -139193,6 +139890,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -139280,6 +139978,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -139363,6 +140062,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -139450,6 +140150,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -139549,6 +140250,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -139636,6 +140338,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -139719,6 +140422,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -139806,6 +140510,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -139905,6 +140610,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -139992,6 +140698,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -140075,6 +140782,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -140162,6 +140870,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -140296,6 +141005,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -140383,6 +141093,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -140507,6 +141218,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -140594,6 +141306,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -140682,6 +141395,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -140769,6 +141483,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -140857,6 +141572,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -140944,6 +141660,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -141043,6 +141760,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -141130,6 +141848,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -141224,6 +141943,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -141311,6 +142031,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -141405,6 +142126,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -141492,6 +142214,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -141566,6 +142289,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -141602,6 +142332,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -141654,6 +142391,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -141690,6 +142434,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -141735,6 +142486,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -141822,6 +142574,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -141921,6 +142674,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -142008,6 +142762,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -142091,6 +142846,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -142178,6 +142934,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -142266,6 +143023,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -142353,6 +143111,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -142452,6 +143211,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -142539,6 +143299,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -142633,6 +143394,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -142720,6 +143482,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -142803,6 +143566,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -142890,6 +143654,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -142978,6 +143743,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -143065,6 +143831,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -143164,6 +143931,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -143251,6 +144019,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -143345,6 +144114,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -143432,6 +144202,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -143515,6 +144286,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -143602,6 +144374,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -143690,6 +144463,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -143777,6 +144551,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -143918,6 +144693,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -144005,6 +144781,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -144099,6 +144876,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -144186,6 +144964,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -144312,6 +145091,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -144399,6 +145179,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -144487,6 +145268,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -144574,6 +145356,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -144706,6 +145489,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -144793,6 +145577,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -144887,6 +145672,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -144974,6 +145760,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -145057,6 +145844,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -145144,6 +145932,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -145223,6 +146012,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -145259,6 +146055,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -145342,6 +146145,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -145429,6 +146233,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -145514,6 +146319,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -145550,6 +146362,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -145652,6 +146471,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -145739,6 +146559,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -145885,6 +146706,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -145972,6 +146794,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -146055,6 +146878,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -146142,6 +146966,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -146241,6 +147066,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -146328,6 +147154,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -146411,6 +147238,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -146498,6 +147326,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -146597,6 +147426,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -146684,6 +147514,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -146758,6 +147589,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -146794,6 +147632,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -146868,6 +147713,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -146904,6 +147756,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -146965,6 +147824,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -147052,6 +147912,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -147178,6 +148039,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -147265,6 +148127,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -147381,6 +148244,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -147468,6 +148332,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -147547,6 +148412,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -147583,6 +148455,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -147670,6 +148549,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -147757,6 +148637,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -147842,6 +148723,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -147878,6 +148766,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -147976,6 +148871,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -148063,6 +148959,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -148205,6 +149102,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -148292,6 +149190,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -148375,6 +149274,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -148462,6 +149362,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -148561,6 +149462,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -148648,6 +149550,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -148731,6 +149634,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -148818,6 +149722,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -148897,6 +149802,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -148933,6 +149845,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -148994,6 +149913,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -149081,6 +150001,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -149166,6 +150087,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -149202,6 +150130,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -149247,6 +150182,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -149334,6 +150270,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -149413,6 +150350,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -149449,6 +150393,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -149510,6 +150461,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -149597,6 +150549,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -149682,6 +150635,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -149718,6 +150678,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -149763,6 +150730,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -149849,6 +150817,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -151326,6 +152295,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -151362,6 +152338,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -151465,6 +152448,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -151501,6 +152491,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -151603,6 +152600,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -151690,6 +152688,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -151789,6 +152788,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -151876,6 +152876,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -151950,6 +152951,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -151986,6 +152994,13 @@ export namespace Prisma {
     logo?: string | null
     colorPrimary?: string | null
     colorSecondary?: string | null
+    description?: string | null
+    industry?: string | null
+    teamSize?: string | null
+    website?: string | null
+    companyAddress?: string | null
+    timezone?: string | null
+    workingHours?: string | null
     status?: $Enums.CompanyStatus
     maxUsers?: number
     currentUserCount?: number
@@ -152036,6 +153051,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -152123,6 +153139,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -152213,6 +153230,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -152249,6 +153273,13 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     colorPrimary?: NullableStringFieldUpdateOperationsInput | string | null
     colorSecondary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    teamSize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    companyAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     maxUsers?: IntFieldUpdateOperationsInput | number
     currentUserCount?: IntFieldUpdateOperationsInput | number
@@ -152305,6 +153336,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -152392,6 +153424,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -152807,6 +153840,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -154220,6 +155254,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -154307,6 +155342,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -154392,6 +155428,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -155508,6 +156545,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -155556,6 +156594,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -155642,6 +156681,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -155727,6 +156767,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -155874,6 +156915,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -155961,6 +157003,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -156046,6 +157089,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -156843,6 +157887,7 @@ export namespace Prisma {
     isProfileCompleted?: boolean
     githubUrl?: string | null
     linkedinUrl?: string | null
+    designation?: string | null
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
@@ -157091,6 +158136,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -157177,6 +158223,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -157262,6 +158309,7 @@ export namespace Prisma {
     isProfileCompleted?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null

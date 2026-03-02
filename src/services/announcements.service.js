@@ -97,7 +97,7 @@ async function createAnnouncementNotifications(announcement) {
       // Get all employees (company-wide announcement) - include those without a department
       employees = await prisma.user.findMany({
         where: {
-          role: { not: 'ADMIN' },
+          role: { notIn: ['admin', 'ADMIN', 'super_admin'] },
         },
         select: { id: true },
       })
@@ -107,7 +107,7 @@ async function createAnnouncementNotifications(announcement) {
       employees = await prisma.user.findMany({
         where: {
           departmentId: announcement.departmentId,
-          role: { not: 'ADMIN' },
+          role: { notIn: ['admin', 'ADMIN', 'super_admin'] },
         },
         select: { id: true },
       })

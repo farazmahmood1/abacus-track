@@ -27,6 +27,7 @@ export const getAttendanceRecords = catchAsync(async (req, res) => {
     page: parseInt(page) || 1,
     pageSize: parseInt(pageSize) || 10,
     showActiveOnly: showActiveOnly === 'true',
+    companyId: req.user.companyId,
   })
 
   res.json(result)
@@ -50,7 +51,7 @@ export const getAttendanceSummary = catchAsync(async (req, res) => {
     parsedDate = new Date(year, month - 1, day)
   }
 
-  const summary = await attendanceService.getAttendanceSummary(parsedDate)
+  const summary = await attendanceService.getAttendanceSummary(parsedDate, req.user.companyId)
 
   res.json(summary)
 })
@@ -77,6 +78,7 @@ export const exportAttendance = catchAsync(async (req, res) => {
     date: parsedDate,
     department,
     search,
+    companyId: req.user.companyId,
   })
 
   res.json({ data })

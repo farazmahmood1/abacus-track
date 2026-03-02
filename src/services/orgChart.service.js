@@ -1,8 +1,12 @@
 import prisma from '../config/prisma.js'
 
-export async function getOrgChart() {
+export async function getOrgChart(companyId) {
   const users = await prisma.user.findMany({
-    where: { banned: { not: true } },
+    where: {
+      banned: { not: true },
+      role: { not: 'super_admin' },
+      ...(companyId ? { companyId } : {}),
+    },
     select: {
       id: true,
       name: true,
@@ -33,9 +37,9 @@ export async function getOrgChart() {
   return roots
 }
 
-export async function setManager(userId, managerId) {
+export async function setManager(userId, managerId, companyId) {
   return prisma.user.update({
-    where: { id: userId },
+    where: { id: userId, ...(companyId ? { companyId } : {}) },
     data: { managerId: managerId || null },
     select: { id: true, name: true, managerId: true },
   })

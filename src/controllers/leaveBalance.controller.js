@@ -5,7 +5,7 @@ import catchAsync from '../utils/catchAsync.js'
  * Get leave policies
  */
 export const listPolicies = catchAsync(async (req, res) => {
-  const policies = await leaveBalanceService.listPolicies()
+  const policies = await leaveBalanceService.listPolicies(req.user.companyId)
 
   res.json({
     success: true,
@@ -17,7 +17,10 @@ export const listPolicies = catchAsync(async (req, res) => {
  * Create or update a leave policy
  */
 export const upsertPolicy = catchAsync(async (req, res) => {
-  const policy = await leaveBalanceService.upsertPolicy(req.body)
+  const policy = await leaveBalanceService.upsertPolicy({
+    ...req.body,
+    companyId: req.user.companyId,
+  })
 
   res.json({
     success: true,

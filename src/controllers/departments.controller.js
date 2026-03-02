@@ -5,7 +5,10 @@ import catchAsync from '../utils/catchAsync.js'
  * Create a new department
  */
 export const createDepartment = catchAsync(async (req, res) => {
-  const department = await departmentsService.create(req.body)
+  const department = await departmentsService.create({
+    ...req.body,
+    companyId: req.user.companyId,
+  })
 
   res.status(201).json({
     success: true,
@@ -24,6 +27,7 @@ export const listDepartments = catchAsync(async (req, res) => {
     search,
     page: parseInt(page),
     limit: parseInt(limit),
+    companyId: req.user.companyId,
   })
 
   res.json(result)

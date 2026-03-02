@@ -12,6 +12,7 @@ export const getAttendanceRecords = async (userId, filters = {}) => {
     page = 1,
     pageSize = 10,
     showActiveOnly = false,
+    companyId,
   } = filters
 
   const targetDate = new Date(date)
@@ -64,9 +65,10 @@ export const getAttendanceRecords = async (userId, filters = {}) => {
     ]
   }
 
-  // Get all users first (for showing absent users) - exclude admin role
+  // Get all users first (for showing absent users) - exclude admin role, scope to company
   const allUsersWhere = {
-    role: { not: 'admin' },
+    role: { notIn: ['admin', 'super_admin'] },
+    ...(companyId ? { companyId } : {}),
   }
   if (department && department !== 'All') {
     allUsersWhere.department = department
@@ -273,7 +275,7 @@ export const getAttendanceRecords = async (userId, filters = {}) => {
 /**
  * Get attendance summary stats
  */
-export const getAttendanceSummary = async (date = new Date()) => {
+export const getAttendanceSummary = async (date = new Date(), companyId) => {
   const targetDate = new Date(date)
   const startDate = startOfDay(targetDate)
   const endDate = endOfDay(targetDate)
@@ -281,10 +283,13 @@ export const getAttendanceSummary = async (date = new Date()) => {
   // Check if the selected date is today
   const isToday = startOfDay(new Date()).getTime() === startOfDay(targetDate).getTime()
 
-  // Get all users - exclude admin role
+  const companyFilter = companyId ? { companyId } : {}
+
+  // Get all users - exclude admin role, scope to company
   const totalEmployees = await prisma.user.count({
     where: {
-      role: { not: 'admin' },
+      role: { notIn: ['admin', 'super_admin'] },
+      ...companyFilter,
     },
   })
 
@@ -294,6 +299,7 @@ export const getAttendanceSummary = async (date = new Date()) => {
     onlineUsers = await prisma.timerSession.count({
       where: {
         isActive: true,
+        user: { ...companyFilter },
       },
     })
   }
@@ -301,7 +307,8 @@ export const getAttendanceSummary = async (date = new Date()) => {
   // Get users with records (timer sessions or timesheets) - exclude admin role
   const usersWithRecords = await prisma.user.count({
     where: {
-      role: { not: 'admin' },
+      role: { notIn: ['admin', 'super_admin'] },
+      ...companyFilter,
       OR: [
         {
           timerSessions: {

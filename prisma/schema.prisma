@@ -50,6 +50,7 @@ model User {
   isProfileCompleted Boolean     @default(false)
   githubUrl          String?
   linkedinUrl        String?
+  designation        String?
 
   // Onboarding relations
   profile     Profile?
@@ -1707,6 +1708,13 @@ model Company {
   logo             String?
   colorPrimary     String?       @default("#4f46e5")
   colorSecondary   String?
+  description      String?
+  industry         String?
+  teamSize         String?
+  website          String?
+  companyAddress   String?
+  timezone         String?
+  workingHours     String?
   status           CompanyStatus @default(ACTIVE)
   maxUsers         Int           @default(5)
   currentUserCount Int           @default(0)

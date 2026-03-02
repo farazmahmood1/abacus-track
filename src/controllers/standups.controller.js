@@ -24,6 +24,7 @@ const listStandups = catchAsync(async (req, res) => {
   const { date, userId, departmentId, page, limit } = req.query
   const data = await standupsService.listStandups({
     date, userId, departmentId,
+    companyId: req.user.companyId,
     page: page ? parseInt(page) : undefined,
     limit: limit ? parseInt(limit) : undefined,
   })
@@ -31,7 +32,7 @@ const listStandups = catchAsync(async (req, res) => {
 })
 
 const getMissingStandups = catchAsync(async (req, res) => {
-  const data = await standupsService.getMissingStandups()
+  const data = await standupsService.getMissingStandups(req.user.companyId)
   res.json({ success: true, data })
 })
 

@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import { requireSuperAdmin } from '../middlewares/requireSuperAdmin.js'
+import { upload } from '../middlewares/upload.js'
 import * as superAdminController from '../controllers/superAdmin.controller.js'
 
 const router = Router()
@@ -10,7 +11,7 @@ router.use(requireSuperAdmin)
 // Companies
 router.get('/companies', superAdminController.listCompanies)
 router.get('/companies/:id', superAdminController.getCompany)
-router.post('/companies', superAdminController.createCompany)
+router.post('/companies', upload.single('logo'), superAdminController.createCompany)
 router.put('/companies/:id', superAdminController.updateCompany)
 router.patch('/companies/:id/status', superAdminController.updateCompanyStatus)
 router.patch('/companies/:id/branding', superAdminController.updateCompanyBranding)

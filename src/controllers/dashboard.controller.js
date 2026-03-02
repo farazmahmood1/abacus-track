@@ -9,7 +9,7 @@ export const getDashboardData = catchAsync(async (req, res) => {
   const { departmentId, projectId, startDate, endDate } = req.query
 
   // Parse dates if provided
-  const filters = {}
+  const filters = { companyId: req.user.companyId }
   if (departmentId) filters.departmentId = departmentId
   if (projectId) filters.projectId = projectId
   if (startDate) filters.startDate = new Date(startDate)

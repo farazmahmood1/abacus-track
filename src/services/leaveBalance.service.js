@@ -2,10 +2,11 @@ import prisma from '../config/prisma.js'
 import ApiError from '../utils/ApiError.js'
 
 /**
- * Get all leave policies
+ * Get all leave policies for a company
  */
-export async function listPolicies() {
+export async function listPolicies(companyId) {
   return prisma.leavePolicy.findMany({
+    where: companyId ? { companyId } : {},
     orderBy: { leaveType: 'asc' },
   })
 }
@@ -14,13 +15,16 @@ export async function listPolicies() {
  * Create or update a leave policy
  */
 export async function upsertPolicy(data) {
+  const { companyId, leaveType, annualDays, maxCarryOver, isActive } = data
   return prisma.leavePolicy.upsert({
-    where: { leaveType: data.leaveType },
-    create: data,
+    where: {
+      leaveType_companyId: { leaveType, companyId },
+    },
+    create: { leaveType, annualDays, maxCarryOver: maxCarryOver ?? 0, isActive: isActive ?? true, companyId },
     update: {
-      annualDays: data.annualDays,
-      maxCarryOver: data.maxCarryOver ?? 0,
-      isActive: data.isActive ?? true,
+      annualDays,
+      maxCarryOver: maxCarryOver ?? 0,
+      isActive: isActive ?? true,
     },
   })
 }

@@ -16,7 +16,13 @@ export const auth = betterAuth({
       create: {
         after: async (userData, ctx) => {
           try {
-            const isAdminCreated = !ctx.request.url.includes('/auth/sign-up')
+            const requestUrl = ctx?.request?.url || ''
+            const isAdminCreated = !requestUrl.includes('/auth/sign-up')
+            // Support both Headers API (.get()) and plain object (bracket notation)
+            const hdrs = ctx?.request?.headers
+            const skipWelcomeEmail =
+              hdrs?.get?.('x-skip-welcome-email') === 'true' ||
+              hdrs?.['x-skip-welcome-email'] === 'true'
 
             // Generate unique ID if not already present
             const uniqueId = await generateUniqueIdForDatabase(prisma)
@@ -32,10 +38,16 @@ export const auth = betterAuth({
               },
             })
 
+            // Skip welcome email if the caller will send a custom one
+            if (skipWelcomeEmail) {
+              console.log('[AUTH HOOK] Skipping welcome email (custom email will be sent by caller)')
+              return
+            }
+
             // Extract password from custom header
             let password = 'forrof1234'
             try {
-              const headerPassword = ctx.request.headers.get('x-temp-password')
+              const headerPassword = hdrs?.get?.('x-temp-password') || hdrs?.['x-temp-password']
               if (headerPassword) {
                 password = headerPassword
               } else {
@@ -55,20 +67,20 @@ export const auth = betterAuth({
                     <h2>Welcome to Forrof! 👋</h2>
                     <p>Hi ${userData.name},</p>
                     <p>Your account has been created by an administrator. Here are your login details:</p>
-                    
+
                     <div style="background-color: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0;">
                       <p><strong>Email:</strong> ${userData.email}</p>
                       <p><strong>Temporary Password:</strong> ${password}</p>
                     </div>
-                    
+
                     <p><strong>Please change your password after your first login.</strong></p>
-                    
+
                     <p>
                       <a href="https://tracker.forrof.io" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
                         Go to Forrof
                       </a>
                     </p>
-                    
+
                     <p>If you have any questions, please contact the administrator.</p>
                     <p>Best regards,<br>Forrof Team</p>
                   </div>
@@ -165,6 +177,7 @@ export const auth = betterAuth({
   trustedOrigins: [
     'http://localhost:5173',
     'http://localhost:5174',
+    'http://localhost:3005',
     'http://127.0.0.1:3001',
     'http://localhost:3001',
     'https://forrof-tracker.vercel.app',

@@ -19,21 +19,52 @@ const app = express()
 
 app.use(
   cors({
-    origin: [
-      'http://localhost:5173',
-      'http://localhost:5174',
-      'http://127.0.0.1:3001',
-      'http://localhost:3001',
-      'https://forrof-tracker.vercel.app',
-      'https://tracker.forrof.io',
-      'https://www.tracker.forrof.io',
-      'https://vs-code-time-duration.vercel.app'
-    ],
+    origin: (origin, callback) => {
+      const allowedOrigins = [
+        'https://forrof-tracker.vercel.app',
+        'https://tracker.forrof.io',
+        'https://www.tracker.forrof.io',
+        'https://vs-code-time-duration.vercel.app'
+      ]
+      // Allow all localhost/127.0.0.1 origins in development
+      if (
+        !origin ||
+        allowedOrigins.includes(origin) ||
+        /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)
+      ) {
+        callback(null, true)
+      } else {
+        callback(new Error('Not allowed by CORS'))
+      }
+    },
     credentials: true,
   })
 )
 
-app.all('/api/auth/*splat', toNodeHandler(auth))
+// Explicit CORS for auth routes (toNodeHandler bypasses Express cors middleware)
+const isAllowedOrigin = (origin) =>
+  !origin ||
+  [
+    'https://forrof-tracker.vercel.app',
+    'https://tracker.forrof.io',
+    'https://www.tracker.forrof.io',
+    'https://vs-code-time-duration.vercel.app',
+  ].includes(origin) ||
+  /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)
+
+app.all('/api/auth/*splat', (req, res, next) => {
+  const origin = req.headers.origin
+  if (isAllowedOrigin(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin || '*')
+    res.setHeader('Access-Control-Allow-Credentials', 'true')
+    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS')
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization,X-Requested-With')
+  }
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(204)
+  }
+  next()
+}, toNodeHandler(auth))
 
 // Stripe webhook — must be BEFORE json body parser (needs raw body)
 app.post('/api/billing/webhooks/stripe', express.raw({ type: 'application/json' }), handleStripeWebhook)
