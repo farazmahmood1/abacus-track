@@ -7,6 +7,7 @@ const getAll = catchAsync(async (req, res) => {
     status,
     category,
     search,
+    companyId: req.user.companyId,
     page: page ? parseInt(page) : undefined,
     limit: limit ? parseInt(limit) : undefined,
   })

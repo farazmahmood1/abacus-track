@@ -4,8 +4,9 @@ import ApiError from '../utils/ApiError.js'
 /**
  * List all shifts
  */
-export async function listShifts() {
+export async function listShifts(companyId) {
   return prisma.shift.findMany({
+    where: companyId ? { companyId } : {},
     orderBy: { createdAt: 'asc' },
     include: {
       _count: {
@@ -49,7 +50,7 @@ export async function createShift(data) {
   // If this shift is marked as default, unset any existing default
   if (data.isDefault) {
     await prisma.shift.updateMany({
-      where: { isDefault: true },
+      where: { isDefault: true, ...(data.companyId ? { companyId: data.companyId } : {}) },
       data: { isDefault: false },
     })
   }

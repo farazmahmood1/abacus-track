@@ -9,11 +9,16 @@ export async function list({
   limit = DEFAULT_LIMIT,
   category,
   departmentId,
+  companyId,
 }) {
   page = Number(page) || DEFAULT_PAGE
   limit = Math.min(Number(limit) || DEFAULT_LIMIT, 100)
 
   const whereConditions = []
+
+  if (companyId) {
+    whereConditions.push({ companyId })
+  }
 
   if (category) {
     whereConditions.push({ category })
@@ -93,11 +98,14 @@ async function createAnnouncementNotifications(announcement) {
 
     let employees = []
 
+    const companyFilter = announcement.companyId ? { companyId: announcement.companyId } : {}
+
     if (announcement.departmentId === null) {
       // Get all employees (company-wide announcement) - include those without a department
       employees = await prisma.user.findMany({
         where: {
           role: { notIn: ['admin', 'ADMIN', 'super_admin'] },
+          ...companyFilter,
         },
         select: { id: true },
       })
@@ -108,6 +116,7 @@ async function createAnnouncementNotifications(announcement) {
         where: {
           departmentId: announcement.departmentId,
           role: { notIn: ['admin', 'ADMIN', 'super_admin'] },
+          ...companyFilter,
         },
         select: { id: true },
       })

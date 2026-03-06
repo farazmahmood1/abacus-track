@@ -130,8 +130,13 @@ export async function getMySubmissions(userId, { page = 1, limit = 10, status })
 /**
  * List all submissions (admin, filterable)
  */
-export async function listSubmissions({ userId, status, startDate, endDate, page = 1, limit = 15 }) {
+export async function listSubmissions({ userId, status, startDate, endDate, page = 1, limit = 15, companyId }) {
   const where = {}
+
+  // Scope to company via user relation
+  if (companyId) {
+    where.user = { companyId }
+  }
 
   if (userId) where.userId = userId
   if (status) where.status = status

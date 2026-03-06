@@ -13,7 +13,7 @@ import fs from 'fs'
 
 export const listLeaves = catchAsync(async (req, res) => {
   const validatedQuery = await validate(listLeaveSchema, req.query)
-  const result = await leavesService.list(validatedQuery)
+  const result = await leavesService.list({ ...validatedQuery, companyId: req.user.companyId })
   res.json(result)
 })
 
@@ -170,7 +170,7 @@ export const getLeaveStats = catchAsync(async (req, res) => {
 })
 
 export const getAdminLeaveStats = catchAsync(async (req, res) => {
-  const stats = await leavesService.getAdminStats()
+  const stats = await leavesService.getAdminStats(req.user.companyId)
   res.json(stats)
 })
 

@@ -36,6 +36,7 @@ const listSubmissions = catchAsync(async (req, res) => {
     endDate,
     page: page ? parseInt(page) : undefined,
     limit: limit ? parseInt(limit) : undefined,
+    companyId: req.user.companyId,
   })
   res.json({ success: true, ...result })
 })

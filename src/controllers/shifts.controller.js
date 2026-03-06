@@ -5,7 +5,7 @@ import catchAsync from '../utils/catchAsync.js'
  * List all shifts
  */
 export const listShifts = catchAsync(async (req, res) => {
-  const shifts = await shiftsService.listShifts()
+  const shifts = await shiftsService.listShifts(req.user.companyId)
 
   res.json({
     success: true,
@@ -29,7 +29,7 @@ export const getShift = catchAsync(async (req, res) => {
  * Create a new shift
  */
 export const createShift = catchAsync(async (req, res) => {
-  const shift = await shiftsService.createShift(req.body)
+  const shift = await shiftsService.createShift({ ...req.body, companyId: req.user.companyId })
 
   res.status(201).json({
     success: true,

@@ -19,6 +19,7 @@ const listFeedback = catchAsync(async (req, res) => {
   const { status, category, page, limit } = req.query
   const data = await feedbackService.listFeedback({
     status, category,
+    companyId: req.user.companyId,
     page: page ? parseInt(page) : undefined,
     limit: limit ? parseInt(limit) : undefined,
   })

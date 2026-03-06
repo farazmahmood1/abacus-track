@@ -25,12 +25,15 @@ export async function getMyMoods(userId, page = 1, limit = 30) {
   return { data, meta: { page, total, totalPages: Math.ceil(total / limit) } }
 }
 
-export async function getTeamMoods(date) {
+export async function getTeamMoods(date, companyId) {
   const targetDate = date ? new Date(date) : new Date()
   targetDate.setHours(0, 0, 0, 0)
 
+  const where = { date: targetDate }
+  if (companyId) where.user = { companyId }
+
   const entries = await prisma.moodEntry.findMany({
-    where: { date: targetDate },
+    where,
     include: { user: { select: { id: true, name: true, image: true } } },
     orderBy: { createdAt: 'desc' },
   })
@@ -41,13 +44,16 @@ export async function getTeamMoods(date) {
   return { entries, avgMood: Math.round(avgMood * 10) / 10, total }
 }
 
-export async function getMoodAnalytics(days = 30) {
+export async function getMoodAnalytics(days = 30, companyId) {
   const startDate = new Date()
   startDate.setDate(startDate.getDate() - days)
   startDate.setHours(0, 0, 0, 0)
 
+  const where = { date: { gte: startDate } }
+  if (companyId) where.user = { companyId }
+
   const entries = await prisma.moodEntry.findMany({
-    where: { date: { gte: startDate } },
+    where,
     orderBy: { date: 'asc' },
   })
 

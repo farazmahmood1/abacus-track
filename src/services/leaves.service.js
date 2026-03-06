@@ -29,11 +29,17 @@ export async function list({
   endDate,
   sortBy = 'createdAt',
   order = 'desc',
+  companyId,
 }) {
   page = Number(page) || DEFAULT_PAGE
   limit = Math.min(Number(limit) || DEFAULT_LIMIT, 100)
 
   const where = {}
+
+  // Scope to company via employee relation
+  if (companyId) {
+    where.employee = { companyId }
+  }
 
   if (status) where.status = status
   if (leaveType) where.leaveType = leaveType
@@ -367,8 +373,12 @@ export async function getStats(employeeId) {
   return stats
 }
 
-export async function getAdminStats() {
+export async function getAdminStats(companyId) {
+  const where = {}
+  if (companyId) where.employee = { companyId }
+
   const leaves = await prisma.leave.findMany({
+    where,
     select: {
       status: true,
     },
@@ -403,12 +413,15 @@ export async function getAdminStats() {
   const today = new Date()
   today.setHours(0, 0, 0, 0)
 
+  const onLeaveWhere = {
+    status: 'APPROVED',
+    startDate: { lte: today },
+    endDate: { gte: today },
+  }
+  if (companyId) onLeaveWhere.employee = { companyId }
+
   const onLeaveCount = await prisma.leave.count({
-    where: {
-      status: 'APPROVED',
-      startDate: { lte: today },
-      endDate: { gte: today },
-    },
+    where: onLeaveWhere,
   })
 
   stats.onLeave = onLeaveCount

@@ -1,8 +1,9 @@
 import prisma from '../config/prisma.js'
 import ApiError from '../utils/ApiError.js'
 
-export async function getAll({ status, category, search, page = 1, limit = 15 }) {
+export async function getAll({ status, category, search, companyId, page = 1, limit = 15 }) {
   const where = {}
+  if (companyId) where.user = { companyId }
   if (status) where.status = status
   if (category) where.category = category
   if (search) {

@@ -13,12 +13,12 @@ const getMyMoods = catchAsync(async (req, res) => {
 })
 
 const getTeamMoods = catchAsync(async (req, res) => {
-  const data = await moodService.getTeamMoods(req.query.date)
+  const data = await moodService.getTeamMoods(req.query.date, req.user.companyId)
   res.json({ success: true, data })
 })
 
 const getMoodAnalytics = catchAsync(async (req, res) => {
-  const data = await moodService.getMoodAnalytics(req.query.days ? parseInt(req.query.days) : 30)
+  const data = await moodService.getMoodAnalytics(req.query.days ? parseInt(req.query.days) : 30, req.user.companyId)
   res.json({ success: true, data })
 })
 

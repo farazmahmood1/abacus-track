@@ -5,7 +5,7 @@ import catchAsync from '../utils/catchAsync.js'
 
 export const listAnnouncements = catchAsync(async (req, res) => {
   const { page, limit, category, departmentId } = req.query
-  const result = await announcementsService.list({ page, limit, category, departmentId })
+  const result = await announcementsService.list({ page, limit, category, departmentId, companyId: req.user.companyId })
   res.json(result)
 })
 
@@ -40,6 +40,7 @@ export const listEmployeeAnnouncements = catchAsync(async (req, res) => {
         ],
       },
       ...(category ? [{ category }] : []),
+      ...(user.companyId ? [{ companyId: user.companyId }] : []),
     ],
   }
 
@@ -84,6 +85,7 @@ export const createAnnouncement = catchAsync(async (req, res) => {
   const payload = {
     ...req.body,
     createdById: user.id,
+    companyId: user.companyId,
   }
 
   const announcement = await announcementsService.create(payload)

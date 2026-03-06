@@ -27,8 +27,9 @@ export async function getMyFeedback(userId, { page = 1, limit = 10 }) {
   return { data: records, meta: { page, limit, total, totalPages: Math.ceil(total / limit) } }
 }
 
-export async function listFeedback({ status, category, page = 1, limit = 15 }) {
+export async function listFeedback({ status, category, companyId, page = 1, limit = 15 }) {
   const where = {}
+  if (companyId) where.user = { companyId }
   if (status) where.status = status
   if (category) where.category = category
 
